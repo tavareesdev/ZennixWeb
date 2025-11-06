@@ -1,0 +1,1027 @@
+
+
+
+UNIVERSIDADE PAULISTA
+
+Gabriel Tavares Xavier
+        RA: R077GA9
+Letícia Gama Oliveira RA: R0932H5
+Raissa Silva Souza 
+RA: R069BI5
+Rafaela Andrade Ramos RA: R070034
+Yago de Medeiros Soares RA: R080528
+
+
+
+
+
+
+Sistema Integrado para Gestão de Chamados e Suporte Técnico Baseado em IA
+Projeto Integrado Multidisciplinar
+
+
+
+
+
+
+
+
+
+
+
+Santana de Parnaíba - SP 2025
+Gabriel Tavares Xavier
+RA: R077GA9
+Letícia Gama Oliveira
+RA: R0932H5
+Raissa Silva Souza
+RA: R069BI5
+Rafaela Andrade Ramos
+    RA: R070034
+Yago de Medeiros Soares 
+     RA: R080528
+
+
+
+
+Sistema Integrado para Gestão de Chamados e Suporte Técnico Baseado em IA
+Projeto Integrado Multidisciplinar
+
+
+Projeto Integrado Multidisciplinar para obtenção do título de graduação em Análise e Desenvolvimento de Sistemas apresentado à Universidade Paulista - UNIP
+
+Orientadora: Prof. Sandra Bozolan
+
+
+
+
+
+Santana de Parnaíba - SP 2025
+
+
+Gabriel Tavares Xavier
+RA: R077GA9
+Letícia Gama Oliveira
+RA: R0932H5
+Raissa Silva Souza
+RA: R069BI5
+Rafaela Andrade Ramos
+    RA: R070034
+Yago de Medeiros Soares 
+     RA: R080528
+
+
+
+Sistema Integrado para Gestão de Chamados e Suporte Técnico Baseado em IA
+Projeto Integrado Multidisciplinar
+
+
+Projeto Integrado Multidisciplinar para obtenção do título de graduação em Análise e Desenvolvimento de Sistemas apresentado à Universidade Paulista - UNIP
+
+Aprovado em: 
+
+BANCA EXAMINADORA:
+________________________/__/________
+      Nome:
+                                       Universidade Paulista - UNIP
+________________________/__/________
+      Nome:
+                                       Universidade Paulista - UNIP
+
+RESUMO
+
+
+
+
+Este trabalho tem como objetivo estudar e desenvolver um sistema integrado para gestão de chamados e suporte técnico baseado em Inteligência Artificial, com foco na otimização do tempo de resposta e redução da sobrecarga da equipe de TI. O projeto abrange a especificação de requisitos, modelagem de dados, criação de protótipos de interfaces para desktop, web e mobile, estruturação de banco de dados com MS SQL Server, integração com serviços de IA e garantia de conformidade com a LGPD. Também inclui a elaboração de artefatos UML, como diagramas de caso de uso, classes e sequência, e considera aspectos de sustentabilidade tecnológica, alinhando o sistema aos Objetivos de Desenvolvimento Sustentável (ODS) da ONU.
+
+
+
+Palavras-Chave: Inteligência Artificial, Gestão de Chamados, LGPD, Sustentabilidade.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ABSTRACT
+
+
+
+
+This work aims to study and develop an integrated system for call management and technical support based on Artificial Intelligence, with a focus on optimizing response time and reducing the burden on the IT team. The project includes requirements specification, data modeling, creation of prototypes of desktop, web and mobile interfaces, database structuring with MS SQL Server, integration with AI services and ensuring compliance with the LGPD. It also includes the development of UML artifacts, such as use case diagrams, classes and sequences, and considers aspects of technological sustainability, aligning the system with the UN Sustainable Development Goals (SDGs).
+
+
+
+Keywords: Artificial Intelligence, Call Management, LGPD, Sustainability.
+
+SUMÁRIO
+
+RESUMO	4
+ABSTRACT	5
+SUMÁRIO	6
+1.	INTRODUÇÃO	13
+2.	SISTEMA DE GESTÃO DE CHAMADOS E SUPORTE TÉCNICO	14
+2.1	Cenário abordado e Objetivos	14
+3.	ESPECIFICAÇÃO DO SISTEMA	15
+3.1	Requisitos do Sistema	16
+3.2	Regras de Negócio	18
+3.3	Protótipos de Tela	22
+3.4	Manual de uso do sistema	38
+4.	METODOLOGIA DE DESENVOLVIMENTO DA APLICAÇÃO	40
+4.1	Processo de Desenvolvimento e Modelo Utilizado	40
+4.2	Tecnologias e Diretrizes	41
+4.3	Aplicação da LGPD no Sistema	42
+5.	TESTES DE SOFTWARE	44
+5.1	Modelo de Testes Utilizado	44
+6.	ESTRUTURAÇÃO DO BANCO DE DADOS	45
+6.1	Modelo ER	47
+6.2	Relacionamento e Cardinalidade	48
+6.3	Diagrama ER e Dicionário de Dados	49
+6.4	Dicionário de Dados	52
+6.5	Script de criação do banco de dados	56
+6.6	Querys no Banco	61
+7. CASOS DE USO	69
+7.1	Atores do Sistema	70
+7.2	Detalhamento dos casos de uso	71
+8. DIAGRAMAS UML DO SISTEMA	73
+8.1	Diagrama de Caso de Uso	74
+8.2	Diagrama de Classes	75
+8.3	Diagramas de Sequência	80
+8.3.1	Diagramas de Sequência: Abertura de Chamado com Sugestão Automática	81
+8.3.2	Diagramas de Sequência: Triagem de Chamado com Suporte de IA	82
+8.3.3	Diagramas de Sequência: Encerramento de Chamado Técnico	83
+9. CONCLUSÃO	85
+10. REFERÊNCIAS BIBLIOGRÁFICAS	86
+11. GLOSSÁRIO DO SISTEMA DE CHAMADOS	89
+
+1. INTRODUÇÃO
+      
+      Nos dias atuais, com empresas cada vez mais exigindo agilidade e organização no atendimento às suas demandas internas, surgiu a necessidade de criar um sistema que centralize e acompanhe essas solicitações de forma prática. A proposta deste projeto é desenvolver um sistema de chamados que possa ser usado por qualquer setor da empresa, para registrar, organizar e resolver os mais diversos tipos de solicitações de forma eficiente.
+      O sistema foi pensado para ser genérico, flexível e fácil de adaptar à realidade de diferentes organizações, independentemente do porte ou segmento. A Inteligência Artificial é um dos principais diferenciais, pois será utilizada para classificar automaticamente os chamados e sugerir soluções com base em situações anteriores, o que ajuda a reduzir o tempo de resposta e o retrabalho da equipe.
+      Ao longo deste trabalho, são apresentadas todas as etapas do desenvolvimento do sistema, começando pelo levantamento de requisitos e definição das regras de negócio. Também foram desenvolvidos protótipos das telas, criados os diagramas UML (como casos de uso, classes e sequência), feita a modelagem e construção do banco de dados com SQL Server e aplicados testes de software para validar o funcionamento do sistema. Tudo isso respeitando diretrizes como usabilidade, segurança, acessibilidade e conformidade com a LGPD.
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+
+
+
+2. SISTEMA DE GESTÃO DE CHAMADOS E SUPORTE TÉCNICO
+
+      Um sistema de chamados é uma ferramenta que centraliza e organiza todas as solicitações feitas pelos canais de comunicação de uma empresa, permitindo uma gestão mais eficiente e ágil. Sua utilização é essencial para priorizar demandas, acompanhar a resolução de problemas e garantir que os clientes recebam soluções adequadas. Além disso, ele contribui para a melhoria contínua ao rastrear resultados de cada atendimento, aumentando a produtividade da equipe e a satisfação dos clientes. Como destaca Alves (2025), essa solução, inicialmente criada para empresas de TI, tornou-se indispensável para diversos setores, destacando-se como um pilar na otimização do suporte técnico e no aprimoramento do atendimento ao cliente.
+      Em relação ao suporte técnico, conforme diz Silva (1999), esse setor desempenha um papel fundamental ao identificar e solucionar problemas relacionados ao uso de um produto após sua comercialização. Essa atividade é estratégica, pois busca não apenas resolver as dificuldades enfrentadas pelos usuários, mas também preservar e, sempre que possível, aprimorar a imagem do produto e da empresa que o desenvolve. A percepção de qualidade associada ao suporte técnico acaba se tornando, para o consumidor, um diferencial competitivo e um valor agregado que se integra de forma inseparável ao produto, especialmente no caso de softwares. Além disso, um suporte técnico eficiente pode aumentar a confiança do cliente na marca, promover a fidelização e garantir a satisfação no uso contínuo da solução adquirida, fortalecendo o relacionamento entre empresa e consumidor.
+      
+2.1 Cenário abordado e Objetivos
+      
+      O objetivo deste trabalho é realizar o levantamento e a análise de requisitos para a criação de um sistema de suporte técnico inteligente. Esse sistema será projetado para utilizar Inteligência Artificial (IA) na triagem inicial, categorização automática de chamados e sugestão de soluções, com o propósito de otimizar o tempo de resposta e reduzir a sobrecarga das equipes dentro de uma empresa.
+      O sistema de chamados a ser desenvolvido tem como objetivo oferecer uma solução digital que possa ser adotada por empresas de diferentes portes e segmentos, permitindo que elas organizem e acompanhem de forma estruturada as solicitações feitas por colaboradores, clientes ou outros departamentos. A proposta é criar um produto genérico, flexível e personalizável, que possa ser utilizado por qualquer organização que necessite controlar seu fluxo de chamados técnicos, operacionais ou administrativos.
+      Este sistema será planejado para centralizar o registro de chamados em uma única plataforma, criando um ponto de contato direto entre o usuário e a equipe responsável pelo atendimento. A ideia é permitir que o usuário consiga abrir chamados com facilidade, indicando o tipo de problema, sua urgência e uma descrição detalhada. Em contrapartida, os atendentes, e também a IA, poderão visualizar essas demandas em uma interface administrativa, realizar o tratamento dos chamados, registrar atendimentos e atualizar os status.
+      O levantamento de requisitos incluirá aspectos funcionais, como o registro, consulta e acompanhamento dos chamados, bem como a integração de um banco de conhecimento dinâmico que utilize IA para sugerir soluções baseadas em casos resolvidos anteriormente. Também serão considerados requisitos não funcionais, como segurança, desempenho e conformidade com a Lei Geral de Proteção de Dados (LGPD). Para uma empresa de software, a proteção de informações confidenciais é essencial, e o sistema deverá implementar mecanismos robustos de controle de acesso, auditoria e anonimização de dados.
+      Além das funcionalidades, o trabalho abordará a geração de relatórios gerenciais e gráficos que auxiliem os gestores na análise do desempenho do suporte técnico. Informações como tempo médio de atendimento, volume de chamados por categoria e padrões recorrentes de problemas fornecerão insights valiosos para a melhoria contínua do processo. Alertas automáticos e relatórios consolidados também ajudarão na tomada de decisões estratégicas, aumentando a eficiência do departamento de TI.
+      Dessa forma, o sistema proposto não apenas representará uma solução moderna e tecnológica para os desafios enfrentados pela empresa de software, mas também destacará o potencial da Inteligência Artificial como aliada na gestão de suporte técnico. O desenvolvimento de um levantamento criterioso dos requisitos permitirá que o sistema atenda às demandas específicas desse cenário, proporcionando benefícios significativos tanto para a empresa quanto para seus clientes. 
+      
+3. ESPECIFICAÇÃO DO SISTEMA
+       
+      O sucesso no desenvolvimento de um sistema de software depende diretamente da compreensão aprofundada das necessidades do usuário e dos processos do negócio. Nesse contexto, o levantamento de requisitos surge como uma etapa essencial, responsável por identificar e documentar o que o sistema deve realizar, quais funcionalidades devem ser implementadas e quais restrições devem ser consideradas. É a partir dessa coleta de informações que se estabelece a base para todo o projeto.
+      Paralelamente, as regras de negócio desempenham um papel igualmente importante. Elas representam as políticas, restrições e decisões específicas da organização que precisam ser refletidas no comportamento do sistema. Ao serem devidamente levantadas e interpretadas, garantem que a solução desenvolvida esteja em conformidade com a realidade operacional da empresa, promovendo eficiência e coerência nos processos automatizados.
+      A integração entre o levantamento de requisitos e a definição das regras de negócio permite uma modelagem mais precisa e eficaz do sistema, resultando em um produto final que atende tanto às necessidades técnicas quanto às estratégicas da organização, sendo esse o nosso objetivo nessa parte do trabalho.
+      Dentro desse processo, os protótipos de telas assumem um papel fundamental, pois funcionam como representações visuais preliminares da interface do sistema. Eles permitem validar, com os usuários e stakeholders, se as funcionalidades estão dispostas de forma clara, intuitiva e condizente com os fluxos operacionais mapeados. Além disso, facilitam a comunicação entre a equipe de desenvolvimento e os envolvidos no projeto, reduzindo falhas de entendimento e retrabalho.
+
+3.1 Requisitos do Sistema
+      
+      A etapa de coleta de requisitos é crucial no desenvolvimento de um software, já que ela define o norte para a criação do sistema de informação, e é nesse momento que se constroem as fundações para um desenvolvimento eficiente e em sintonia com o que o usuário realmente precisa. Assim, para assegurar que o sistema de chamados atenda às necessidades do trabalho, optou-se pela metodologia JAD (Joint Application Design). Desenvolvida pela IBM, essa abordagem agiliza a definição de requisitos ao envolver ativamente usuários e desenvolvedores, incentivando a criação conjunta (MENDONÇA, 2014).
+      Ainda de acordo com Mendonça (2014), o JAD utiliza sessões de grupo organizadas, onde a conversa entre os participantes é fundamental para esclarecer objetivos e necessidades do sistema. O destaque está na construção de um entendimento compartilhado, o que facilita a compreensão do que será entregue. Nessas sessões, os usuários trabalham junto com os desenvolvedores para identificar problemas e sugerir soluções, aumentando o comprometimento de todos com o projeto, se tornando fácil e ágil a tarefa de definir as funcionalidades que realmente farão a diferença no dia a dia, reduzindo riscos e retrabalho de ambas as partes.
+      Como diz Pardoni (2013, apud STATDLOBER, 2006, p. 30), deve-se levar em consideração que sistemas de Help Desk devem possibilitar o monitoramento de ocorrências desde a sua abertura até a resolução, além de oferecerem recursos gerenciais que auxiliam na análise das atividades de suporte. Sendo assim, através de entrevistas e questionários com representantes e utilitários de sistemas de gestão de chamados, como Azure DevOps, Zendesk, Freshworks e outros, foi possível identificar os requisitos essenciais para o desenvolvimento do sistema, como:
+      
+       Tabela 1 - Requisitos levantados e seus tipos
+Tipo de RequisitoRequisitosRequisitos dos UsuáriosRegistrar chamados de forma simples e rápidaAcompanhar o status das solicitaçõesSer notificado a cada atualização do chamadoConfirmar ou reabrir chamados após encerramentoRequisitos FuncionaisAbertura de chamado com dados como tipo de problema, descrição e prioridadeClassificação automática dos chamados por meio da IAEncaminhamento para técnicos responsáveisHistórico de interações completo para cada chamadoAtualização de status em tempo realEnvio automático de notificaçõesGeração de relatórios gerenciaisControle de acesso por níveis de permissãoEncerramento e reabertura de chamadosRequisitos Não-FuncionaisInterface intuitiva e acessível (usabilidade)Resposta rápidaSuporte multiplataforma (portabilidade)Escalabilidade para lidar com aumento de usuários e chamadosRequisitos do SistemaUsabilidade: Interface amigável e fácil de usar por usuários leigosDesempenho: Respostas rápidas às ações dos usuáriosCapacidade: Suporte a múltiplos usuários simultâneos e alto volume de chamadosSegurança: Controle de acesso por perfil, criptografia de dados sensíveisConfiabilidade: Registro consistente e seguro de informaçõesPortabilidade: Acesso via navegador em diferentes dispositivos (PCs, tablets, smartphones) Fonte: Pardoni (2013) e entrevistas conduzidas via metodologia JAD.
+
+3.2 Regras de Negócio
+
+      As regras de negócio fazem parte essencial dos sistemas de informação das organizações, sendo classificadas como um tipo específico de requisito que determina como determinadas atividades devem ser conduzidas. Elas refletem as diretrizes do funcionamento empresarial e apresentam características voltadas à lógica do negócio, além de estarem sujeitas a alterações frequentes conforme o contexto organizacional evolui (Dallavalle, 2000, apud Leite e Leonardi, 1998).
+      Segundo Dallavalle (2000, apud Gottesdiener, 1997), as regras de negócio trazem diversas vantagens, como o aumento da agilidade no processo de desenvolvimento de software, melhoria na definição dos requisitos, maior facilidade para realizar alterações e um equilíbrio eficaz entre flexibilidade e controle centralizado, além ds estudos na área apontarem para uma integração mais eficiente entre os profissionais da área de negócios e os recursos tecnológicos.  
+      Sendo assim, ainda com base nas entrevistas JAD e dos sistemas de chamados citados anteriormente, além de levar em consideração o cenário abordado e objetivos do trabalho, elaboramos as seguintes regras de negócio para o sistema:
+      
+      Tabela 2 - Regras de negócio para o sistema
+CenárioRegra de negócioTipos de usuáriosO sistema terá 3 tipos de usuários disponíveis para cadastramento e uso, sendo eles:
+1 - Colaborador: Esse será o usuário que terá acesso a funcioalidades básicas, como abertura de chamados e interações com os mesmos, utilizando o sistema apenas para prestar ou pedir suporte. Além disso, ele só pode ver os chamados atribuidos a ele ou que foram abertos por ele.
+2 - Gestor: Esse será o usuário que terá acesso a funcioalidades básicas e gerenciais, como relatórios e manipulação de usuários do tipo "Colaborador", ressaltando que suas permissões são apenas para sua área de gestão. Além disso, ele pode ver e administrar todos os chamados do seu setor.
+3 - Administrador: Esse será o usuário com acesso a todas as funcionalidades, permissões e chamados do sistema, desempenhando um papel de administração geral. Abertura de ChamadosOs chamados, obrigatoriamente, devem conter no momento de abertura, e para o resto de sua vida:
+1 - Título
+2 - Descrição
+3 - Categoria (deve estar vinculado a uma lista predefinida pela empresa)
+4 - Nível de prioridade (baixa, média, alta ou crítica)
+5 - Data e hora da abertura
+6 - Status (novo chamado recebe automaticamente o status "Aberto")Fluxo e Tratamento de ChamadosSobre o fluxo e tratamento de chamados, podemos ter como regras:
+1 - Tipos de Status: Aberto (Chamado novo e ainda não analisado), Em Andamento (Após ser analisado e iniciado por algum recurso), Aguardando Usuário (Quando é necessária alguma informação complementar por parte do solicitante para resolução do chamado), Pendente Correção (Quando o chamado não foi concluído corretamente), Concluído (Quando o chamado foi concluido corretamente).
+2 - Triagem: Após ser aberto, é feito uma triagem no chamado pelo gestor da área que o recebeu, onde o mesmo realiza uma análise do pedido, podendo reclassificar a categoria, prioridade, atribuir o chamado à um recurso e também cancelar um chamado caso necessário.
+3 - Histórico: O sistema deve registrar todas as interações feitas com o usuário dentro do chamado, criando um histórico de atendimento
+4 - Tempo de Atendimento: O tempo total de atendimento deve ser calculado com base nas alterações de status e exibido nos relatóriosNotificação e Comunicação1 - O sistema deve enviar notificações por e-mail sempre que houver mudanças no chamado (abertura, alteração de status, novo comentário, encerramento).
+2 - Usuários devem poder responder mensagens diretamente dentro do chamado, por meio de comentários.Segurança e Gerenciamento de Usuários1 - O sistema deve exigir autenticação por login e senha, com senhas criptografadas 
+2 - O sistema deve ter a opção de alteração de senha dentro da plataforma, e uma opção de recuperação de senha na tela de login, onde o sistema irá disparar um email para o gestor do usuário, alertando sobre a necessidade de uma nova senha, além de mandar para o próprio usuário com as instruções necessárias.
+3 - O sistema deve permitir o cadastro de usuários apenas com email corporativo.
+4 - Somente perfis "Gestor" e "Administrador" pode permitir o cadastro e alteração de usuários, onde o perfil "Gestor" só tem permissão de manipular os usuários do seu próprio setor.Regras de SLA (opcional por empresa)1 - Crítico (Urgente):
+* Tempo máximo para resposta inicial: 30 minutos
+* Tempo máximo para resolução: 4 horas
+* Exemplos: sistema fora do ar, falha geral na rede, erro crítico em folha de pagamento
+2 - Alta:
+* Tempo máximo para resposta inicial: 1 hora
+* Tempo máximo para resolução: 8 horas úteis
+* Exemplos: falha em e-mail corporativo, erro grave em cadastro de colaborador
+3 - Média:
+* Tempo máximo para resposta inicial: 4 horas úteis
+* Tempo máximo para resolução: 2 dias úteis
+* Exemplos: solicitação de segunda via de holerite, alteração de dados cadastrais
+4 - Baixa:
+* Tempo máximo para resposta inicial: 8 horas úteis
+* Tempo máximo para resolução: 5 dias úteis
+* Exemplos: dúvidas gerais, sugestões, pedidos de informação não urgentesUso de IA para suporte inicial, abertura dos chamados e triagem1 - O chatbot deve atender o usuário com até duas interações. Caso o problema persista, um chamado deve ser aberto automaticamente, registrando a conversa e classificando o nível de complexidade.
+2 - No caso de uma abertura de chamado, a IA deve analisar automaticamente a descrição do problema informada pelo usuário, classificando o chamado por categoria, prioridade e setor responsável, antes de registrá-lo no sistema.Fonte: Autor (s.d.) e entrevistas conduzidas via metodologia JAD.
+
+3.3 Protótipos de Tela
+
+      A criação de protótipos de tela é uma etapa fundamental no processo de desenvolvimento de sistemas, pois permite que tanto os desenvolvedores quanto os clientes tenham uma visualização antecipada da estrutura, organização e funcionalidade da interface. Essa prática facilita a validação inicial dos requisitos e contribui para o alinhamento das expectativas entre as partes envolvidas. Além disso, promove uma interação contínua entre a equipe técnica e os especialistas de domínio, tornando possível compreender melhor as reais necessidades dos usuários e definir previamente os elementos que irão compor o sistema. Essa antecipação contribui diretamente para a agilidade e eficiência na modelagem e implementação do projeto (Lee et al., 2011).
+      Para este trabalho, optamos por desenvolver protótipos com um design simples, moderno e funcional, priorizando a clareza visual e a usabilidade das telas. Essa escolha visa facilitar a navegação do usuário final, ao mesmo tempo em que transmite uma imagem profissional e atual do sistema proposto. Os protótipos foram elaborados utilizando a ferramenta Canva, que é uma ferramenta digital voltada para design gráfico e comunicação visual, cuja proposta é democratizar o acesso ao design, permitindo que qualquer pessoa, em qualquer lugar do mundo, possa criar livremente seus próprios projetos e compartilhá-los da forma que desejar (Canva, s.d.).
+      Outro aspecto importante considerado na construção dos protótipos foi a escolha da paleta de cores, cuidadosamente selecionada para garantir harmonia visual, boa legibilidade e coerência com a identidade do projeto. Além disso, o nome da plataforma de chamados será Zennix, onde esse nome traduz a proposta de uma plataforma eficiente, centrada no usuário e voltada para a resolução de demandas com agilidade e equilíbrio, reforçando o compromisso com a qualidade e a experiência dos colaboradores que utilizarão o sistema.
+      Sendo assim, abaixo exibirei neste documento as telas para Desktop, apenas para entendimento prévio de como será o layout e funcionalidades do sistema, pois todas as telas, incluindo de dispositivos móveis, se encontram no respectivo link: Protótipos de Telas - PIM 3º SEM.pdf.
+Imagem 1 - Paleta de cores do sistema
+Fonte: Elaborado pelo autor.
+      
+       Imagem 2 - Tela de login
+Fonte: Elaborado pelo autor.
+       
+       Imagem 3 - Tela inicial: Perfil "Administrador"
+
+Fonte: Elaborado pelo autor.
+       
+       Imagem 4 - Suporte Inicial com IA
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 5 - Tela inicial: Perfil "Administrador" com filtro selecionado
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 6 - Tela inicial: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 7 - Tela inicial: Perfil "Gestor" com foto do usuário clicada
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 8 - Pop-Up de alteração de senha via menu
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 9 - Tela inicial: Perfil "Gestor" com opção "Painel de Chamados" clicada
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 10 - Painel de solicitações do usuário
+
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 11 - Detalhamento de uma solicitação do usuário: Guia "Dados do chamado"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 12 - Detalhamento de uma solicitação do usuário: Guia "Comentários"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 13 - Detalhamento de uma solicitação do usuário: Guia "Histórico"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 14 - Detalhamento de uma solicitação do usuário: Guia "Anexos"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 15 - Painel de chamados do time: Perfil "Administrador"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 16 - Painel de chamados do time: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 17 - Detalhamento de um chamado: Guia "Dados do Chamado"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 18 - Detalhamento de um chamado: Guia "Comentários"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 19 - Detalhamento de um chamado: Guia "Histórico"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 20 - Detalhamento de um chamado: Guia "Anexos"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 21 - Tela de abertura de um novo chamado
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 22 - Painel de usuários: Perfil "Administrador"
+
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 23 - Painel de usuários: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 24 - Detalhamento de usuário
+
+Fonte: Elaborado pelo autor.
+
+       Imagem 25 - Detalhamento de usuário: Alteração de senha
+
+Fonte: Elaborado pelo autor.
+
+3.4 Manual de uso do sistema
+      
+      De acordo com o dicionário Michaelis, um "manual" é definido como "um livro ou caderno que ensina o uso ou operação de um aparelho, de uma máquina ou de um sistema", evidenciando sua natureza didática e orientadora. No contexto de sistemas computacionais, um manual de uso representa um recurso fundamental para instruir os usuários, permitindo que se familiarizem com as funcionalidades e operem o sistema com segurança e eficiência.
+      A proposta deste manual é facilitar o entendimento e a utilização do sistema por meio de instruções claras, passo a passo, acompanhadas de exemplos práticos e ilustrações das telas do software. O objetivo é capacitar o usuário para executar as tarefas com autonomia, minimizando dúvidas, reduzindo erros operacionais e promovendo uma experiência de uso mais produtiva.
+      Além de instruir, este manual também contribui para a padronização de processos dentro da organização, garantindo que todos os usuários sigam os mesmos procedimentos. Isso é essencial para manter a consistência no uso do sistema e assegurar que as operações sejam realizadas conforme o planejado.
+      Nas próximas seções, cada funcionalidade será abordada individualmente, explicando seu propósito, o caminho para acessá-la no sistema, os dados necessários para sua execução e os resultados esperados. Assim, este manual busca não apenas ensinar, mas também servir como um material de consulta contínua para usuários novos e experientes.
+      Sendo assim, segue abaixo um manual de uso do sistema para treinamento, dividido por etapas, detalhando cada finalidade e ações entre as etapas:
+      
+Tabela 3 - Manual de uso do sistema dividido por etapas
+EtapaDescriçãoCampos/AçõesObservações1. Acesso ao sistemaEntrar no sistema com credenciais válidas.- E-mail
+- Senha
+- Botão "Entrar"
+- "Esqueci a senha"Credenciais fornecidas previamente pela empresa.2. Painel inicialVisão geral dos chamados e desempenho.- Filtros por setor e funcionário
+- Gráficos de status dos chamados
+- Ranking de colaboradoresIndicadores ajudam a visualizar o desempenho da equipe.3. Abrir chamadoRegistrar uma nova solicitação.- Título
+- Setor solicitado
+- Descrição
+- Anexos (opcional)
+- Botão "Abrir chamado"Chamados podem ser abertos por qualquer setor.4. Consultar chamadosBuscar chamados existentes por filtros.- Nº do chamado
+- Datas
+- Setor
+- Solicitante
+- ResponsávelAcesso via "Minhas Solicitações" ou "Chamados do Time".5. Detalhar chamadoVisualizar todas as informações do chamado.- Dados gerais
+- Descrição
+- Comentários
+- Histórico
+- AnexosPermite rastrear toda a movimentação do chamado.6. Interações no chamadoAtualizar e comentar o chamado.- Comentários
+- Anexar arquivos
+- Alterar status (se autorizado)Toda interação é registrada com data, hora e responsável.7. Alterar senhaTrocar a senha de acesso.- Nova senha
+- Confirmar nova senha
+- Botão "Alterar"Disponível no perfil do usuário. Histórico de alteração visível.8. Gerenciar usuáriosVisualizar ou editar dados dos usuários.- Nome
+- E-mail
+- Cargo
+- Setor
+- StatusAcesso restrito a perfis com permissão de gestão.9. Ver indicadoresAcompanhar o desempenho geral.- Chamados por status
+- Eficiência de equipe
+- Conclusões mensaisRelatórios atualizados automaticamente pelo sistema.Fonte: Elaborado pelo autor.
+
+4. METODOLOGIA DE DESENVOLVIMENTO DA APLICAÇÃO
+
+      Com o passar do tempo, tornou-se evidente que criar software é uma atividade complexa. Diante disso, fica cada vez mais clara a importância de as organizações seguirem um processo bem estruturado para o desenvolvimento de software. Além disso um processo de software adequado deve ser formalizado por meio de um modelo que o represente (Prikladnicki, 2002).
+
+4.1 Processo de Desenvolvimento e Modelo Utilizado
+      
+      Para o desenvolvimento do projeto em questão, a escolha do ciclo de vida baseado na metodologia ágil Scrum, principalmente por sua estrutura iterativa, flexível e voltada à entrega contínua de valor. Como destaca Soares (2004), o ciclo de vida do Scrum é dividido em três fases principais: pré-planejamento (pre-game phase), desenvolvimento (game phase) e pós-planejamento (post-game phase), cada uma com funções bem definidas e aplicáveis à realidade do trabalho.
+      Na fase de pré-planejamento, os requisitos do sistema são levantados e registrados no backlog do produto, documento central onde são listadas todas as funcionalidades esperadas. Ainda nessa fase, são estimados os esforços de desenvolvimento para cada funcionalidade, além da definição da equipe, das ferramentas de IA e frameworks de desenvolvimento, da arquitetura do sistema e da identificação de riscos e necessidades de treinamento. Segundo Soares (2004), é nesse momento que se propõe uma estrutura de desenvolvimento, identificando também riscos relacionados a alterações futuras no backlog, o que é fundamental para um sistema que deverá evoluir continuamente com base em dados e feedbacks reais.
+      A segunda fase, desenvolvimento (game phase), é onde ocorre o ciclo iterativo de entregas. Nela, as variáveis técnicas e ambientais são monitoradas e ajustadas continuamente, ao contrário de abordagens tradicionais que apenas consideram essas variáveis no início do projeto. Essa característica é essencial ao projeto em questão, pois o uso de Inteligência Artificial requer constantes ajustes, reavaliação de resultados e refinamento dos algoritmos. O desenvolvimento é realizado por meio de sprints, que podem durar de uma a quatro semanas, sendo cada ciclo composto pelas etapas de análise, projeto, implementação e testes de funcionalidades. Isso permitirá, por exemplo, que a equipe valide em um sprint a eficiência da IA na categorização automática dos chamados e, no sprint seguinte, otimize o algoritmo com base nos resultados obtidos e no feedback da equipe de suporte técnico.
+      Por fim, a terceira fase do ciclo de vida Scrum, denominada pós-planejamento (post-game phase), é dedicada à avaliação dos resultados e à finalização do produto. De acordo com Soares (2004), "são feitas reuniões para analisar o progresso do projeto e demonstrar o software atual para os clientes", além das etapas de integração, testes finais e documentação. Esta fase permitirá consolidar as funcionalidades desenvolvidas ao longo dos sprints, revisar a conformidade com a LGPD na manipulação de dados sensíveis e preparar a entrega de uma versão funcional e documentada do sistema. A demonstração do produto ao cliente (no caso, stakeholders da área de suporte técnico e TI) permitirá avaliar se os objetivos do projeto foram alcançados e quais pontos podem ser aprimorados para futuras versões.
+      Assim, ao adotar o Scrum como ciclo de vida para o desenvolvimento do sistema, garante-se uma abordagem adaptável, colaborativa e voltada à melhoria contínua. Cada fase do processo contribui para alinhar o desenvolvimento às necessidades reais do usuário, promover entregas incrementais com valor agregado e assegurar que todos os requisitos sejam tratados com o cuidado e flexibilidade necessários.
+
+4.2 Tecnologias e Diretrizes
+      
+      Seguindo as tecnologias e diretrizes requisitadas no trabalho, serão utilizadas diversas ferramentas modernas para garantir a eficiência, responsividade e inteligência do sistema proposto. A aplicação contará com uma interface para desktop desenvolvida em C# utilizando Windows Forms. Essa tecnologia permite a criação rápida e produtiva de interfaces gráficas, com recursos como o posicionamento de controles por meio de arrastar e soltar, o que facilita significativamente o design visual da aplicação (Microsoft, 2025). O C#, por sua vez, é a linguagem principal da plataforma .NET, amplamente reconhecida por seu alto desempenho, estrutura orientada a objetos e forte integração com o ecossistema Windows, o que a torna uma escolha sólida para o desenvolvimento de sistemas corporativos (Microsoft, 2024).
+      No ambiente web, será implementada uma aplicação responsiva utilizando ASP.NET em conjunto com C#. O ASP.NET expande as funcionalidades da plataforma .NET com ferramentas específicas para o desenvolvimento de aplicações web modernas e escaláveis (Microsoft, 2025). Já o C# continua sendo a base dessa camada, oferecendo uma linguagem robusta, com excelente desempenho e compatibilidade com diferentes dispositivos e ambientes, o que assegura uma experiência consistente ao usuário final, independentemente do meio de acesso (Microsoft, 2024).
+      Para o acesso via dispositivos móveis, será desenvolvido um aplicativo Android utilizando C#. Essa abordagem permitirá que os usuários possam abrir chamados diretamente pelo celular, otimizando o processo de atendimento e suporte. O C# se destaca nesse contexto por ser uma linguagem multiplataforma, de alto desempenho e altamente produtiva, amplamente adotada no ecossistema .NET para o desenvolvimento de aplicações móveis que operam com eficiência em diferentes tipos de dispositivos, incluindo smartphones (Microsoft, 2024).
+      O sistema contará ainda com uma base de dados robusta, utilizando o Microsoft SQL Server hospedado em um ambiente Windows Server. Essa solução é baseada em um sistema de gerenciamento de banco de dados relacional (RDBMS) confiável e consolidado no mercado, no qual os aplicativos se conectam por meio de instâncias e utilizam a linguagem Transact-SQL (T-SQL) para realizar operações de consulta, manipulação e gerenciamento de dados de forma segura e eficiente (Microsoft, 2025).
+      Por fim, será incorporada ao sistema uma camada de Inteligência Artificial utilizando o ChatGPT. O objetivo dessa integração é realizar a categorização automática dos chamados registrados pelos usuários e oferecer sugestões iniciais de solução, acelerando o atendimento e aumentando a precisão nas respostas. O ChatGPT é um modelo avançado de IA capaz de simular conversas humanas com alta fidelidade, utilizando aprendizado por reforço com feedback humano (RLHF) para compreender o contexto e fornecer respostas coerentes e relevantes (ChatGPT Brasil, 2024).
+
+4.3 Aplicação da LGPD no Sistema
+      
+      A Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018 - LGPD) estabelece diretrizes para o tratamento de dados pessoais no Brasil, assegurando os direitos fundamentais de liberdade, privacidade e o livre desenvolvimento da personalidade da pessoa natural. Diante disso, a conformidade com a LGPD é elemento essencial para o desenvolvimento do projeto em questão, especialmente por se tratar de um sistema que lida diretamente com dados pessoais de usuários, clientes e profissionais da área de suporte.
+      A aplicação da LGPD no projeto terá início desde a fase de levantamento e análise de requisitos, com o objetivo de garantir que todas as funcionalidades previstas respeitem os princípios da legislação, como finalidade, necessidade, transparência, segurança e prestação de contas. Segundo De Teffé e Viola (2020), todo tratamento de dados pessoais deve se enquadrar em uma base legal expressa na LGPD, sendo essencial avaliar, para cada operação de coleta, armazenamento ou análise de dados, se há respaldo legal, como o consentimento do titular, o cumprimento de obrigação legal ou o legítimo interesse do controlador.
+      No contexto do sistema proposto, a coleta de dados pessoais será necessária, por exemplo, para identificar o solicitante do chamado, registrar a descrição do problema, armazenar históricos de atendimento e gerar relatórios. Nesses casos, o tratamento deverá ser justificado por uma base legal adequada, preferencialmente o consentimento, obtido de forma livre, informada e inequívoca, conforme estabelece o art. 5º, XII da LGPD. Além disso, os usuários deverão ser informados sobre as finalidades específicas do tratamento, conforme disposto no art. 6º, I, sendo vedado o uso dos dados para finalidades não compatíveis ou não informadas previamente.
+      Para os casos em que a triagem e categorização automática dos chamados forem realizadas por algoritmos baseados em IA, será necessário garantir a transparência quanto aos critérios e procedimentos adotados. O art. 20 da LGPD prevê que o titular tem o direito de obter informações claras e adequadas sobre decisões automatizadas que afetem seus interesses. Assim, o sistema deverá prever a possibilidade de revisão humana de decisões que impactem diretamente o atendimento ao usuário, respeitando seu direito à explicação, conforme reforçado por Teffé e Viola (2020).
+      Outro aspecto importante será o registro e controle das operações de tratamento de dados. A LGPD determina, no art. 37, que o controlador mantenha registros das atividades de tratamento, especialmente quando baseadas em legítimo interesse. Por isso, o sistema deverá registrar logs de acesso, alterações, exclusões e decisões automatizadas, como forma de garantir a prestação de contas e a responsabilização (art. 6º, X).
+      Além disso, medidas técnicas e administrativas serão adotadas para assegurar a segurança dos dados, protegendo-os contra acessos não autorizados, vazamentos e outras ameaças. Isso inclui o uso de criptografia, autenticação de usuários, controle de permissões, backups automáticos e políticas de retenção e descarte seguro das informações.
+      Por fim, todos os envolvidos no desenvolvimento e operação do sistema, incluindo desenvolvedores, administradores e operadores de suporte, deverão receber orientação sobre boas práticas de privacidade e proteção de dados, promovendo uma cultura de responsabilidade e respeito aos direitos dos titulares.
+      Assim, a aplicação da LGPD não será apenas uma exigência legal, mas também um compromisso ético do projeto com a proteção dos dados dos usuários, agregando valor ao sistema e aumentando sua credibilidade frente aos seus futuros usuários.
+
+5. TESTES DE SOFTWARE
+
+      O teste de software é uma etapa fundamental no ciclo de desenvolvimento, sendo responsável por verificar se o sistema atende aos requisitos especificados, tanto funcionais quanto não funcionais. Segundo Crespo et al. (2004), embora existam diversas definições - desde as mais intuitivas até as mais formais -, todas convergem para a mesma essência: testar é executar o software de forma controlada com o objetivo de avaliar se seu comportamento está de acordo com o que foi especificado.
+      Essa atividade, no entanto, está longe de ser trivial. Devido a características próprias do software, como a sua intangibilidade, complexidade e facilidade de modificação, surgem diversos desafios para a prática efetiva do teste. Entre as dificuldades apontadas por Crespo et al. (2004), destacam-se: o alto custo dos testes, a escassez de profissionais qualificados na área, a falta de conhecimento sobre técnicas e planejamento adequado, além da frequente negligência dessa etapa nas fases iniciais do projeto.
+      Barbosa et al. (2000) reforçam a importância do teste ao afirmarem que essa atividade representa uma análise dinâmica do produto, contribuindo significativamente para a identificação de erros persistentes e para atividades de depuração, manutenção e estimativa de confiabilidade. Ainda segundo os autores, o teste é uma das etapas mais onerosas do desenvolvimento de software, mas seus resultados são essenciais para assegurar a qualidade do sistema entregue ao usuário.
+
+5.1 Modelo de Testes Utilizado
+
+      Neste trabalho, adotamos a abordagem de teste baseado em especificação, também conhecida como teste de caixa-preta. Esse tipo de teste se concentra em verificar se o sistema cumpre os requisitos estabelecidos, sem considerar a estrutura interna do código. Conforme Barbosa et al. (2000), mesmo que as especificações sejam, em muitos casos, informais, é possível aplicar critérios eficazes de teste, como o particionamento em classes de equivalência, análise de valor limite, grafo de causa e efeito e teste baseado em estado. Esses critérios são versáteis, podendo ser utilizados em qualquer fase de desenvolvimento e tanto em sistemas procedurais quanto orientados a objetos.
+      A planilha de testes criada para este projeto pode ser acessada através do seguinte link: Planilha de Testes - PIM 3º SEM.xlsx. Ela tem como objetivo organizar e documentar os principais cenários de verificação do sistema de forma prática e acessível, sendo pensada para que qualquer pessoa da equipe consiga entender o que está sendo testado, como testar e o que se espera como resultado.
+      Cada linha da planilha representa um cenário de teste, identificado por um ID. Em seguida, temos a Funcionalidade que está sendo testada - por exemplo, Login, Menu Superior ou Tela Inicial. A coluna Título descreve de forma resumida o que aquele teste vai verificar.
+      Um dos pontos mais importantes é o Passo-a-Passo para execução, onde está descrita a sequência de ações que devem ser feitas para realizar o teste corretamente. É como um pequeno roteiro para garantir que o teste seja reproduzido sempre da mesma forma. Logo depois, vem o Resultado Esperado, que mostra o que o sistema deveria fazer se tudo estiver funcionando como planejado.
+      A planilha também inclui campos como Status (onde será indicado se o teste foi aprovado ou reprovado), Observações (para anotar qualquer detalhe relevante ou erro encontrado) e Executor de Cenário (para registrar quem realizou o teste).
+      
+6. ESTRUTURAÇÃO DO BANCO DE DADOS
+
+      Os bancos de dados e os sistemas de gerenciamento de banco de dados (SGBDs) tornaram-se elementos centrais na infraestrutura tecnológica da sociedade contemporânea, sustentando operações em diversos setores. Esses sistemas estão presentes em atividades cotidianas e essenciais, como a autenticação de transações bancárias via internet banking, a gestão de prontuários eletrônicos em hospitais, a automação de estoques em grandes centros de distribuição e o processamento de pedidos em plataformas de e-commerce com alta demanda. A relevância desses sistemas ultrapassa o uso individual, sendo estruturais para a operação segura, rápida e eficiente de organizações públicas e privadas. (Amadeu, 2014).
+      Os bancos de dados exercem um papel fundamental em praticamente todos os setores da tecnologia, abrangendo diferentes areas do mercado, como engenharia, educação entre outros. De forma conceitual, um banco de dados pode ser definido como uma coleção organizada de dados inter-relacionados, cuja estrutura permite armazenamento, recuperação e manipulação eficiente. Os dados, por sua vez, representam fatos ou informações conhecidas que podem ser registrados e que possuem um significado intrínseco, contribuindo para a geração de conhecimento a partir de seu tratamento sistemático (Amadeu, 2014).
+      No contexto do presente trabalho, o banco de dados desempenha um papel central na estruturação e funcionamento do sistema. Utilizando o Microsoft SQL Server como sistema gerenciador, será possível armazenar, organizar e relacionar as informações necessárias para o gerenciamento de chamados. De acordo com o site do fabricante MSDN (2008) referindo-se ao Microsoft SQL Server 2008, a principal vantagem é o fornecimento de uma plataforma de alta confiabilidade e robustez capaz de suportar aplicações de missão crítica de grande 3 exigência, a possível criptação dos dados contidos em todo o BD (Banco de Dados) ou nos arquivos de log. Isso protege os dados das solicitações não autorizadas sem a necessidade de software ou aplicativos complementares.
+      O banco será responsável por manter registros de todas as interações do sistema, como os chamados abertos pelos colaboradores, os técnicos designados, o tempo de resolução, as sugestões automáticas geradas pela IA e os indicadores de SLA. Esses dados serão estruturados em tabelas inter-relacionadas, garantindo a integridade e a consistência das informações, além de possibilitar consultas complexas para a geração de relatórios gerenciais, gráficos de desempenho e alertas. Garantindo a integridade e a consistência das informações, além de possibilitar consultas complexas para a geração de relatórios gerenciais, gráficos de desempenho e alertas (Elmasri; Navathe, 2019).
+      Adicionalmente, considerando que o sistema manipulará dados pessoais de usuários, como nome, e-mail, setor de atuação e possivelmente registros de histórico de chamados, a modelagem do banco de dados foi pensada de forma a garantir a conformidade com a Lei Geral de Proteção de Dados (LGPD), incorporando princípios de segurança, controle de acesso e minimização de dados. Isso porque, segundo Martins et al. (2022, p. 59), "a proteção de dados pessoais deve observar fundamentos como o respeito à privacidade, à autodeterminação informativa e à inviolabilidade da intimidade e da honra", o que reforça a necessidade de projetar soluções tecnológicas que integrem esses princípios desde sua concepção.
+      Dessa forma, o modelo de banco de dados concebido para este projeto não apenas sustenta a operação técnica do sistema, mas também contribui diretamente para sua eficiência, escalabilidade e aderência legal, apoiando a tomada de decisões e a melhoria contínua da prestação de suporte técnico na organização.
+
+6.1 Modelo ER
+      
+      O modelo Entidade-Relacionamento (ER) é uma abordagem conceitual de alto nível amplamente empregada na fase de modelagem de bancos de dados, por meio da qual se busca representar, de forma estruturada, os dados de uma aplicação. Esse modelo é composto essencialmente por três elementos fundamentais: entidades, relacionamentos e atributos. As entidades representam elementos do mundo real com existência independente, podendo ser tanto objetos físicos, como um notebook, uma bicicleta ou uma casa e objeto conceitual, como uma empresa, um cargo ou um curso. Cada entidade é caracterizada por um conjunto de atributos, os quais descrevem suas propriedades específicas. Por exemplo, uma entidade ALUNO pode ser definida por atributos como nome, idade, endereço, sala e turma. Cada instância da entidade assume um valor distinto para cada um desses atributos, os quais compõem informações cruciais que serão efetivamente armazenadas no banco de dados. (Amadeu, 2014).
+      A estrutura do banco de dados foi criada com base nas regras de negócio e nas funcionalidades exigidas pelo sistema. Para representar de forma fiel os elementos essenciais do projeto, foram identificadas e modeladas as entidades, cada uma delas contendo atributos específicos que descrevem suas características e relações com outras entidades. A seguir, serão apresentadas individualmente as principais entidades e seus respectivos atributos:
+      
+Tabela 4 - Entidades e seus Atributos
+Entidade
+Atributos principaisSetoresID, descriçãoCargosID, descriçãoUsuariosID, Nome, Email, Senha, ID_Cargo, ID_Setor,HistoricoUsuarioID, Data, AcaoTomada, QuemFez, ID_Usuario, ID_ModificanteCriterioPrioridadesID, Descricao, NivelChamadosID, Titulo, Descricao, DataInicio, DataFim, Status, ID_Solicitante, ID_Atendente, ID_CriterioPrioridadesHistoricoChamadoID, Data, AcaoTomada, QuemFez, ID_ChamadoComentariosID, Comentario, Data, ID_Chamados, ID_UsuariosAnexosID, NomeArquivo, CaminhoArquivo, Formato, ID_Chamado, ID_UsuarioFonte: Elaborado pelo autor.
+      
+6.2 Relacionamento e Cardinalidade
+	
+      O conceito de relacionamento consiste na associação entre duas ou mais entidades, sendo possível, por exemplo, estabelecer uma ligação entre um funcionário e um projeto. Isso ocorre sempre que um atributo de uma entidade faz referência a outra entidade. Essa estrutura é fundamental para representar corretamente as conexões no modelo entidade-relacionamento, permitindo uma modelagem mais fiel da realidade dos dados (Amadeu, 2014). Neste ponto, faz-se necessário o entendimento de outro conceito importante em banco de dados: o conceito de Cardinalidade.
+      	A Cardinalidade determina o grau de relacionamento entre entidades. Ela especifica quantas ocorrências de uma entidade podem estar associadas a ocorrências de outra. Como explica Bazzi (2013, p. 14), "pode-se definir que um cliente pode ter várias vendas relacionadas com ele e que uma venda é realizada para um único cliente", o que demonstra como a cardinalidade influencia diretamente na forma como os dados são organizados e consultados nos sistemas. Em outras palavras, a cardinalidade expressa quantas vezes um registro de uma tabela pode se relacionar com registros de outra, sendo os principais tipos:
+
+* 1:1 (um para um): cada registro da entidade A se relaciona com no máximo um registro da entidade B, e vice-versa.
+* 1:N (um para muitos): um registro da entidade A pode se relacionar com vários registros da entidade B, mas um registro da entidade B só se relaciona com um da entidade A.
+* N:1 (muitos para um): o inverso do 1:N - vários registros da entidade A podem se relacionar com um único da entidade B.
+* N:N (muitos para muitos): quando registros de ambas as entidades podem se relacionar com vários registros da outra. (Esse tipo normalmente exige uma tabela intermediária.)
+
+      A modelagem do banco de dados foi estruturada de forma a representar corretamente os relacionamentos entre as entidades envolvidas no sistema, garantindo integridade dos dados e eficiência nas consultas. Abaixo estão descritas as principais relações e suas respectivas cardinalidades:
+
+Tabela 5 - Relações entre Entidades e suas Cardinalidades
+* Setores e Usuários: Um setor pode possuir vários usuários vinculados a ele (1:N), enquanto cada usuário pertence a um único setor.* Cargos e Usuários: Um cargo pode estar associado a múltiplos usuários (1:N), e cada usuário possui apenas um cargo.* Usuarios e HistoricoUsuario: Um usuário pode ter múltiplos registros no histórico (1:N), mas cada histórico é registrado para um único usuário.* Usuários e Chamados: Cada usuário pode abrir diversos chamados (1:N) e também pode atender a vários chamados (1:N), enquanto cada chamado possui um solicitante e um atendente únicos.* Chamados e CriteriosPrioridades: Cada chamado possui um critério de prioridade associado (N:1), mas um critério de prioridade pode ser atribuído a vários chamados.* Chamados e HistoricoChamado: Um chamado pode gerar múltiplas entradas no histórico (1:N), refletindo as diversas ações realizadas durante seu atendimento.* Chamados e Comentarios: Um chamado pode ter vários comentários (1:N), mas cada comentário pertence a um único chamado.* Usuarios e Anexos: Um usuário pode fazer múltiplos anexos (1:N), mas cada anexo é feito por um único usuário.* Chamados e Anexos: Um chamado pode ter múltiplos anexos (1:N), mas cada anexo está relacionado a um único chamado.* Usuarios e Comentarios: Um usuário pode fazer múltiplos comentários (1:N), mas cada comentário é feito por um único usuário.Fonte: Elaborado pelo autor.
+
+6.3 Diagrama ER e Dicionário de Dados
+	
+      A seguir, apresenta-se o diagrama entidade-relacionamento (DER), que ilustra as entidades do sistema e os respectivos relacionamentos entre elas, conforme descrito anteriormente na seção referente aos conceitos de relacionamento e cardinalidade. O diagrama entidade-relacionamento representa graficamente a estrutura de um banco de dados, utilizando símbolos para descrever entidades, atributos e relacionamentos, facilitando a compreensão das regras e da organização lógica do modelo (BAZZI, 2013). Na descrição do diagrama, será detalhado o propósito de cada tabela, sua estrutura e os motivos que justificam seus relacionamentos com as demais entidades do modelo.
+
+Imagem 26 - Diagrama ER
+
+Fonte: Elaborado pelo autor.
+
+      Conforme ilustrado na Imagem 26, a seguir, descreve-se cada entidade e os seus relacionamentos, com base no diagrama: 
+
+Tabela 6 - Descrição das Entidades e seus Relacionamentos
+Nome da entidade/tabela e FunçãoRelacionamentosUsuarios:
+Armazena os dados cadastrais dos usuários do sistema e estabelece relacionamento direto com as seguintes entidades.* Cargos: por meio do atributo ID_Cargo, indicando a função ocupada pelo usuário;
+
+* Setores: por meio do atributo ID_Setor, representando o departamento de atuação;
+
+* Chamados: indicando os registros de solicitações abertas pelos usuários;
+
+* HistoricoUsuario: responsável por registrar ações administrativas realizadas sobre os cadastros;
+
+* Comentarios: referentes às interações dos usuários nos chamados;
+
+* Anexos: relacionados a arquivos inseridos pelos usuáriosCargos:
+Contém os diferentes cargos disponíveis na organização.* É referenciada pela entidade Usuarios.Setores:
+Representa os departamentos da empresa.* Também é referenciada pela entidade Usuarios.Chamados:
+Centraliza os registros de problemas ou solicitações.* Usuarios: Indicando tanto quem abriu o chamado (ID_Solicitante) quanto quem está atendendo o chamado (ID_Atendente).
+
+* CriterioPrioridade: definindo a urgência da solicitação;
+
+* HistoricoChamado: registrando as ações realizadas durante o atendimento;
+
+* Comentarios: interações dos usuários sobre o chamado;
+
+* Anexos: arquivos adicionados ao chamado para complementar informações.CriterioPrioridades:
+Define os níveis de prioridade de cada chamado.* Referenciada pela entidade Chamados.HistoricoChamado:
+Armazena registros detalhados das ações executadas em cada chamado.* Também referenciada pela entidade Chamados, permitindo o rastreamento completo do atendimento.HistoricoUsuario:
+Registra as alterações realizadas nos dados dos usuários.* É referenciada pela entidade Usuarios, possibilitando auditoria e controle das modificações administrativas.Comentarios:
+Registra as mensagens inseridas pelos usuários nos chamados.* Relaciona-se com as entidades Usuarios e Chamados estabelecendo um vínculo por meio da comunicação textual.Anexos:
+Guarda informações sobre arquivos vinculados aos chamados.* Se relaciona também com as entidades Usuarios e Chamados, com o objetivo de documentar os atendimentos de forma mais completa.Fonte: Elaborado pelo autor.
+
+6.4 Dicionário de Dados
+	
+      O dicionário de dados é um elemento essencial na documentação de projetos de banco de dados, pois registra de forma detalhada a estrutura, os tipos de dados, os relacionamentos e o significado de cada elemento presente no sistema. Sua utilização é fundamental para garantir a padronização, a compreensão e a manutenção adequada das informações ao longo do ciclo de vida do projeto. 
+      De acordo com Elmasri e Navathe, o dicionário de dados vai além do simples armazenamento de informações de catálogo sobre esquemas e restrições, abrangendo também decisões de projeto, padrões de uso, descrições de programas de aplicação e dados referentes aos usuários. Esse conjunto de informações, denominado repositório de informação, pode ser acessado tanto por usuários quanto pelo administrador do banco de dados, conforme a necessidade (ELMASRI; NAVATHE, 2011).
+      A seguir, apresenta-se o dicionário de dados referente ao banco de dados ZENNIX. Nele, estão descritas as tabelas que compõem o sistema, seus respectivos campos, tipos de dados, tamanhos, restrições e descrições: 
+
+Tabela 7 - Tabela Setores
+CampoTipoTamanhoRestriçõesDescriçãoIDint-PK, IdentityIdentificador único do setorDescricaovarchar100NOT NULLNome/descrição do setorFonte: Elaborado pelo autor.
+
+Tabela 8 - Tabela Cargos
+CampoTipoTamanhoRestriçõesDescriçãoIDint-PK, IdentityIdentificador único do cargoDescricaovarchar100NOT NULLNome/descrição do cargoFonte: Elaborado pelo autor.
+
+Tabela 9 - Tabela Usuarios
+CampoTipoTamanhoRestriçõesDescriçãoIDint-PK, IdentityIdentificador  único do usuárioNomevarchar100NOT NULLNome completo do usuárioEmailvarchar100NOT NULLE-mail do usuárioSenhavarchar100NOT NULLSenha do usuárioID\_Cargoint-FK ? Cargos(ID)Cargo associado ao usuárioID\_Setorint-FK ? Setores(ID)Setor em que o usuário trabalhaFonte: Elaborado pelo autor.
+
+Tabela 10 - Tabela HistoricoUsuario
+CampoTipoTamanhoRestriçõesDescriçãoIDint-PK, IdentityIdentificador do histórico do usuário Datadatatime-Default = GETDATE()Data de registroAcaoTomadavarchar100-Ação executadaQuemFezvarchar100-Pessoa responsável pela açãoID\_Usuarioint-FK ? Usuarios(ID)Usuário relacionado ao históricoID\_Modificanteint-FK ? Usuarios(ID)Usuário que executou a modificaçãoFonte: Elaborado pelo autor.
+
+Tabela 11 - Tabela CriteriosPrioridades
+CampoTipoTamanho RestriçõesDescriçãoIDint-PK, IdentityIdentificador do critérioDescricaovarchar100NOT NULLDescrição do critério de prioridadeNivelint-CHECK (1 = Nivel = 3Nível de prioridade (1 a 3)Fonte: Elaborado pelo autor.
+
+Tabela 12 - Tabela Chamados
+CampoTipoTamanhoRestriçõesDescriçãoIDint-PK, IdentityIdentificador do chamadoTitulovarchar100NOT NULLTítulo do chamado                       DescricaovarcharMAXNOT NULLDetalhamento do problemaDataIniciodatatime-Default = GETDATE ()Data de aberturaDataFimdatatime-Default = GETDATE ()Data de finalizaçãoStatusvarchar50NOT NULLStatus atual do chamadoID\_Solicitanteint-FK ? Usuarios(ID)Usuário que abriu o chamadoID\_Atendenteint-FK ? Usuarios(ID)Usuário responsável pelo atendimento do chamadoID\_CriterioPrioridadesint-FK ? CriterioPrioridades(ID)Prioridade atribuída ao chamadoFonte: Elaborado pelo autor.
+
+Tabela 13 - Tabela HistoricoChamado
+CampoTipoTamanhoRestriçõesDescriçãoIDint-PK, IdentityIdentificador do histórico do chamadoDatadatetime-Default = GETDATE ()Data da ação registradaAcaoTomadavarchar100-Ação tomada sobre o chamadoQuemFezvarchar100-Nome de quem realizou a açãoID\_Chamadoint-FK ? Chamados(ID)Chamado relacionado à açãoFonte: Elaborado pelo autor.
+
+Tabela 14 - Tabela Comentarios
+CampoTipoTamanhoRestriçõesDescriçãoIDint-PK, IdentityIdentificador do comentárioComentariovarcharMAXNOT NULLTexto do comentárioDatadatetime-Default = GETDATE ()Data do comentárioID\_Chamadosint-FK ? Chamados(ID)Chamado comentadoID\_Usuariosint-FK ? Usuarios(ID)Usuário que fez o comentárioFonte: Elaborado pelo autor.
+
+Tabela 15 - Tabela Anexos
+CampoTipoTamanhoRestriçõesDescriçãoIDint-PK, IdentityIdentificador do anexoNomeArquivovarchar255NOT NULLNome do arquivo enviadoCaminhoArquivovarchar500NOT NULLCaminho de armazenamento do arquivoFormatovarchar15NOT NULLExtensão do arquivo (ex: .pdf, .jpg)ID\_Chamadoint-
+FK ? Chamados(ID)Chamado ao qual o anexo pertenceID\_Usuarioint-FK ? Usuarios(ID)Usuário que enviou o anexoFonte: Elaborado pelo autor.
+
+6.5 Script de criação do banco de dados
+      
+      O presente documento tem como objetivo apresentar o banco de dados do sistema denominado ZENNIX, desenvolvido para atender às necessidades de gerenciamento de chamados internos em diversas áreas de uma organização. Ao contrário de sistemas tradicionais, o ZENNIX propõe uma solução mais ampla e integrada, permitindo que setores como Recursos Humanos, Financeiro, Marketing, Administrativo, TI e emtre outros, possam centralizar e acompanhar as solicitações realizadas por colaboradores de maneira padronizada, segura e eficiente. O modelo de dados adotado segue uma estrutura relacional, contemplando entidades como usuários, setores, cargos, chamados, critérios de prioridade, históricos e anexos. Esta estrutura favorece não apenas a integridade das informações, mas também a possibilidade de expansões futuras, como a integração com soluções baseadas em inteligência artificial, alinhadas às diretrizes da Lei Geral de Proteção de Dados (LGPD).
+      A escolha pelo sistema gerenciador de banco de dados SQL Server se deu em virtude de sua ampla compatibilidade com tecnologias Microsoft, como C#, ASP.NET, Azure e Active Directory, além de oferecer recursos robustos de segurança, escalabilidade, performance e facilidade na administração por meio do SQL Server Management Studio (SSMS). Segundo Randal (2012), o sistema tem como objetivo proporcionar um gerenciamento de dados mais eficiente, baseado em princípios de autoajuste, auto-organização e automanutenção. Com isso, busca-se minimizar ao máximo o tempo de inatividade causado por falhas inesperadas, garantindo maior disponibilidade e confiabilidade do ambiente. Além disso, o sistema oferece suporte a diferentes formatos de mídia digital, permitindo o armazenamento e a manipulação de arquivos como fotos, áudios, vídeos e outros tipos de conteúdo multimídia. Dessa forma, o SQL Server apresenta-se como a base ideal para sustentar o sistema, tanto no contexto acadêmico quanto em ambientes corporativos reais.
+      A seguir, apresenta-se a estrutura de criação do banco de dados desenvolvido para o sistema, por meio do uso da linguagem SQL. O objetivo principal é demonstrar, de forma clara e organizada, cada etapa do processo de construção da base de dados, desde a criação do banco até a definição de todas as tabelas envolvidas, com seus respectivos relacionamentos e restrições.
+Tabela 16 - Script de criação do banco de dados com SQL Server
+Ação
+ScriptCriando o banco de dados ZENNIX
+create database ZENNIX;Selecionar o banco de dados para uso
+use ZENNIX;Criar tabela Setores
+create table Setores (
+	ID int primary key identity,
+	Descricao varchar(100) not null
+);Criar tabela Cargos
+create table Cargos (
+	ID int primary key identity,
+	Descricao varchar(100) not null
+);Criar tabela Usuarios com chaves estrangeiras para Cargos e Setores
+create table Usuarios (
+	ID int primary key identity,
+	Nome varchar(100) not null,
+	Email varchar(100) not null,
+	Senha varchar(100) not null,
+	ID_Cargo int foreign key (ID_Cargo) references Cargos(ID),
+	ID_Setor int foreign key (ID_Setor) references Setores(ID)
+);Criar tabela HistoricoUsuario com chaves estrangeiras para Usuarios
+create table HistoricoUsuario (
+	ID int primary key identity,
+	Data datetime default getdate(),
+	AcaoTomada varchar(100),
+	QuemFez varchar(100),
+	ID_Usuario int foreign key (ID_Usuario) references Usuarios(ID),
+	ID_Modificante int foreign key (ID_Modificante) references Usuarios(ID)
+);Criar tabela CriterioPrioridades com verificação de nível
+create table CriterioPrioridades (
+	ID int primary key identity,
+	Descricao varchar(100) not null,
+	Nivel int check (Nivel between 1 and 3)
+);Criar tabela Chamados com chaves estrangeiras para Usuarios e CriterioPrioridades
+create table Chamados (
+	ID int primary key identity,
+	Titulo varchar(100) not null,
+	Descricao varchar(max) not null,
+	DataInicio datetime default getdate(),
+	DataFim datetime default getdate(),
+	Status varchar(50) not null,
+	ID_Solicitante int foreign key (ID_Solicitante) references Usuarios(ID),
+	ID_Atendente int foreign key (ID_Atendente) references Usuarios(ID),
+	ID_CriterioPrioridades int foreign key (ID_CriterioPrioridades) references CriterioPrioridades(ID)
+);Criar tabela HistoricoChamado com chave estrangeira para Chamados
+create table HistoricoChamado (
+	ID int primary key identity,
+	Data datetime default getdate(),
+	AcaoTomada varchar(100),
+	QuemFez varchar(100),
+	ID_Chamado int foreign key (ID_Chamado) references Chamados(ID)
+);Criar tabela Comentarios com chaves estrangeiras para Chamados e Usuarios
+create table Comentarios (
+	ID int primary key identity,
+	Comentario varchar(MAX) not null,
+	Data datetime default getdate(),
+	ID_Chamados int foreign key (ID_Chamados) references Chamados(ID),
+	ID_Usuarios int foreign key (ID_Usuarios) references Usuarios(ID)
+);Criar tabela Anexos com chaves estrangeiras para Chamados e Usuarios
+create table Anexos (
+	ID int primary key identity, 
+	NomeArquivo varchar(255) not null,
+	CaminhoArquivo varchar(500) not null, 
+	Formato varchar(15) not null,
+	ID_Chamado int foreign key (ID_Chamado) references Chamados(ID),
+	ID_Usuario int foreign key (ID_Usuario) references Usuarios(ID)
+);Fonte: Elaborado pelo autor.
+
+Tabela 17 - Script de dados iniciais de testes
+Inserir valores na tabela Setores
+insert into Setores (Descricao) 
+values 
+('TI'),
+('RH'),
+('Financeiro'),
+('Administração'),
+('Marketing');Inserir valores na tabela Cargosinsert into Cargos (Descricao) 
+values 
+('Jovem Aprendiz'),
+('Assistente'),
+('Auxiliar Técnico'),
+('Estagiário de Suporte'),
+('Estagiário de Infraestrutura'),
+('Analista'),
+('Estagiário'),
+('Supervisor'),
+('Coordenador'),
+('Diretor');Inserir valores na tabela Usuariosinsert into Usuarios (Nome, Email, Senha, ID_Cargo, ID_Setor) 
+values 
+('Almir Freitas', 'almir.freitas@empresa.com', 'senha123', 1, 1),
+('Luiz Pontes', 'luiz.pontes@empresa.com', 'senha123', 2, 2),
+('Fábio Ramos', 'fabio.ramos@empresa.com', 'senha123', 3, 2),
+('Kaique Ramos', 'kaique.ramos@empresa.com', 'senha123', 4, 3),
+('Rúbia Azevedo', 'rubia.azevedo@empresa.com', 'senha123', 5, 1),
+('Roberta Oliveira', 'roberta.oliveira@empresa.com', 'senha123', 4, 1),
+('Diego Prates', 'diego.prates@empresa.com', 'senha123', 3, 1),
+('Pedro Santos', 'pedro.santos@empresa.com', 'senha123', 1, 3),
+('João Silva', 'joao@empresa.com', '123senha', 1, 1), 
+('Maria Oliveira', 'maria@empresa.com', 'senha456', 2, 2), 
+('Carlos Souza', 'carlos@empresa.com', 'minhasenha' , 3, 3),
+('Ana Lima', 'ana@empresa.com', 'abc123', 4, 4), 
+('Bruno Alves', 'bruno@empresa.com', 'bruno123', 5, 5);Inserir valores na tabela HistoricoUsuarioinsert into HistoricoUsuario (AcaoTomada, QuemFez, ID_Usuario, ID_Modificante)
+values 
+('E-mail alterado', 'João Silva', 9, 1),
+('Cargo atualizado de Supervisor para Coordenador', 'Ana Lima', 12, 4),
+('E-mail alterado', 'Roberta Oliveira', 6, 6),
+('Atualização de cargo para Assistente', 'Luiz Pontes', 2, 2);Inserir valores na tabela CriterioPrioridadesinsert into CriterioPrioridades (Descricao, Nivel) 
+values
+('Baixa', 1),
+('Média', 2),
+('Alta', 3);Inserir valores na tabela Chamadosinsert into Chamados (Titulo, Descricao, Status, ID_Solicitante, ID_Atendente, ID_CriterioPrioridades) 
+values 
+('Atualização de dados funcionais', 'Solicitante precisa atualizar nome social no cadastro.', 'Aberto', 5, 3, 2),
+('Reembolso não processado', 'Reembolso de viagem não foi creditado.', 'Aberto', 1, 4, 3),
+('Problema no login do e-mail corporativo', 'Usuário não consegue acessar o e-mail.', 'Aberto', 2, 7, 2),
+('Solicitação de desligamento', 'Solicitante deseja formalizar pedido de demissão.', 'Aberto', 6, 3, 1),
+('Erro em desconto na folha', 'Desconto indevido de vale transporte.', 'Aberto', 3, 4, 2),
+('Configuração de novo notebook', 'Notebook novo precisa de instalação de softwares.', 'Aberto', 12, 7, 1),
+('Atualização de banner institucional', 'Precisa atualizar arte com nova logo.', 'Aberto', 11, 13, 1),
+('Reserva de sala para reunião', 'Solicita agendamento da sala de reunião para 10h.', 'Aberto', 9, 12, 1);Inserir valores na tabela HistoricoChamadoinsert into HistoricoChamado (AcaoTomada, QuemFez, ID_Chamado) 
+values
+('Chamado criado', 'Rúbia Azevedo', 1),
+('Chamado criado', 'Almir Freitas', 2),
+('Chamado criado', 'Luiz Pontes', 3),
+('Chamado criado', 'Roberta Oliveira', 4),
+('Chamado criado', 'Fábio Ramos', 5),
+('Chamado criado', 'Ana Lima', 6),
+('Chamado criado', 'Carlos Souza', 7),
+('Chamado criado', 'João Silva', 8);Inserir valores na tabela Comentariosinsert into Comentarios (Comentario, ID_Chamados, ID_Usuarios) values
+('Solicito atualização do meu nome social no cadastro.', 1, 5),
+('O reembolso da minha última viagem ainda não foi creditado.', 2, 1),
+('Não consigo acessar meu e-mail corporativo desde ontem.', 3, 2),
+('Gostaria de formalizar meu pedido de desligamento.', 4, 6),
+('Notei um desconto indevido no vale transporte da folha.', 5, 3),
+('Por favor, preciso instalar os softwares no notebook novo.', 6, 12),
+('Preciso que atualizem o banner com a nova logo da empresa.', 7, 11),
+('Gostaria de reservar a sala de reunião para uma reunião amanhã às 10h.', 8, 9);Inserir valores na tabela Anexosinsert into Anexos (NomeArquivo, CaminhoArquivo, Formato, ID_Chamado, ID_Usuario) values
+('comprovante_reembolso.png', 'C:\\Anexos\\comprovante_reembolso.png', 'png', 2, 1),
+('erro_login_email.pdf', 'C:\\Anexos\\erro_login_email.pdf', 'pdf', 3, 2),
+('pedido_desligamento.docx', 'C:\\Anexos\\pedido_desligamento.docx', 'docx', 4, 6),
+('desconto_folha.pdf', 'C:\\Anexos\\desconto_folha.pdf', 'pdf', 5, 3),
+('config_notebook.pdf', 'C:\\Anexos\\config_notebook.pdf', 'pdf', 6, 12),
+('banner_atualizacao.jpg', 'C:\\Anexos\\banner_atualizacao.jpg', 'jpg', 7, 11),
+('reserva_sala_reuniao.docx', 'C:\\Anexos\\reserva_sala_reuniao.docx', 'docx', 8, 9);Fonte: Elaborado pelo autor.
+
+6.6 Querys no Banco
+      
+      Para certificar o funcionamento básico do sistema, serão realizadas algumas querys com base nas telas apresentadas nos protótipos de tela. As imagens desse capítulo servem como referência visual para validar a funcionalidade prevista na interface do sistema. A seguir, serão apresentadas as figuras referentes às principais telas do sistema, acompanhadas das consultas (querys) no banco de dados que evidenciam o funcionamento de suas respectivas funcionalidades. Essas imagens e consultas demonstram, de forma clara, como o sistema realiza as operações básicas esperadas. 
+
+Imagem 27 - Tela inicial: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 28 - Tela inicial: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 29 - Tela inicial: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 30 - Tela inicial: Perfil "Administrador"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 31 - Tela inicial: Perfil "Administrador"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 32 - Tela inicial: Perfil "Administrador"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 33 - Painel de solicitações do usuário
+
+Fonte: Elaborado pelo autor.
+
+Imagem 34 - Detalhamento de uma solicitação do usuário: Guia "Dados do chamado"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 35 - Painel de chamados do time: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 36 - Painel de chamados do time: Perfil "Administrador"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 37 - Detalhamento de um chamado: Guia "Dados do Chamado"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 38 - Painel de usuários: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 39 - Painel de usuários: Perfil "Gestor"
+
+Fonte: Elaborado pelo autor.
+
+Imagem 40 - Painel de usuários: Perfil "Administrador"
+
+Fonte: Elaborado pelo autor.
+
+7. CASOS DE USO
+
+      Os casos de uso constituem uma técnica essencial de modelagem dentro da engenharia de software, utilizada para descrever como os usuários interagem com um sistema a fim de alcançar objetivos específicos. Essa técnica possibilita representar de forma clara e estruturada os comportamentos esperados do sistema sob a perspectiva dos usuários, ou seja, dos atores que interagem com ele.
+      Segundo Jacobson et al. (1992), criador do conceito, um caso de uso é "uma sequência de ações que um sistema executa para produzir um resultado observável de valor para um ator específico". Ao representar essas interações, essas ações funcionam como ponte entre os requisitos do sistema e as funcionalidades que serão implementadas.
+      De acordo com Sommerville (2011), a modelagem por meio dessa técnica não apenas apoia a definição precisa dos requisitos funcionais, mas também facilita a comunicação entre desenvolvedores, analistas e usuários finais. Isso ocorre devido à sua linguagem acessível e à estrutura lógica de seus elementos.
+      O uso de casos de uso em projetos de software é extremamente relevante, especialmente durante as etapas iniciais de levantamento e análise de requisitos. Suas principais contribuições incluem:
+      
+* Favorecer a comunicação entre stakeholders (partes interessadas), clientes e a equipe técnica;
+
+* Identificar e validar de forma estruturada os requisitos funcionais do sistema;
+
+* Servir como base para a modelagem de diagramas UML complementares (como os de sequência, classe e atividade);
+
+* Auxiliar na elaboração de roteiros de teste e documentação técnica;
+
+* Delimitar o escopo funcional do projeto, evitando que funcionalidades não previstas sejam implementadas (SOMMERVILLE, 2011; PRESSMAN, 2010).
+
+      Segundo Pressman (2010), os casos de uso são eficazes porque possibilitam capturar as necessidades do usuário com clareza, permitindo à equipe técnica desenvolver soluções alinhadas com os objetivos do negócio.
+      A norma ABNT NBR ISO/IEC 12207:2017 reforça a importância dessa técnica ao recomendá-la como prática fundamental no processo de engenharia de requisitos. Ela contribui para a rastreabilidade, clareza e validação das funcionalidades demandadas pelo cliente ao longo do ciclo de vida do software.
+
+7.1 Atores do Sistema
+
+      No contexto da modelagem de casos de uso, os atores representam qualquer entidade externa ao sistema que interage com ele, seja um usuário humano ou outro sistema automatizado. Conforme Fowler (2004), um ator pode ser uma pessoa, um sistema externo ou um dispositivo que desempenha um papel específico em algum processo do sistema.
+      A seguir, apresentam-se os principais atores identificados no sistema proposto para a gestão de chamados e suporte técnico com uso de Inteligência Artificial (IA):
+
+Tabela 18 - Perfis de usuários e suas descrições
+PerfilDescriçãoColaboradorUsuário interno da empresa que registra chamados e interage com o suporte.GestorResponsável por realizar a triagem dos chamados, atribuir técnicos, acessar relatórios e gerenciar usuários do seu setor.AdministradorUsuário com privilégios totais, podendo acessar, configurar e monitorar todas as funcionalidades do sistema, incluindo gestão de usuários.Sistema de IAMódulo inteligente integrado que classifica automaticamente os chamados, define prioridades e sugere soluções com base em aprendizado de máquina.Fonte: Elaborado pelo autor.
+      
+      Cada ator exerce um ou mais papéis fundamentais em diferentes cenários funcionais do sistema, os quais estão detalhados nos casos de uso descritos a seguir.
+
+7.2 Detalhamento dos casos de uso
+      
+      A seguir, são apresentados os principais casos de uso do sistema, detalhando para cada um deles os respectivos atores envolvidos, objetivos, pré-condições, pós-condições, fluxos principais e fluxos alternativos quando aplicáveis. Essa descrição estruturada permite compreender com clareza o comportamento esperado do sistema e como os usuários interagem com suas funcionalidades, garantindo o alinhamento entre os requisitos levantados e o desenvolvimento da solução.
+      
+Tabela 19 - Casos de uso detalhados
+Caso de UsoAtor(es)ObjetivoPré-condiçõesPós-condiçõesFluxo PrincipalFluxo Alternativo1. Abrir ChamadoColaboradorRegistrar uma solicitação de suporteUsuário deve estar logadoChamado criado com status "Aberto"1. Acessa "Abrir Chamado"
+2. Preenche Título, Descrição, Categoria e Prioridade
+3. Sistema registra data/hora e status
+4. Sistema salva e confirma3A. Campos obrigatórios em branco ? sistema exibe erro e impede envio2. Triar ChamadoGestor / Sistema de IAAvaliar e classificar o chamadoChamado com status "Aberto"Chamado classificado e atribuído a responsávelCom IA:
+1. Sistema analisa descrição
+2. Classifica categoria, prioridade e setor
+3. Atribui automaticamente
+Com Gestor:
+1. Acessa chamados abertos
+2. Avalia, reclassifica e atribui a um técnico-3. Responder ChamadoColaborador / TécnicoPermitir interações e atualizaçõesChamado em andamentoNova interação registrada1. Visualiza o chamado
+2. Insere comentário e/ou anexo
+3. Sistema salva com data, hora e autor-4. Encerrar ChamadoTécnico / Gestor / AdministradorFinalizar o atendimentoStatus: "Em Atendimento" ou "Aguardando Retorno"Status alterado para "Encerrado"1. Acessa o chamado
+2. Clica em "Encerrar"
+3. Sistema confirma e atualiza o status3A. Pendências impedem encerramento ? sistema exibe alerta5. Gerenciar UsuáriosGestor / AdministradorCadastrar, editar ou desativar usuáriosAcesso com perfil Gestor (setor) ou AdministradorDados de usuários atualizados no sistema1. Acessa "Usuários"
+2. Cria, edita ou desativa cadastro
+3. Salva modificações-6. Gerar RelatóriosGestor / AdministradorObter dados sobre chamados e desempenhoUsuário logado com perfil adequadoRelatório gerado e possível exportação1. Acessa relatórios
+2. Seleciona tipo e filtros
+3. Gera e visualiza resultado-7. Classificação InteligenteSistema de IAAutomatizar a categorização dos chamadosChamado foi registradoChamado classificado automaticamente1. Sistema interpreta descrição
+2. Define categoria, prioridade e setor
+3. Sugere resposta inicial (se aplicável)-Fonte: Elaborado pelo autor.
+      
+8. DIAGRAMAS UML DO SISTEMA
+      
+      No contexto do desenvolvimento de sistemas orientados a objetos, a UML (Unified Modeling Language ou Linguagem de Modelagem Unificada) desempenha um papel fundamental como ferramenta de apoio à análise e ao projeto de software. Trata-se de uma linguagem de modelagem visual, de propósito geral, que pode ser aplicada a diferentes domínios e tipos de sistemas, sendo amplamente adotada como padrão internacional pela indústria de engenharia de software (Guedes, 2009).
+      É importante destacar que a UML não deve ser confundida com uma linguagem de programação. Ela é, na verdade, uma notação voltada à representação gráfica das diversas características de um sistema, como seus requisitos funcionais, seu comportamento, sua estrutura lógica e dinâmica, além de aspectos físicos relacionados à infraestrutura necessária para sua execução. Essa modelagem pode ser realizada antes mesmo do início do desenvolvimento do software, proporcionando uma visão clara e estruturada do sistema a ser construído.
+      Outro ponto relevante é que a UML é independente de metodologias específicas de desenvolvimento. Ou seja, pode ser utilizada em diferentes processos ou adaptada conforme a abordagem escolhida pelo engenheiro de software, o que amplia sua flexibilidade e aplicabilidade em diversos projetos (Guedes, 2009).
+
+8.1 Diagrama de Caso de Uso
+      
+      O estudo de caso pode ser considerado uma narrativa, seendo real, fictícia ou adaptada, que tem como objetivo colocar em prática os conhecimentos teóricos dos alunos por meio da análise de problemas e da tomada de decisões. Essa abordagem favorece a aplicação do conteúdo estudado em situações próximas à realidade da futura profissão dos estudantes, estimulando o pensamento crítico e a capacidade de resolução de problemas. Segundo Abreu e Masetto (1985, apud PEIXOTO, 2016), os estudos de caso são eficazes para desenvolver nos alunos habilidades de análise e conclusão diante de contextos propostos.
+      Dentro dessa perspectiva, o Diagrama de Casos de Uso desempenha um papel fundamental ao representar graficamente as funcionalidades que um sistema deve oferecer, a partir da interação dos atores com o sistema. Assim, este tipo de diagrama serve como base para compreensão, modelagem e discussão de cenários reais ou simulados, alinhando a teoria à prática de forma clara e objetiva.
+      
+      Imagem 41 - Driagrama de Casos de Uso
+
+
+Fonte: Elaborado pelo autor.
+
+      O diagrama mostra claramente quais atores estão relacionados a cada funcionalidade, facilitando o entendimento das responsabilidades e permissões dentro do sistema. A separação de acesso entre usuários humanos e a IA contribui para a automação de processos e a melhoria na eficiência do atendimento técnico.
+
+8.2 Diagrama de Classes
+
+      O diagrama de classes é um dos principais elementos da UML e, segundo Guedes (2009), provavelmente o mais utilizado, dada sua relevância no apoio à construção dos demais diagramas. Ele tem como principal função representar a estrutura estática do sistema, descrevendo as classes que o compõem, seus atributos, métodos e os relacionamentos existentes entre elas. Essa representação permite visualizar de forma clara como os elementos do sistema se organizam e interagem, contribuindo significativamente para o planejamento e desenvolvimento da arquitetura do software. Além disso, o diagrama de classes facilita a compreensão do funcionamento interno do sistema e serve como base para a implementação do código-fonte.
+      
+      Imagem 42 -Classe "Cargo" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 43 - Classe "Setor" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 44 - Classe "Usuario" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 45 - Classe "Chamado" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 46 - Classe "Historico" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 47 - Classe "Solucao" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 48 - Classe "Tecnico" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 48 - Classe "Sistema" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 49 - Classe "IA" em C#
+
+Fonte: Elaborado pelo autor.
+
+      Imagem 50 - Driagrama de Classes
+
+Fonte: Elaborado pelo autor.
+
+      O diagrama apresentado oferece uma visão bem clara de como os elementos do sistema se relacionam, mostrando as responsabilidades de cada parte, suas dependências e interações. Ele é uma base importante tanto para pensar na estrutura do banco de dados quanto para organizar a lógica por trás do funcionamento do sistema.
+      A classe Usuário representa quem usa o sistema, com atributos como idUsuario, nome, email, senha, tipoUsuario, idCargo e idSetor. Ela conta com métodos que permitem ações como fazer login, abrir chamados, acompanhar o andamento, fechar chamados e consultar o histórico. Cada usuário está ligado a um único cargo e setor, seguindo uma relação de 1 para 1 com essas classes.
+      Já a classe Chamado é o coração do sistema. Ela armazena informações essenciais sobre cada solicitação, como idChamado, titulo, descricao, horários de abertura e encerramento, status, prioridade, e os IDs do usuário solicitante e do técnico responsável. Um usuário pode abrir vários chamados, o que é representado por uma multiplicidade de 1 para muitos. Entre os métodos disponíveis, estão o atualizarStatus() e o adicionarHistorico().
+      A classe Técnico representa o profissional que atende os chamados. Um técnico pode estar envolvido em vários chamados (multiplicidade 1 para 0..*). Ela possui atributos como idTecnico, nome e especialidade, e métodos como atenderChamado() e finalizarChamado().
+      A classe Histórico registra tudo o que acontece com cada chamado. Ela guarda dados como idHistorico, descricao e o idChamado, além do método registrarAcao(). Um chamado pode ter diversos registros de histórico, refletindo cada passo do atendimento.
+      A classe Solução é responsável por armazenar a resposta ou resolução de um chamado. Ela tem os atributos idSolucao, descricao, dataAplicacao e idChamado, e conta com o método aplicarSolucao(). Existe uma relação de composição com a classe Chamado, com uma multiplicidade de 1 para 0 ou 1 - ou seja, nem todo chamado terá uma solução registrada de imediato.
+      Por fim, temos a classe Sistema, que concentra a lógica de funcionamento geral. Ela traz métodos como triagemIA(), encaminharChamado() e notificarUsuario(). Essa classe gerencia os chamados e faz uso da classe IA, que analisa e classifica os chamados automaticamente, por meio dos métodos analisarChamado() e realizarTriagem().
+
+8.3 Diagramas de Sequência
+      
+      O diagrama de sequência é uma ferramenta essencial quando o objetivo é entender como os diferentes componentes de um sistema interagem ao longo do tempo. Ele se concentra na ordem em que as mensagens são trocadas entre os objetos envolvidos em um processo, ajudando a visualizar passo a passo o fluxo de execução.
+      Normalmente, esse tipo de diagrama parte de um caso de uso previamente definido e utiliza as informações do diagrama de classes para identificar os objetos que participam do processo. Assim, é possível mapear com clareza quem inicia a interação (geralmente um ator do sistema) e como ela se desenrola até sua conclusão, por meio de chamadas de métodos entre os objetos.
+      De acordo com Guedes (2009), o diagrama de sequência permite identificar o evento que dá início ao processo, o ator responsável por esse evento e toda a sequência de trocas de mensagens que compõem a execução da funcionalidade. É um recurso valioso tanto para o desenvolvimento quanto para a documentação de sistemas, pois torna visível a dinâmica interna da aplicação de forma organizada e cronológica.
+
+8.3.1 Diagramas de Sequência: Abertura de Chamado com Sugestão Automática
+
+Imagem 51 - Diagrama de Sequência: Abertura de Chamado com Sugestão Automática
+
+Fonte: Elaborado pelo autor.
+      
+       A Imagem 29 apresenta o Diagrama de Sequência referente ao processo de abertura de chamado no sistema integrado para gestão de chamados com suporte de inteligência artificial. Este diagrama apresenta, de forma cronológica, a interação entre os objetos envolvidos na execução desta funcionalidade.
+      Inicialmente, o ator Usuario realiza a ação login(), que permite seu acesso ao sistema. Em seguida, aciona o método abrirChamado(), o qual solicita a exibição da tela de abertura (exibirTelaChamado()) por parte do sistema.
+       O sistema, ao receber os dados, chama a função triagemIA(), que é processada pela IA. A inteligência artificial retorna uma sugestão de encaminhamento ou solução (retornarSugestao()), a qual é então apresentada ao usuário (exibirSugestao()). Após a confirmação do chamado por parte do usuário (confirmarChamado()), o sistema realiza a persistência dos dados no banco de dados através do método salvarChamado(), recebendo como resposta a confirmação da gravação (confirmarGravacao()). Por fim, o sistema retorna para o usuário o número do chamado gerado (exibirNumeroChamado()).
+       Esse fluxo representa, de forma clara e linear, a lógica do sistema em tempo de execução, detalhando como os componentes interagem para realizar a funcionalidade de abertura de chamado.
+
+8.3.2 Diagramas de Sequência: Triagem de Chamado com Suporte de IA
+
+Imagem 52 - Diagrama de Sequência: Triagem de Chamado com Suporte de IA
+
+Fonte: Elaborado pelo autor.
+
+       Acima, a Imagem 30 apresenta o Diagrama de Sequência que descreve o processo de triagem de um chamado com suporte de Inteligência Artificial. Esse fluxo inicia com o login do usuário e a ação de abrir um chamado. O sistema, ao receber essa solicitação, interage com a classe IA para realizar a análise automatizada do chamado, por meio dos métodos analisarChamado() e executarTriagem().
+       Após essa etapa, o sistema executa encaminharChamado() para direcionar o atendimento ao técnico responsável. O técnico, então, realiza a atualização do status do chamado por meio do método atualizarStatus(), e, por fim, o sistema notifica o usuário utilizando o método notificarUsuario().
+       Os métodos apresentados no diagrama mantêm coerência com o Diagrama de Classe (Figura 1). As funções analisarChamado() e realizarTriagem() estão diretamente relacionadas à classe IA, enquanto encaminharChamado() e notificarUsuario() pertencem à classe Sistema, como demonstrado anteriormente. O método atualizarStatus() é atribuído diretamente à classe Chamado, embora, neste fluxo, a ação tenha sido representada como sendo executada a partir da interação do técnico.
+       É importante ressaltar que algumas ações específicas de interface ou controle, como encaminharChamado() ou notificarUsuario(), não aparecem como operações claras na interação do usuário no Diagrama de Classe, pois representam funções ativas que são parte da lógica do sistema.
+       No entanto, a sequência geral está em conformidade com a modelagem estática apresentada.
+
+8.3.3 Diagramas de Sequência: Encerramento de Chamado Técnico
+
+Imagem 53 - Diagrama de Sequência: Encerramento de Chamado Técnico
+
+Fonte: Elaborado pelo autor.
+
+       No diagrama acima, a Imagem 31 apresenta o Diagrama de Sequência que ilustra o procedimento de fechamento de um chamado técnico. O fluxo inicia com a autenticação do técnico no sistema, por meio do método autenticarTecnico(). Em seguida, o sistema exibe os chamados atribuídos utilizando exibirChamadosAtribuidos(), permitindo que o técnico selecione um chamado com selecionarChamado().
+       Após a seleção, o técnico interage com o sistema por meio dos métodos atenderChamado() e finalizarChamado(). Essas operações refletem diretamente os métodos presentes na classe Tecnico, conforme o Diagrama de Classe (Figura 2). Em sequência, o sistema atualiza o status do chamado no banco de dados com o método atualizarStatus(), e recebe uma confirmação de sucesso por meio de confirmarAtualizacao().
+       Algumas operações, como autenticarTecnico() e exibirChamadosAtribuidos(), não estão explicitamente modeladas no Diagrama de Classe, pois são ações funcionais de interface ou controle específicas do processo. Contudo, os métodos principais, como atenderChamado(), finalizarChamado() e atualizarStatus(), encontram-se representados nas classes Tecnico e Chamado, mantendo a consistência entre a modelagem estática e a dinâmica do sistema.
+       Enfim, esse diagrama ilustra com clareza a sequência lógica de ações que envolvem a participação do técnico no ciclo de vida de um chamado, destacando as responsabilidades do sistema e sua interação com o banco de dados.
+
+
+
+9. CONCLUSÃO
+       
+       Este projeto foi uma oportunidade valiosa de unir teoria e prática na construção de uma solução real e aplicável no ambiente corporativo. O sistema de chamados proposto foi desenvolvido com o objetivo de atender diferentes setores de uma empresa, permitindo que qualquer área possa abrir, acompanhar e resolver suas demandas de forma organizada, eficiente e segura.
+       A integração da Inteligência Artificial trouxe mais inteligência ao processo, facilitando a triagem e o encaminhamento das solicitações. Além disso, o sistema foi estruturado com base em um banco de dados relacional robusto, seguindo boas práticas de modelagem, incluindo a criação de tabelas, relacionamentos, dicionário de dados e scripts SQL.
+       Durante o desenvolvimento, também foram criados e documentados diagramas UML (como os de caso de uso, classe e sequência), que ajudaram a visualizar melhor a estrutura e o comportamento do sistema. Os testes de software foram fundamentais para validar as funcionalidades e garantir que o sistema estivesse de acordo com os requisitos definidos.
+       Mais do que entregar uma solução funcional, este trabalho mostrou a importância de pensar em segurança, escalabilidade, usabilidade e respeito à legislação (como a LGPD) desde o início do desenvolvimento. O resultado é uma documentação de um sistema preparado para ser utilizado em diferentes contextos empresariais, ajudando a melhorar a comunicação entre setores e oferecendo uma ferramenta moderna para gestão de chamados.
+      
+10. REFERÊNCIAS BIBLIOGRÁFICAS
+
+ABNT. NBR ISO/IEC 12207:2017 - Engenharia de software - Processos do ciclo de vida de software. Rio de Janeiro: Associação Brasileira de Normas Técnicas, 2017.
+
+ALVES, Victor. Sistema de chamados: o que é, como funciona e como contratar. 2025. Disponível em: https://www.zendesk.com.br/blog/sistema-de-chamados/. Acesso em: 03 mar. 2025.
+
+AMADEU, Claudia Vicci (org.). Banco de dados. São Paulo, SP: Pearson, 2014. E-book. Disponível em: https://plataforma.bvirtual.com.br. Acesso em: 18 abr. 2025.
+
+BARBOSA, Ellen Francine et al. Introdução ao teste de software. Minicurso apresentado no XIV Simpósio Brasileiro de Engenharia de Software (SBES 2000), 2000.
+
+BAZZI, Cláudio Leones. Introdução a banco de dados. Curitiba: Ed. UTFPR, 2013. 91 p. il. Disponível em: https://proedu.rnp.br/bitstream/handle/123456789/1550/Introducao_banco_dados_ISBN.pdf?sequence=1. Acesso em: 19 abr. 2025.
+
+CANVA. Sobre. s.d. Disponível em: https://www.canva.com/pt_br/about/. Acesso em: 04 abr. 2025.
+
+CRESPO, Adalberto Nobiato et al. Uma metodologia para teste de Software no Contexto da Melhoria de Processo. In: Simpósio Brasileiro de Qualidade de Software (SBQS). SBC, 2004. p. 204-218.
+
+DALLAVALLE, Silvia Inês; CAZARINI, Edson Walmir. Regras do Negócio, um fator chave de sucesso no processo de desenvolvimento de Sistemas de Informação. São Carlos: USP-EESC-Escola de Engenharia de São Carlos, 2000.
+
+DALLAVALLE, Silvia Inês; CAZARINI, Edson Walmir. Regras do Negócio, um fator chave de sucesso no processo de desenvolvimento de Sistemas de Informação. Anais do XX ENEGEP-Encontro Nacional de Engenharia de Produção. São Paulo, 2000.  
+
+DE MENDONÇA, Ricardo Augusto Ribeiro. Levantamento de requisitos no desenvolvimento ágil de software. Semana da Ciência e Tecnologia da PUC Goiás, v. 12, 2014.
+
+DE TEFFÉ, Chiara Spadaccini; VIOLA, Mario. Tratamento de dados pessoais na LGPD: estudo sobre as bases legais. Civilistica. com, v. 9, n. 1, p. 1-38, 2020.
+
+DOS SANTOS SOARES, Michel. Metodologias ágeis extreme programming e scrum para o desenvolvimento de software. Revista Eletrônica de Sistemas de Informação, v. 3, n. 1, 2004.
+
+ELMASRI, Ramez; NAVATHE, Shamkant B. Sistemas de Banco de Dados. 6. ed. [S. l.]: Pearson, 2011. Disponível em: https://www.kufunda.net/publicdocs/Sistemas%20de%20Banco%20de%20Dados%20(Ramez%20Elmasri,%20Shamkant%20B.%20Navathe).pdf. Acesso em: 29 abr. 2025.
+
+FOWLER, Martin. UML Essencial. 3. ed. Rio de Janeiro: Alta Books, 2004.
+GUEDES, Gilleanes TA. UML 2. Uma Abordagem Prática", São Paulo, Novatec, p. 32, 2009.
+
+JACOBSON, Ivar et al. Object-Oriented Software Engineering: A Use Case Driven Approach. Reading, MA: Addison-Wesley, 1992.
+
+LEE, Huei Diana et al. Descrição do Protótipo de Telas (versão 1.0) para o Sistema de Gerenciamento de Protocolo de Cirurgia Coloproctológica. 2011.
+
+MARTINS, Guilherme Magalhães; LONGHI, João Victor Rozatti; FALEIROS JÚNIOR, José Luiz de Moura (coord.). Comentários à lei geral de proteção de dados pessoais: lei 13.709/2018. 1. ed. Indaiatuba, SP: Foco, 2022. E-book. Disponível em: https://plataforma.bvirtual.com.br. Acesso em: 19 abr. 2025.
+
+MAZIVILA, Eurico Inácio. Desenvolvimento de um Sistema Web de Suporte Técnico na área das TICs. 2022.
+
+MICROSOFT. Visão geral do Windows Forms. 2025. Disponível em: https://learn.microsoft.com/pt-br/dotnet/desktop/winforms/overview/?view=netdesktop-9.0#introduction. Acesso em: 19 mai. 2025.
+
+MSDN. Introdução (SQL Server 2008). Disponível em: http://msdn.microsoft.com/pt-br/library/bb500434(v=sql.100). Acesso em: 19 abr. 2025.
+
+PEIXOTO, Anderson Gomes. O uso de metodologias ativas como ferramenta de potencialização da aprendizagem de diagramas de caso de uso. Outras Palavras, v. 12, n. 2, 2016.
+
+PERONDI, Leandro Teixeira. Sistema para gerenciamento de chamados técnicos. 2013.
+PRESSMAN, Roger S. Engenharia de Software: uma abordagem profissional. 7. ed. São Paulo: McGraw-Hill, 2010.
+
+PRIKLADNICKI, Rafael. Desenvolvimento distribuído de Software e Processos de Desenvolvimento de Software. Trabalho Individual II, Mestrado em Ciência da Computação, PUCRS, 2002.
+
+RANDAL, Paul S. P+R SQL: Recuperação de desastres e espelhamento de banco de dados. Disponível em: http://technet.microsoft.com/ptbr/magazine/jj259764.aspx. Acesso em: 14 mai. 2025.
+
+SILVA, Ricardo Lima E. et al. Planejamento da qualidade no suporte técnico. 1999.
+SOMMERVILLE, Ian. Engenharia de Software. 9. ed. São Paulo: Pearson Education do Brasil, 2011.
+
+
+11. GLOSSÁRIO DO SISTEMA DE CHAMADOS
+
+Chamado: Solicitação registrada por um usuário relatando um problema, dúvida ou solicitação de suporte técnico.
+Usuário: Pessoa que utiliza o sistema para registrar, acompanhar ou gerenciar chamados.
+Atendente/Técnico: Profissional responsável por receber, analisar e resolver os chamados atribuídos a ele.
+Status do Chamado: Indicação da situação atual do chamado (ex: Aberto, Em Análise, Em Atendimento, Encerrado).
+Prioridade: Grau de urgência associado a um chamado, podendo ser Baixa, Média ou Alta.
+Notificação: Alerta enviado automaticamente pelo sistema para informar alterações no chamado.
+Classificação: Processo automático ou manual que identifica o tipo de problema informado no chamado.
+Encaminhamento: Ação de direcionar o chamado para o técnico ou setor adequado.
+Histórico de Interações: Registro completo de todas as ações e comunicações relacionadas ao chamado.
+Reabertura de Chamado: Ação de tornar um chamado resolvido novamente ativo, caso o problema não tenha sido solucionado.
+Relatório Gerencial: Documento gerado pelo sistema contendo dados e estatísticas sobre os chamados e desempenho.
+Nível de Permissão: Conjunto de acessos e funções liberadas de acordo com o perfil do usuário (Ex: usuário comum, técnico, administrador).
+PUC (Ponto Único de Contato): Canal centralizado de comunicação entre o usuário e a equipe de suporte.
+Plataforma Multidispositivo: Capacidade do sistema de funcionar corretamente em diferentes dispositivos (PCs, tablets, smartphones).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

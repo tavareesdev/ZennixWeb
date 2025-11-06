@@ -1,0 +1,64 @@
+/**
+  * [Estilos para seções de formulário e tabelas]
+  *
+  * [Explicação detalhada das classes]:
+  *
+  * - .form-section: adiciona padding interno de 2% em torno da seção do formulário
+  * - .container-title: container de título da seção, com fundo cinza claro e padding específico
+  * - .form-control, .form-select: inputs e selects com bordas arredondadas de 8px
+  * - .btn-principal: botão principal com cor azul, texto branco e largura de 24% (100% no mobile)
+  * - th, td: células da tabela com padding de 1% e uso de !important para garantir o estilo
+  * - .row: largura total de 100% para linhas de layout
+  * - .table-responsive table: define largura mínima de 800px para tabelas responsivas
+  * - .d-flex: display flex com alinhamento dos itens à direita
+  *
+  * [Media query (max-width: 768px)]:
+  * - .btn-principal: largura ajusta para 100% em telas menores
+  *
+  * [Observações]:
+  * - Estilo pensado para manter consistência visual em formulários e tabelas
+  * - Bordas arredondadas e padding para melhor usabilidade
+  * - Responsividade aplicada apenas ao botão principal
+*/
+
+.form-section {
+  padding: 2%;
+}
+
+.container-title{
+  background-color: #eef5f6;
+  padding: 2% 0% 1% 4%;
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+}
+
+.btn-principal {
+  background-color: #1c4e92;
+  color: white;
+  width: 24%;
+}
+
+th, td{
+  padding: 1%!important
+}
+
+.row{
+  width: 100%
+}
+
+.table-responsive table {
+  min-width: 800px; /* ou outro valor apropriado */
+}
+
+.d-flex {
+  display: flex !important;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .btn-principal{
+    width: 100%;
+  }
+}

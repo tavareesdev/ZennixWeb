@@ -1,0 +1,362 @@
+/**
+  * [Estilos completos para a interface de busca, cards, tabela e chat]
+  *
+  * [Não retorna nada, é apenas CSS para estilização da página]
+  *
+  * [Descrição detalhada:
+  * Aqui eu documentei todos os estilos da tela de dashboard/gerenciamento de chamados.
+  *
+  * - .form-section, .container-title: padding e background de seções de formulário
+  * - .form-control, .form-select: inputs e selects arredondados
+  * - .search-btn: botão de busca com hover
+  * - .status-dot: indicador de status circular
+  * - .footer: rodapé centralizado
+  * - .btn-principal: botão principal estilizado
+  * - th, td, .page-link, .active>.page-link: tabela e paginação
+  * - textarea: desabilita resize
+  * - .row: largura total
+  * - .table-responsive table: largura mínima para tabelas
+  * - .cards-container, .card, .number, .label: layout e estilo de cards de status
+  * - Classes de cores (.no-prazo, .atencao, .atrasado, .total) definem backgrounds e cores específicas
+  * - .d-flex: utilitário flex
+  * - #chatButton, #chatWindow, #chatBody, #chatInputArea, #chatOverlay, .chat-avatar, .chat-message, .chat-bubble: estilos do chat flutuante, incluindo avatar, balão de mensagens, posicionamento, cores e responsividade
+  *
+  * [Explicação das opções e operações:
+  * - Uso de flexbox e calc() para layout de cards
+  * - Transições e hover effects para animação de cards
+  * - Z-index e position fixed para chat flutuante
+  * - Bordas arredondadas e box-shadow para profundidade visual
+  * - Overflow controlado e scroll para áreas com conteúdo extenso
+  * - Avatar circular com object-fit para manter proporção
+  * - Balões de chat diferenciados para usuário e bot
+  *
+  * [Dependências externas:
+  * - Nenhuma, funciona com CSS puro]
+*/
+
+.form-section {
+  padding: 2%;
+}
+
+.container-title{
+  background-color: #eef5f6;
+  padding: 2% 0% 1% 4%;
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+}
+
+.search-btn {
+  background-color: #1c4e92;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.search-btn:hover {
+  background-color: #163d73;
+}
+
+.status-dot {
+  height: 12px;
+  width: 12px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.footer {
+  text-align: center;
+  color: gray;
+  font-size: 14px;
+  margin: 20px 0 10px;
+}
+
+.btn-principal {
+  background-color: #1c4e92;
+  color: white;
+  width: 100%;
+}
+
+th, td{
+  padding: 1%!important
+}
+
+.page-link {
+  z-index: 2;
+  color: #000000;
+  background-color: #fff;
+}
+
+.page-link:hover {
+  color: #000000;
+}
+
+.active>.page-link, .page-link.active {
+  z-index: 3;
+  color: #000000;
+  background-color: #a4a0a1;
+  border-color: #a4a0a1;
+}
+
+textarea{
+  resize: none;
+}
+
+.row{
+  width: 100%
+}
+
+.table-responsive table {
+  min-width: 800px; /* ou outro valor apropriado */
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 0% 1.3% 0% 0%;
+}
+
+.card {
+  width: calc(25% - 1.1%); /* 4 cards por linha com gap de 16px */
+  min-width: 250px; /* previne que quebre muito pequeno */
+  display: flex;
+  align-items: center;
+  border-radius: 40px; /* bordas super arredondadas tipo cápsula */
+  cursor: default;
+  user-select: none;
+  font-weight: 600;
+  font-size: 18px;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+  overflow: hidden;
+  flex-direction: row;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05); /* aumenta 5% */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* sombra mais intensa */
+  z-index: 2;
+}
+
+.card .number {
+  padding: 12px 20px;
+  font-size: 26px;
+  font-weight: 700;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  color: white;
+  min-width: 60px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.card .label {
+  padding: 12px 24px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  color: white;
+  white-space: nowrap;
+}
+
+/* Cores e fundos com degradê leve para parecer com a imagem */
+
+/* No Prazo */
+.no-prazo {
+  background-color: #219a80; /* fundo geral (lembra a cor mais clara do texto) */
+  color: white;
+}
+.no-prazo .number {
+  background-color: #16755e; /* verde mais escuro */
+}
+
+/* Atenção */
+.atencao {
+  background-color: #cd9727; /* amarelo-ouro mais claro */
+  color: white;
+}
+.atencao .number {
+  background-color: #b58516; /* amarelo-ouro escuro */
+}
+
+/* Atrasado */
+.atrasado {
+  background-color: #be2b2f; /* vermelho mais claro */
+  color: white;
+}
+.atrasado .number {
+  background-color: #8c1a1d; /* vermelho escuro */
+}
+
+/* Total */
+.total {
+  background-color: #dde5e5; /* cinza claro */
+  color: #204348; /* azul escuro */
+  font-weight: 700;
+}
+
+.total .number {
+  background-color: #a6bdbe; /* cinza médio */
+  color: #204348;
+}
+
+.d-flex{
+  display: flex !important;
+  justify-content: flex-end;
+}
+
+/* Botão flutuante */
+#chatButton {
+  position: fixed;
+  bottom: 1%;
+  right: 1%;
+  background-color: #1c4e92;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px; /* tamanho fixo para ficar redondo */
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  padding: 0; /* remove padding extra */
+}
+
+#chatButton img {
+    width: auto;
+    height: 94%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+/* Janela de chat */
+#chatWindow {
+  position: fixed;
+  bottom: 16%;
+  right: 2.5%;
+  width: 95%;
+  height: 76%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 998;
+}
+
+/* Corpo do chat */
+#chatBody {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+/* Campo de digitação */
+#chatInputArea {
+  display: flex;
+  gap: 1%;
+  height: 20%;
+  justify-content: center;
+  padding-bottom: 1%;
+}
+
+textarea{
+  resize: none;
+}
+
+.row{
+  width: 100%
+}
+
+#chatOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* escurecimento */
+  z-index: 997; /* abaixo da janela de chat (z-index: 998) */
+  display: none;
+}
+
+.chat-avatar {
+    width: 30px;         /* tamanho do avatar */
+    height: 30px;
+    border-radius: 50%;  /* deixa circular */
+    object-fit: cover;   /* mantém proporção sem distorcer */
+    margin-right: 8px;   /* espaço entre a imagem e o texto */
+    vertical-align: middle; /* alinha no centro do texto */
+}
+
+.chat-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Balão de mensagem */
+.chat-message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    max-width: 80%;
+}
+
+.chat-message img.chat-avatar {
+    flex-shrink: 0;
+}
+
+.chat-bubble {
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    background: #f1f1f1;
+    word-wrap: break-word;
+}
+
+/* Mensagem do atendente */
+.chat-message.bot {
+    justify-content: flex-start;
+}
+
+.chat-message.bot .chat-bubble {
+    background: #fff;
+}
+
+/* Mensagem do usuário */
+.chat-message.user {
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.chat-message.user .chat-bubble {
+    background: #e6e6e6;
+}
+
+/* Avatar à esquerda para bot, à direita para usuário */
+.chat-message.bot img.chat-avatar {
+    margin-right: 8px;
+}
+
+.chat-message.user img.chat-avatar {
+    margin-left: 8px;
+    order: 2; /* coloca avatar depois do balão */
+}

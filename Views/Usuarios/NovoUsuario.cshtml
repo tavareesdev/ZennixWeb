@@ -1,0 +1,102 @@
+@{
+    ViewBag.Title = "Novo Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Usuarios/NovoUsuario.css" />
+}
+
+<div class="main-title">
+    Novo Usuário
+</div>
+
+<br>
+
+<div class="container mt-4">
+    <form asp-action="CriarUsuario" method="post" enctype="multipart/form-data">
+
+        <div class="row g-3">
+            <div class="col-12 col-md-8">
+                <label for="Nome" class="form-label">Nome completo</label>
+                <input type="text" name="Nome" class="form-control"  />
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="Email" class="form-label">E-mail</label>
+                <input type="email" name="Email" class="form-control"  />
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="ID_Setor" class="form-label">Setor</label>
+                <select class="form-select" disabled>
+                    <option>@ViewBag.SetorNome</option>
+                </select>
+                <input type="hidden" name="ID_Setor" value="@ViewBag.SetorUsuarioLogado" />
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="ID_Cargo" class="form-label">Cargo</label>
+                <select name="ID_Cargo" class="form-select" >
+                    <option value="">Selecione</option>
+                    @if (ViewBag.Cargos != null)
+                    {
+                        foreach (var cargo in ViewBag.Cargos)
+                        {
+                            <option value="@cargo.Id">@cargo.Descricao</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                <input type="date" class="form-control" name="dataNascimento" id="dataNascimento" onchange="validarDataNascimento()">
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="dataAdmissao" class="form-label">Data de Admissão</label>
+                <input type="date" class="form-control" name="dataAdmissao" id="dataAdmissao" onchange="validarDataAdmissao()">
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="Telefone" class="form-label">Telefone</label>
+                <input type="text" class="form-control" name="telefone" id="telefone" oninput="mascaraTelefone(event)">
+            </div>
+
+            <div class="col-12 col-md-4" style="display: flex; align-items: flex-end;">
+                <button type="button" id="btnSalvar" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/Usuarios/NovoUsuario.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            @if (TempData["MensagemErro"] != null)
+            {
+                <text>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: '@Html.Raw(TempData["MensagemErro"])'
+                });
+                </text>
+            }
+
+            @if (TempData["MensagemSucesso"] != null)
+            {
+                <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso',
+                    text: '@Html.Raw(TempData["MensagemSucesso"])'
+                });
+                </text>
+            }
+        });
+    </script>
+}

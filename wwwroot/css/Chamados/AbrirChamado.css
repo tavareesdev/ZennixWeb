@@ -1,0 +1,238 @@
+/**
+    * Estilos gerais para formulários e layout de anexos
+    *
+    * Estrutura:
+    * - .container: contêiner principal com borda arredondada e padding.
+    * - .label-titulo / .input-titulo: labels e inputs principais do formulário.
+    * - .row / .col: sistema flexível para organizar colunas e linhas.
+    * - .label-small / .input-small / .select-small: labels e inputs menores, usados em detalhes.
+    * - .label-descricao / .textarea-descricao: área de texto com placeholder estilizado.
+    * - .anexos-container / .anexos-box: contêiner para anexos com scroll interno.
+    * - .btn-adicionar-anexo / .btn-remover-anexo: botões de anexos com hover.
+    * - .btn-abrir-chamado: botão principal com efeito de hover e sombra.
+    * - .main-title: título principal do formulário.
+    *
+    * Layout responsivo:
+    * - .form-main: divide o formulário em 2/3 campos principais (.form-left) e 1/3 anexos (.form-right)
+    * - @media (max-width: 768px): empilha as colunas em dispositivos móveis.
+    *
+    * Observações:
+    * - Inputs e selects desabilitados possuem fundo e cor específicos.
+    * - Box-sizing: border-box garante padding interno sem quebrar layout.
+    * - Scroll interno aplicado apenas na área de anexos.
+*/
+
+.container {
+    border: 1px solid #333;
+    border-radius: 25px;
+    padding: 20px 25px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.label-titulo {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.input-titulo {
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    border: 1px solid #555;
+    padding-left: 10px;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.label-small {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.input-small, .select-small {
+    border-radius: 15px;
+    height: 32px;
+    border: 1px solid #555;
+    padding-left: 10px;
+    font-size: 13px;
+    background-color: #ccc;
+    color: #333;
+}
+
+.select-small {
+    appearance: none;
+    background-color: white;
+    color: #555;
+    cursor: pointer;
+}
+
+.input-small:disabled,
+.select-small:disabled {
+  background-color: #eee;
+  color: #000;
+}
+
+.label-descricao {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.textarea-descricao {
+    width: 100%;
+    height: 130px;
+    border-radius: 25px;
+    border: 1px solid #555;
+    padding: 15px 15px;
+    font-size: 14px;
+    resize: none;
+    box-sizing: border-box;
+    color: #555;
+    font-family: Arial, sans-serif;
+}
+
+.textarea-descricao::placeholder {
+    color: #aaa;
+}
+
+.anexos-container {
+    border: 1px solid #555;
+    border-radius: 25px;
+    padding: 15px;
+    height: 74%;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    /* Remove float */
+    float: none;
+    /* Ocupa 100% da largura da coluna */
+    width: 100%;
+}
+
+.form-main {
+  display: flex;
+  gap: 20px;
+}
+
+/* 2/3 para os campos principais */
+.form-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1/3 para anexos */
+.form-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* para botão ocupar largura total */
+  gap: 10px;
+}
+
+.label-anexos {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.anexos-box {
+    border-radius: 25px;
+    height: 150px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.btn-adicionar-anexo {
+  border-radius: 15px;
+  border: 1px solid #999;
+  padding: 6px 15px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  /* margem inferior pode ser removida para ficar bem junto */
+  margin: 0;
+}
+
+.btn-adicionar-anexo:hover {
+    background-color: #ddd;
+}
+
+.btn-abrir-chamado {
+    clear: both;
+    margin-top: 20px;
+    padding: 10px 30px;
+    background-color: #1e4e94;
+    border-radius: 15px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+}
+
+.btn-abrir-chamado:hover {
+    background-color: #163a69;
+}
+
+.anexo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.btn-remover-anexo {
+    background-color: transparent;
+    border: none;
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.main-title {
+  background-color: #e7f2f3;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .form-main {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .container-mobile{
+        padding: 4%;
+    }
+}
+
+.form-left .row {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}

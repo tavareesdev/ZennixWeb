@@ -1,0 +1,253 @@
+/**
+    * [Estilos para formulário de abertura de chamado]
+    *
+    * [Explicação detalhada das classes e layout]:
+    *
+    * - .container: container geral do formulário, bordas arredondadas, padding interno e centralização
+    * - .label-titulo: label principal com fonte maior e negrito
+    * - .input-titulo: input principal, largura total, altura definida, borda arredondada e padding interno
+    * - .row: espaçamento entre linhas do formulário
+    * - .col: coluna do formulário, display flex em coluna
+    * - .label-small: label menor com fonte média e espaçamento inferior
+    * - .input-small, .select-small: campos menores com bordas arredondadas, altura e padding definidos
+    * - .select-small: select com estilo padrão e cursor pointer
+    * - input:disabled, select:disabled: campos desabilitados com fundo cinza claro
+    * - .label-descricao: label para área de texto, negrito e tamanho maior
+    * - .textarea-descricao: textarea com altura definida, bordas arredondadas, padding interno, sem resize, cor de fonte e placeholder estilizado
+    * - .anexos-container: container de anexos, bordas arredondadas, altura definida, fundo cinza claro
+    * - .form-main: container flex horizontal para formulário principal com gap entre colunas
+    * - .form-left, .form-right: colunas do formulário, display flex em coluna, form-left maior e form-right menor
+    * - .label-anexos: label de anexos, negrito e espaçamento inferior
+    * - .anexos-box: box de anexos com scroll vertical e padding
+    * - .btn-adicionar-anexo: botão para adicionar anexo, borda arredondada, fundo branco, hover efeito
+    * - .btn-abrir-chamado: botão principal de abrir chamado, cor azul, borda arredondada, hover escurece, sombra leve
+    * - .anexo-item: item de anexo individual, display flex, espaçamento, bordas arredondadas, fundo cinza
+    * - .btn-remover-anexo: botão de remover anexo, transparente com texto vermelho e cursor pointer
+    * - .main-title: título principal da página com fundo azul claro, padding e fonte maior
+    *
+    * [Media query (max-width: 768px)]:
+    * - .form-main: muda para coluna, tornando o layout responsivo
+    * - .container-mobile: padding interno reduzido
+    * - .container: largura ajustada para telas menores
+    *
+    * [Observações]:
+    * - Flexbox utilizado para layout flexível
+    * - Bordas arredondadas e sombras para aparência moderna
+    * - Botões com hover para feedback visual
+    * - Responsividade garantida para mobile via media queries
+*/
+
+.container {
+    border: 1px solid #333;
+    border-radius: 25px;
+    padding: 20px 25px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.label-titulo {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.input-titulo {
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    border: 1px solid #555;
+    padding-left: 10px;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+/* Removido o display flex customizado da row para não quebrar o Bootstrap */
+.row {
+    margin-bottom: 20px;
+}
+
+.col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.label-small {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.input-small, .select-small {
+    border-radius: 15px;
+    height: 32px;
+    border: 1px solid #555;
+    padding-left: 10px;
+    font-size: 13px;
+    background-color: #ccc;
+    color: #333;
+}
+
+.select-small {
+    appearance: none;
+    background-color: white;
+    color: #555;
+    cursor: pointer;
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+}
+
+.input-small:disabled,
+.select-small:disabled {
+  background-color: #eee;
+  color: #000;
+}
+
+.label-descricao {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.textarea-descricao {
+    width: 100%;
+    height: 130px;
+    border-radius: 25px;
+    border: 1px solid #555;
+    padding: 15px 15px;
+    font-size: 14px;
+    resize: none;
+    box-sizing: border-box;
+    color: #555;
+    font-family: Arial, sans-serif;
+}
+
+.textarea-descricao::placeholder {
+    color: #aaa;
+}
+
+.anexos-container {
+    border: 1px solid #555;
+    border-radius: 25px;
+    padding: 15px;
+    height: 74%;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    float: none;
+    width: 100%;
+}
+
+.form-main {
+  display: flex;
+  gap: 20px;
+}
+
+.form-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.label-anexos {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.anexos-box {
+    border-radius: 25px;
+    height: 150px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.btn-adicionar-anexo {
+  border-radius: 15px;
+  border: 1px solid #999;
+  padding: 6px 15px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  margin: 0;
+}
+
+.btn-adicionar-anexo:hover {
+    background-color: #ddd;
+}
+
+.btn-abrir-chamado {
+    clear: both;
+    margin-top: 20px;
+    padding: 10px 30px;
+    background-color: #1e4e94;
+    border-radius: 15px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+}
+
+.btn-abrir-chamado:hover {
+    background-color: #163a69;
+}
+
+.anexo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.btn{
+    width: 100% !important
+}
+
+.btn-remover-anexo {
+    background-color: transparent;
+    border: none;
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.main-title {
+  background-color: #e7f2f3;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .form-main {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .container-mobile{
+        padding: 4%;
+    }
+
+    .container{
+        width: 94% !important;
+    }
+}

@@ -1,0 +1,160 @@
+/**
+  * [Estilos globais e layout principal]
+  *
+  * - body: define fonte padrão Arial, sem margin e fundo branco
+  * - header: barra superior azul com texto branco, flexbox para alinhar logo e navegação
+  * - header nav a: links do menu com cor branca, espaçamento e peso de fonte
+  *
+  * [Ranking e desempenho]
+  *
+  * - .ranking: container de ranking com borda, borda arredondada e fundo cinza claro
+  * - .ranking .item: cada item do ranking com flex, padding e borda inferior
+  * - .ranking .item img: avatar circular de 50px com margem à direita
+  * - .ranking .item:last-child: remove a borda inferior do último item
+  * - .badge-icon: ícone posicionado à direita do item
+  *
+  * - .desempenho: bloco de desempenho com borda, padding, fonte em negrito e fundo cinza claro
+  * - .setor: texto secundário com cor cinza
+  *
+  * [Chart]
+  *
+  * - #chart: define largura de 70% e altura automática, importante para sobrescrever estilos
+  *
+  * [Formulários]
+  *
+  * - input, select, textarea: largura 100%, padding de 0.5rem, borda arredondada 10px, borda cinza
+  *
+  * [Footer]
+  *
+  * - .footer: centraliza texto, cor cinza, font-size menor e margem vertical
+  *
+  * [Responsividade]
+  *
+  * @media (max-width: 768px):
+  * - header: mantém flex-direction row e justifica espaço entre elementos
+  * - header nav: oculta menu (pode-se implementar menu hambúrguer)
+  * - .filters .form-select: adiciona margin inferior
+  * - #chart: largura máxima de 100%, altura auto
+  * - .chart-ranking: adiciona margin-top
+  * - .container: padding de 8%
+  *
+  * [Observações]
+  * - Estilo focado em dashboards com ranking, gráficos e formulários responsivos
+  * - Mantém consistência visual com bordas arredondadas e cores suaves
+*/
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #fff;
+}
+
+header {
+  background-color: #1c4e92;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+header nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.ranking {
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+}
+
+.ranking .item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.ranking .item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.ranking .item:last-child {
+  border-bottom: none;
+}
+
+.badge-icon {
+  margin-left: auto;
+  font-size: 1.5rem;
+}
+
+.footer {
+  text-align: center;
+  color: gray;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.desempenho {
+  margin-top: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #f8f9fa;
+}
+
+.setor {
+  color: #767676;
+}
+
+#chart {
+  width: 70% !important;
+  height: auto !important;
+}
+
+input,
+select,
+textarea {
+  width: 100%!important;
+  padding: 0.5rem!important;
+  border-radius: 10px!important;
+  border: 1px solid #999!important;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  header nav {
+    display: none; /* Oculta o menu no mobile, pode substituir por hambúrguer */
+  }
+
+  .filters .form-select {
+    margin-bottom: 10px;
+  }
+
+  #chart {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .chart-ranking {
+    margin-top: 20px;
+  }
+
+  .container{
+    padding: 8%;
+  }
+}

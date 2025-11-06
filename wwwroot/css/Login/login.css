@@ -1,0 +1,75 @@
+/**
+  * [Estilos para a página de login, incluindo background, container e painel de login]
+  *
+  * [Não retorna nada, é apenas CSS para estilização]
+  *
+  * [Descrição detalhada:
+  * - body, html: altura total da página, remove margin, define imagem de fundo cobrindo toda a tela e centralizada
+  * - .container-login: container flexível ocupando toda a altura da viewport, alinhando o conteúdo verticalmente ao centro e horizontalmente à direita, com padding à direita
+  * - .login-panel: painel de login com fundo branco semi-transparente, bordas arredondadas, padding interno, sombra para profundidade, largura e altura definidas
+  * - .login-panel h1: título do painel com cor azul escura
+  * - .btn-principal: botão com fundo azul escuro e texto branco
+  * - media query (max-width: 768px): ajustes para dispositivos móveis, removendo background image, centralizando container, e tornando painel responsivo com largura maior e altura automática
+  *
+  * [Explicação das opções:
+  * - background-size: cover e background-position: center para cobrir toda a tela sem distorcer
+  * - display: flex e align-items / justify-content para centralizar vertical e horizontalmente
+  * - border-radius e box-shadow para estética moderna
+  * - media query garante responsividade em tablets e smartphones
+  *
+  * [Dependências externas:
+  * - Nenhuma, funciona com CSS puro]
+*/
+
+body, html {
+  height: 100%;
+  margin: 0;
+  background-image: url('/images/login_zennix.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.container-login {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding-right: 5%;
+}
+
+.login-panel {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  width: 32%;
+  height: 64%;
+}
+
+.login-panel h1 {
+  color: #1c4e92;
+}
+
+.btn-principal {
+  background-color: #1c4e92;
+  color: white;
+}
+
+/* Estilo para dispositivos móveis */
+@media (max-width: 768px) {
+  body, html {
+    background-image: none;
+    background-color: #1c4e92;
+  }
+
+  .container-login {
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .login-panel {
+    width: 90%;
+    height: auto;
+  }
+}

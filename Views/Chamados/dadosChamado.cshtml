@@ -1,0 +1,305 @@
+@* /**
+ * View responsável pelo detalhamento de um chamado específico, exibindo dados gerais,
+ * comentários, histórico e anexos, além de permitir a edição de determinados campos
+ * conforme permissões do usuário logado.
+ *
+ * Retorno: Renderização de HTML dinâmico com diferentes painéis de informações do chamado.
+ * Não retorna valores diretamente, mas fornece a interface interativa para consulta e atualização.
+ *
+ * Funcionamento:
+ * - Define título da página e aplica layout padrão (_Layout.cshtml).
+ * - Importa estilos personalizados (dadosChamado.css).
+ * - Utiliza o modelo ChamadoDetalhesViewModel para preencher os campos do chamado.
+ * - Estrutura:
+ *   • Barra lateral (sidebar) com botões para alternar entre os painéis:
+ *     - Dados do Chamado
+ *     - Comentários
+ *     - Histórico
+ *     - Anexos
+ *     Também exibe status atual do chamado.
+ *   • Seção principal (content) alterna exibição entre painéis:
+ *
+ *   ► Painel “Dados do Chamado”:
+ *   - Exibe informações básicas: Solicitante, Setor, Responsável, Datas de abertura/fim.
+ *   - Dependendo do painel e cargo do usuário logado, permite edição de Responsável,
+ *     Status, Nível e Prioridade através de selects que disparam a função atualizarCampo().
+ *   - Inclui textarea para edição da descrição do chamado.
+ *
+ *   ► Painel “Comentários”:
+ *   - Campo textarea para adicionar novo comentário e botão “Salvar”.
+ *   - Lista de comentários renderizada via partial view _ListaComentarios.
+ *
+ *   ► Painel “Histórico”:
+ *   - Renderiza partial view _ListaHistorico com registros de ações do chamado.
+ *
+ *   ► Painel “Anexos”:
+ *   - Formulário para upload de anexos com validação de extensões aceitas.
+ *   - Exibe lista de anexos via partial view _ListaAnexos.
+ *
+ * - Scripts:
+ *   • Carrega dadosChamado.js para controle das interações.
+ *   • Configura paginação para histórico, comentários e anexos usando setupPagination().
+ *
+ * Parâmetros / Operações:
+ * - ViewBag.TipoPainel: controla se os dados exibidos são do time ou do usuário solicitante.
+ * - ViewBag.CargoUsuarioLogado: define permissões de edição (ex.: Supervisor, Coordenador, Diretor).
+ * - ViewBag.FuncionariosSetorResponsavel: lista de funcionários para atribuição de responsável.
+ * - ViewBag.UsuarioLogadoId: usado para restringir opções de edição do status.
+ * - Model.Id, Model.Titulo, Model.Status, Model.Descricao: informações principais do chamado.
+ * - Model.Criterios e Model.Prioridades: opções carregadas dinamicamente para selects.
+ * - Model.Comentarios, Model.Historico, Model.Anexos: dados repassados às partials correspondentes.
+ *
+ * Bibliotecas utilizadas e dependências externas:
+ * - ASP.NET Core MVC Razor (renderização dinâmica com ViewBag, Model e Partial Views).
+ * - Bootstrap (layout responsivo e estilização de formulários).
+ * - Arquivos CSS e JS específicos do módulo (dadosChamado.css e dadosChamado.js).
+ * - SetupPagination (função JS para paginação de listas).
+*/ *@
+
+@{
+  ViewBag.Title = "Detalhamento Chamado - Zennix";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/Chamados/dadosChamado.css" />
+}
+
+@model PIM.Models.ViewModels.ChamadoDetalhesViewModel
+
+<div class="main-title">
+  Chamado Nº @Model.Id - @Model.Titulo
+</div>
+
+<div class="container container-chamado">
+  <aside class="sidebar">
+    <button class="active" id="btnDados" onclick="mostrarConteudo('dados')">Dados do Chamado</button>
+    <button id="btnComentarios" onclick="mostrarConteudo('comentarios')">Comentários</button>
+    <button id="btnHistorico" onclick="mostrarConteudo('historico')">Histórico</button>
+    <button id="btnAnexos" onclick="mostrarConteudo('anexos')">Anexos</button>
+    <div class="status-button">@Model.Status</div>
+  </aside>
+
+  <section class="content" id="conteudo-principal">
+    <div id="dados" style="display: block;">
+      @if (ViewBag.TipoPainel == "ChamadosDoTime")
+      {
+        <div class="form-group">
+          <div>
+            <label>Solicitante:</label>
+            <input type="text" data-id="@Model.Id" data-campo="Solicitante" value="@Model.Solicitante" onblur="atualizarCampo(this)" disabled>
+          </div>
+          <div>
+            <label>Setor Solicitante:</label>
+            <input type="text" data-id="@Model.Id" data-campo="SetorSoli" value="@Model.SetorSoli" onblur="atualizarCampo(this)" disabled>
+          </div>
+          <div>
+            <label>Responsável:</label>
+
+            @if (ViewBag.TipoPainel == "ChamadosDoTime" 
+                  && (ViewBag.CargoUsuarioLogado == "Supervisor" 
+                      || ViewBag.CargoUsuarioLogado == "Coordenador" 
+                      || ViewBag.CargoUsuarioLogado == "Diretor"))
+            {
+              <select data-id="@Model.Id" data-campo="Responsavel" onchange="atualizarCampo(this)">
+                @foreach (var funcionario in (List<PIM.Models.ViewModels.FuncionarioViewModel>)ViewBag.FuncionariosSetorResponsavel)
+                {
+                  @if (funcionario.Nome != "ChatGPT"){
+                    <option value="@funcionario.Id" selected="@(funcionario.Id == Model.ResponsavelId ? "selected" : null)">
+                      @funcionario.Nome
+                    </option>
+                  }
+                }
+              </select>
+            }
+            else
+            {
+              <input type="text" data-id="@Model.Id" data-campo="Responsavel" value="@Model.Responsavel" disabled />
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div>
+            <label>Setor Responsável:</label>
+            <input type="text" data-id="@Model.Id" data-campo="Setor" value="@Model.Setor" onblur="atualizarCampo(this)" disabled>
+          </div>
+          <div>
+            <label>Data Abertura:</label>
+            <input type="text" data-id="@Model.Id" data-campo="DataInicio" value="@Model.DataInicio.ToString("dd/MM/yyyy")" onblur="atualizarCampo(this)" disabled>
+          </div>
+          <div>
+            <label>Data Fim:</label>
+            <input type="text" data-id="@Model.Id" data-campo="DataFim" value="@(Model.DataFim.HasValue ? Model.DataFim.Value.ToString("dd/MM/yyyy") : "-")" onblur="atualizarCampo(this)" disabled>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div>
+            <label>Status:</label>
+            <select data-id="@Model.Id" data-campo="Status" onchange="atualizarCampo(this)">
+              <option value="Aberto" selected="@(Model.Status == "Aberto" ? "selected" : null)">Aberto</option>
+              <option value="Aguardando Usuário" selected="@(Model.Status == "Aguardando Usuário" ? "selected" : null)">Aguardando Usuário</option>
+              <option value="Cancelado" selected="@(Model.Status == "Cancelado" ? "selected" : null)">Cancelado</option>
+              @if (Model.SolicitanteId == (int)ViewBag.UsuarioLogadoId)
+              {
+                  <option value="Concluído" selected="@(Model.Status == "Concluído" ? "selected" : null)">Concluído</option>
+              }
+              <option value="Em Andamento" selected="@(Model.Status == "Em Andamento" ? "selected" : null)">Em Andamento</option>
+              <option value="Pendente Correção" selected="@(Model.Status == "Pendente Correção" ? "selected" : null)">Pendente Correção</option>
+            </select>
+          </div>
+          <div>
+            <label>Nível:</label>
+            <select data-id="@Model.Id" data-campo="Nivel" onchange="atualizarCampo(this)">
+              <option value="">Selecione</option>
+              @if (Model.Criterios != null)
+              {
+                  foreach (var criterio in Model.Criterios)
+                  {
+                      <option value="@criterio.Value" selected="@(criterio.Value == Model.NivelPrioridadeId?.ToString() ? "selected" : null)">
+                          @criterio.Text
+                      </option>
+                  }
+              }
+            </select>
+          </div>
+
+          <div>
+            <label>Prioridade:</label>
+            <select data-id="@Model.Id" data-campo="Prioridade" onchange="atualizarCampo(this)">
+                <option value="">Selecione</option>
+                @if (Model.Prioridades != null)
+                {
+                    foreach (var prioridade in Model.Prioridades)
+                    {
+                        <option value="@prioridade.Value" selected="@(prioridade.Value == Model.PrioridadeId?.ToString() ? "selected" : null)">
+                            @prioridade.Text
+                        </option>
+                    }
+                }
+            </select>
+          </div>
+
+        </div>
+
+        <div class="description-box">
+          <label>Descrição:</label>
+          <textarea data-id="@Model.Id" data-campo="Descricao" onblur="atualizarCampo(this)">@Model.Descricao</textarea>
+        </div>
+      } else {
+        <div class="form-group">
+          <div>
+            <label>Solicitante:</label>
+            <input type="text" data-id="@Model.Id" data-campo="Solicitante" value="@Model.Solicitante" onblur="atualizarCampo(this)" disabled>
+          </div>
+          <div>
+            <label>Setor Solicitado:</label>
+            <input type="text" data-id="@Model.Id" data-campo="Setor" value="@Model.Setor" onblur="atualizarCampo(this)" disabled>
+          </div>
+          <div>
+            <label>Responsável:</label>
+            <input type="text" data-id="@Model.Id" data-campo="Responsavel" value="@Model.Responsavel" onblur="atualizarCampo(this)" disabled>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div>
+            <label>Data Abertura:</label>
+            <input type="text" data-id="@Model.Id" data-campo="DataInicio" value="@Model.DataInicio.ToString("dd/MM/yyyy")" onblur="atualizarCampo(this)" disabled>
+          </div>
+          <div>
+            <label>Data Fim:</label>
+            <input type="text" data-id="@Model.Id" data-campo="DataFim" value="@(Model.DataFim.HasValue ? Model.DataFim.Value.ToString("dd/MM/yyyy") : "-")" onblur="atualizarCampo(this)" disabled>
+          </div>
+          <div>
+              <label>Status:</label>
+              @{
+                  bool podeEditarStatus = ! (ViewBag.TipoPainel == "ChamadosDoTime") && Model.Status == "Aguardando Usuário";
+              }
+              <select data-id="@Model.Id" data-campo="Status" onchange="atualizarCampo(this)" @(podeEditarStatus ? "" : "disabled")>
+                  @if (podeEditarStatus)
+                  {
+                      <option value="Concluído" selected="@(Model.Status == "Concluído" ? "selected" : null)">Concluído</option>
+                      <option value="Pendente Correção" selected="@(Model.Status == "Pendente Correção" ? "selected" : null)">Pendente Correção</option>
+                  }
+                  else
+                  {
+                      <option selected="selected">@Model.Status</option>
+                  }
+              </select>
+          </div>
+        </div>
+
+        <div class="description-box">
+          <label>Descrição:</label>
+          <textarea data-id="@Model.Id" data-campo="Descricao" onblur="atualizarCampo(this)">@Model.Descricao</textarea>
+        </div>
+      }
+    </div>
+
+    <div id="Comentarios" style="display: none;">
+      <div class="panel-container">
+        <label for="comentario">Comentários:</label>
+        
+        <div class="comentario-container">
+          <textarea id="comentario" name="Texto" placeholder="Escreva um comentário"></textarea>
+          <button class="btn-salvar" onclick="adicionarComentario()">Salvar</button>
+        </div>
+
+        <div class="linha-divisoria"></div>
+
+        <div id="lista-comentarios-container">
+            @Html.Partial("_ListaComentarios", Model.Comentarios)
+        </div>
+      </div>
+    </div>
+
+    <div id="Historico" style="display: none;">
+      <div class="panel-container">
+        <label for="historico">Histórico:</label>
+
+        <div id="historico-container">
+          @await Html.PartialAsync("_ListaHistorico", Model.Historico)
+        </div>
+
+      </div>
+    </div>
+
+    <div id="Anexos" style="display: none;">
+      <div class="panel-container">
+        <form id="form-upload" enctype="multipart/form-data">
+          @Html.AntiForgeryToken()
+          <input type="hidden" id="idChamado" value="@Model.Id" />
+
+          <label for="file-upload" class="upload-button">
+            <span class="plus-sign">+</span>
+            <span>Adicionar Anexo</span>
+            <input id="file-upload" type="file"
+              accept=".docx,.xlsx,.txt,.pptx,.jpg,.jpeg,.png,.pdf,video/*"
+              required />
+          </label>
+
+          <div id="file-info"></div>
+        </form>
+
+        <div class="linha-divisoria"></div>
+
+        <div id="lista-anexos-container">
+          @await Html.PartialAsync("_ListaAnexos", Model.Anexos)
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+@section Scripts {
+  <script src="~/js/Chamados/dadosChamado.js"></script>
+
+  <script>
+    setupPagination('cards-container', 'prevPage', 'nextPage', 'pageInfo', 'card-historico');
+    setupPagination('cards-container-comentarios', 'prevPage-comentarios', 'nextPage-comentarios', 'pageInfo-comentarios', 'card-comentario');
+    setupPagination('cards-container-anexos', 'prevPage-anexos', 'nextPage-anexos', 'pageInfo-anexos', 'card-anexo');
+  </script>
+}

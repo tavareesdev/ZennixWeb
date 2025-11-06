@@ -1,0 +1,189 @@
+@{
+    ViewData["Title"] = "Zennix - Sistema Inteligente de Gestão de Chamados";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/home/landing.css" asp-append-version="true">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="~/images/logo.png" alt="Zennix Logo" class="logo-image">
+            ZENNIX
+        </div>
+        
+        <!-- Menu Hambúrguer -->
+        <button class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav-menu" id="navMenu">
+            <a href="#features">Funcionalidades</a>
+            <a href="#how-it-works">Como Funciona</a>
+            <a href="#download">Download</a>
+            <a href="@Url.Action("Index", "Home")">Login</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Sistema Inteligente de Gestão de Chamados</h1>
+            <p>Otimize o tempo de resposta e reduza a sobrecarga da equipe de TI com nossa solução baseada em Inteligência Artificial.</p>
+            <div class="cta-buttons">
+                <a href="#download" class="btn">Baixar Agora</a>
+                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Acessar Sistema</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Funcionalidades Principais</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="bi bi-robot"></i>
+                    <h3>IA para Triagem Automática</h3>
+                    <p>Classificação automática de chamados por categoria, prioridade e setor responsável usando Inteligência Artificial.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="bi bi-bar-chart-fill"></i>
+                    <h3>Relatórios Gerenciais</h3>
+                    <p>Geração de relatórios detalhados sobre tempo médio de atendimento, volume de chamados e padrões recorrentes.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="bi bi-lock-fill"></i>
+                    <h3>Conformidade com LGPD</h3>
+                    <p>Sistema desenvolvido seguindo todas as diretrizes da Lei Geral de Proteção de Dados para segurança das informações.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="bi bi-phone"></i>
+                    <h3>Multiplataforma</h3>
+                    <p>Acesso via desktop, web e dispositivos móveis para maior flexibilidade e produtividade.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="bi bi-graph-up"></i>
+                    <h3>Gestão de SLA</h3>
+                    <p>Controle de tempo de resposta e resolução com base na prioridade dos chamados.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="bi bi-people-fill"></i>
+                    <h3>Controle de Acesso</h3>
+                    <p>Perfis de usuário diferenciados (Colaborador, Gestor e Administrador) com permissões específicas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Como Funciona</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Abertura do Chamado</h3>
+                    <p>Usuário registra solicitação com título, descrição, categoria e prioridade.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Triagem com IA</h3>
+                    <p>Sistema classifica automaticamente o chamado e sugere encaminhamento.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Atendimento</h3>
+                    <p>Técnico responsável recebe o chamado e inicia o atendimento.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Resolução</h3>
+                    <p>Problema é solucionado e chamado é encerrado com histórico completo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <h2 class="section-title">Baixe o Zennix Agora</h2>
+            <p>Disponível para diferentes plataformas. Escolha a versão que melhor atende suas necessidades.</p>
+            
+            <div class="download-options">
+                <div class="download-card">
+                    <div class="download-card-header">
+                        <img src="~/images/mobile.jpg" alt="Versão Mobile" class="download-header-image">
+                    </div>
+                    <div class="download-card-body">
+                        <h3>Versão Mobile</h3>
+                        <p>Aplicativo Android para abertura e acompanhamento de chamados em qualquer lugar.</p>
+                        <a href="@Url.Content("~/downloads/mobile/Zennix.apk")" 
+                           class="download-btn" 
+                           download="Zennix.apk"
+                           id="downloadApk">
+                            <i class="bi bi-download"></i>
+                            Baixar APK
+                        </a>
+                        <div id="apkStatus" style="margin-top: 10px; font-size: 12px;"></div>
+                    </div>
+                </div>
+                
+                <div class="download-card">
+                    <div class="download-card-header">
+                        <img src="~/images/desktop.jpg" alt="Versão Desktop" class="download-header-image">
+                    </div>
+                    <div class="download-card-body">
+                        <h3>Versão Desktop</h3>
+                        <p>Aplicação completa para Windows com todas as funcionalidades do sistema.</p>
+                        <a href="@Url.Content("~/downloads/desktop/ZennixInstaller.msi")" 
+                           class="download-btn" 
+                           download="ZennixInstaller.msi"
+                           id="downloadMsi">
+                            <i class="bi bi-download"></i>
+                            Baixar Desktop
+                        </a>
+                        <div id="msiStatus" style="margin-top: 10px; font-size: 12px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="~/images/logo.png" alt="Zennix Logo" class="footer-logo-image">
+                    <h3>Zennix</h3>
+                </div>
+                <p>Sistema integrado para gestão de chamados e suporte técnico baseado em IA.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Links Rápidos</h3>
+                <a href="#features">Funcionalidades</a>
+                <a href="#how-it-works">Como Funciona</a>
+                <a href="#download">Download</a>
+                <a href="@Url.Action("Index", "Home")">Login</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Zennix. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="~/js/home/landing.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+@model PIM.Models.Usuario
+@using PIM.Models
+
+@{
+    ViewBag.Title = "Dados do Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var usuarioLogado = ViewBag.UsuarioLogado as Usuario;
+    bool acessandoProprioPerfil = usuarioLogado?.Id == Model.Id;
+    bool logadoEhDiretor = usuarioLogado?.ID_Cargo == 10;
+    bool logadoEhCoordenador = usuarioLogado?.ID_Cargo == 9;
+    bool logadoEhSupervisor = usuarioLogado?.ID_Cargo == 8;
+
+    int? cargoSelecionado = Model.ID_Cargo;
+
+    // Função helper para permitir edição
+    bool PodeEditarCampo(string campo)
+    {
+        if (acessandoProprioPerfil)
+            return campo == "Nome" || campo == "Email" || campo == "DataNasc" || campo == "Foto";
+
+        if (logadoEhDiretor)
+            return campo != "Setor" && campo != "ID_Setor" && campo != "Cargo" && campo != "ID_Cargo" && campo != "Status";
+
+        if ((logadoEhCoordenador || logadoEhSupervisor) && cargoSelecionado.HasValue && usuarioLogado?.ID_Cargo != null)
+            return cargoSelecionado < usuarioLogado.ID_Cargo;
+
+        return false;
+    }
+
+    var setores = ViewBag.Setores as List<Setor> ?? new List<Setor>();
+    var cargos = ViewBag.Cargos as List<Cargo> ?? new List<Cargo>();
+    var historicos = ViewBag.Historicos as List<HistoricoUsuario> ?? new List<HistoricoUsuario>();
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/Usuarios/DadosUsuario.css" />
+}
+
+<div class="container-title">
+  <h2 class="fw-bold mb-4">@Model.Nome</h2>
+</div>
+<br>
+<div class="container">
+    <form class="content" id="conteudo-principal" method="post" asp-action="DadosUsuario">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <div id="dados" class="d-flex gap-4">    
+            <!-- FOTO - 1/3 -->
+            <div class="foto-usuario flex-shrink-0 text-center">
+                @{
+                    var fotoPath = $"/images/usuarios/{Model.Id}.jpg";
+                }
+                <label for="fotoInput" style="cursor:pointer;">
+                    <img id="fotoPreview" src="@fotoPath" alt="Foto do usuário" class="foto-perfil"
+                        onerror="this.onerror=null; this.src='/images/usuarios/0.jpg';" />
+                </label>
+                <input type="file" id="fotoInput" accept=".jpg,.jpeg" class="d-none" />
+            </div>
+
+            <!-- DADOS - 2/3 -->
+            <div class="dados-usuario flex-grow-1">
+                <div class="row g-3">
+                    <div class="col-6 col-md-9">
+                        <label>Nome:</label>
+                        <input type="text" name="Nome" data-campo="Nome" value="@Model.Nome" />
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label>Setor:</label>
+                        <select name="ID_Setor" data-campo="ID_Setor" class="form-select" @(!PodeEditarCampo("Setor") || !PodeEditarCampo("ID_Setor") ? "disabled" : "")>
+                            @foreach (var setor in setores)
+                            {
+                                if (setor.Id == Model.ID_Setor)
+                                {
+                                    <option value="@setor.Id" selected="selected">@setor.Descricao</option>
+                                }
+                                else
+                                {
+                                    <option value="@setor.Id">@setor.Descricao</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row g-3">
+                    <div class="col-6 col-md-6">
+                        <label>Cargo:</label>
+                        <select name="ID_Cargo" data-campo="ID_Cargo" class="form-select" @(!PodeEditarCampo("Cargo") || !PodeEditarCampo("ID_Cargo") ? "disabled" : "")>
+                            @foreach (var cargo in cargos)
+                            {
+                                if (cargo.Id == Model.ID_Cargo)
+                                {
+                                    <option value="@cargo.Id" selected="selected">@cargo.Descricao</option>
+                                }
+                                else
+                                {
+                                    <option value="@cargo.Id">@cargo.Descricao</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <label>Email:</label>
+                        <input type="text" name="Email" data-campo="Email" value="@Model.Email" />
+                    </div>
+                </div>
+                <br>
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <label>Data de Nascimento:</label>
+                        <input type="date" name="DataNasc" data-campo="DataNasc" value="@Model.DataNasc?.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label>Data de Admissão:</label>
+                        <input type="date" name="DataAdm" data-campo="DataAdm" value="@Model.DataAdm?.ToString("yyyy-MM-dd")" @(!PodeEditarCampo("DataAdm") ? "disabled" : "")/>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label>Data de Demissão:</label>
+                        <input type="date" name="DataDemi" data-campo="DataDemi" value="@Model.DataDemi?.ToString("yyyy-MM-dd")" @(!PodeEditarCampo("DataDemi") ? "disabled" : "")/>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label>Status:</label>
+                        <select data-campo="Status" name="Status" class="form-select" @(!PodeEditarCampo("Status") ? "disabled" : "")>
+                            @if (Model.Status == 1)
+                            {
+                                <option value="1" selected="selected">Ativo</option>
+                                <option value="0">Inativo</option>
+                            }
+                            else
+                            {
+                                <option value="1">Ativo</option>
+                                <option value="0" selected="selected">Inativo</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div id="Historico">
+            <div class="panel-container">
+                <label for="historico">Histórico:</label>
+
+                <div id="historico-container">
+                    <div id="cards-container" class="cards-container">
+                        @if (historicos.Count > 0)
+                        {
+                            foreach (var h in historicos)
+                            {
+                                <div class="card card-historico">
+                                    <div class="cabecalho">
+                                        @{
+                                            var fotoModPath = $"/images/usuarios/{h.ID_Modificante}.jpg";
+                                        }
+                                        <img src="@fotoModPath" alt="Foto" class="avatar" onerror="this.onerror=null; this.src='/images/usuarios/0.jpg';" />
+                                        <strong>@h.QuemFez</strong> - @h.Data.ToString("dd/MM/yyyy 'às' HH:mm")
+                                    </div>
+                                    <div class="texto">@h.AcaoTomada</div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Sem histórico para este usuário.</p>
+                        }
+                    </div>
+
+                    <div id="pagination-controls" class="pagination-controls" style="text-align:center; margin-top: 10px;">
+                        <button type="button" id="prevPage" class="btn btn-light" disabled>Anterior</button>
+                        <span id="pageInfo"></span>
+                        <button type="button" id="nextPage" class="btn btn-light" disabled>Próximo</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="row g-3">
+            <div class="col-12 col-md-2">
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAlterarSenha">Alterar Senha</button>
+            </div>
+            <div id="divMob" class="col-12 col-md-6">
+            </div>
+            <div class="col-12 col-md-2">
+                <button type="button" onclick="window.history.back();" class="btn btn-light">Voltar</button>
+            </div>
+            @if (acessandoProprioPerfil || logadoEhDiretor || ((logadoEhCoordenador || logadoEhSupervisor) && cargoSelecionado.HasValue && usuarioLogado != null && cargoSelecionado < usuarioLogado.ID_Cargo))
+            {
+                <div class="col-12 col-md-2">
+                    <button type="submit" id="btnSalvar" class="btn btn-primary btn-principal">Salvar</button>
+                </div>
+            }
+        </div>
+    </form>
+</div>
+<br>
+
+<!-- Modal Alterar Senha -->
+<div class="modal fade" id="modalAlterarSenha" tabindex="-1" aria-labelledby="modalAlterarSenhaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAlterarSenhaLabel">Alterar Senha</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formAlterarSenha">
+          <input type="hidden" id="senhaUserId" value="@Model.Id" />
+          <div class="mb-3">
+            <label for="senhaNova" class="form-label">Nova Senha</label>
+            <input type="password" class="form-control" id="senhaNova" required />
+          </div>
+          <div class="mb-3">
+            <label for="senhaConfirmacao" class="form-label">Confirme a Senha</label>
+            <input type="password" class="form-control" id="senhaConfirmacao" required />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="alterarSenha()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <script src="~/js/Usuarios/DadosUsuario.js"></script>
+}

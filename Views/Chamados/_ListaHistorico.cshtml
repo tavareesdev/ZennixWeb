@@ -1,0 +1,51 @@
+@* /**
+ * View responsável por exibir o histórico de ações realizadas em um chamado ou registro,
+ * apresentando informações do autor, data/hora da ação e descrição da alteração efetuada.
+ *
+ * Retorno: Renderização dinâmica de HTML baseada em uma lista de objetos HistoricoViewModel.
+ * Não retorna valores diretamente, mas gera a interface que permite visualizar o histórico.
+ *
+ * Funcionamento:
+ * - Recebe como modelo uma lista de HistoricoViewModel (contendo usuário, data e descrição da ação).
+ * - Para cada item:
+ *   • Exibe a foto do usuário responsável (com fallback para imagem padrão caso não encontrada).
+ *   • Mostra o nome do autor da ação e a data/hora no formato "dd/MM/yyyy às HH'h'mm".
+ *   • Mostra a descrição detalhada da ação realizada no corpo do card.
+ * - Após a listagem de históricos, são exibidos controles de paginação (Anterior, Próximo e indicador de página).
+ * - Os botões de paginação são desabilitados por padrão e podem ser ativados dinamicamente via JavaScript.
+ *
+ * Parâmetros / Operações:
+ * - Model (List<HistoricoViewModel>): lista de históricos a serem exibidos.
+ * - item.IdUsuario: usado para buscar a imagem do usuário que realizou a ação.
+ * - item.NomeUsuario: exibido como autor do histórico.
+ * - item.Data: exibida no formato "dd/MM/yyyy às HH'h'mm".
+ * - item.AcaoTomada: descrição textual da ação realizada (ex.: alteração de responsável).
+ *
+ * Bibliotecas utilizadas e dependências externas:
+ * - ASP.NET Core MVC Razor (para renderização dinâmica do conteúdo).
+ * - Bootstrap (para estruturação e estilos dos cards e botões).
+ * - JavaScript externo pode ser utilizado para controle da paginação.
+*/ *@
+
+@model List<PIM.Models.ViewModels.HistoricoViewModel>
+
+<div id="cards-container" class="cards-container">
+    @foreach (var item in Model)
+    {
+        <div class="card card-historico">
+            <div class="cabecalho">
+                @{
+                    var fotoPath = $"/images/usuarios/{item.IdUsuario}.jpg";
+                }
+                <img src="@fotoPath" alt="Foto" class="avatar" onerror="this.onerror=null; this.src='/images/usuarios/0.jpg';" />                <strong>@item.NomeUsuario</strong> - @item.Data.ToString("dd/MM/yyyy 'às' HH'h'mm")
+            </div>
+            <div class="texto">@item.AcaoTomada</div>
+        </div>
+    }
+</div>
+
+<div id="pagination-controls" class="pagination-controls" style="text-align:center; margin-top: 10px;">
+    <button id="prevPage" class="btn btn-light" disabled>Anterior</button>
+    <span id="pageInfo"></span>
+    <button id="nextPage" class="btn btn-light" disabled>Próximo</button>
+</div>

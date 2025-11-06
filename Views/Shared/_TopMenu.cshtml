@@ -1,0 +1,97 @@
+@* /**
+ * Partial View: _TopMenu
+ * Responsável por exibir o menu superior da aplicação com navegação e opções do usuário.
+ *
+ * Funcionalidades:
+ * 1. Identificação do Usuário
+ *    - Recupera o objeto 'usuario' da sessão via GetObjectFromJson<Usuario>.
+ *    - Obtém o Id do usuário e monta o caminho da foto do perfil.
+ *
+ * 2. Botão de menu (menu-toggle)
+ *    - Botão para abrir/fechar menu lateral ou responsivo.
+ *    - Ícone: list (Bootstrap Icons).
+ *
+ * 3. Logo da aplicação
+ *    - Link para Home/Index com logo da empresa.
+ *
+ * 4. Navegação principal (nav#menu)
+ *    - Menu responsivo com links e dropdowns:
+ *
+ *    a) Painel de Chamados
+ *       - Dropdown com:
+ *         - Minhas Solicitações (Chamados individuais)
+ *         - Chamados do Time (Chamados da equipe)
+ *       - Controle via toggleDropdown('C')
+ *
+ *    b) Abrir Chamado
+ *       - Link direto para criar um novo chamado.
+ *
+ *    c) Usuários
+ *       - Dropdown com:
+ *         - Painel de Usuários
+ *         - Novo Usuário
+ *       - Controle via toggleDropdown('U')
+ *
+ * 5. Dropdown de perfil/saída
+ *    - Exibe a foto do usuário.
+ *    - Caso não exista imagem, usa padrão /images/usuarios/0.jpg.
+ *    - Dropdown com link para sair da aplicação.
+ *       - Ícone: arrow-bar-right (Bootstrap Icons)
+ *    - Controle via toggleDropdown('S')
+ *
+ * Observações:
+ * - Layout responsivo baseado em Bootstrap.
+ * - As funções JavaScript `toggleMenu()` e `toggleDropdown()` devem controlar abertura e fechamento do menu e dropdowns.
+ * - Permite fallback de imagem caso o usuário não possua foto.
+*/ *@
+
+@using PIM.Models
+@using PIM.Helpers
+
+@{
+    var usuario = Context.Session.GetObjectFromJson<Usuario>("usuario");
+    var idUsuario = usuario?.Id ?? 0;
+    var fotoPath = $"/images/usuarios/{idUsuario}.jpg";
+}
+
+<header>
+  <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir Menu">
+    <i class="bi bi-list"></i>
+  </button>
+
+  <a asp-controller="Home" asp-action="Index" class="logo">
+    <img src="~/images/logo.png" alt="Logo" style="height: 40px;">
+  </a>
+
+  <nav id="menu">
+    <a asp-controller="Home" asp-action="Index" class="menu-logo">
+      <img src="~/images/logo.png" alt="Logo" style="height: 40px;">
+    </a>
+
+    <div class="dropdown dropdown-chamado">
+      <a href="javascript:void(0);" class="dropdown-toggle" onclick="toggleDropdown('C')">Painel de Chamados</a>
+      <div class="dropdown-menu" id="dropdownMenuChamado">
+        <a asp-controller="Chamados" asp-action="PainelSolicitante" asp-route-isChamadosTime="false">Minhas Solicitações</a>
+        <a asp-controller="Chamados" asp-action="PainelSolicitante" asp-route-isChamadosTime="true">Chamados do Time</a>
+      </div>
+    </div>
+
+    <a asp-controller="Chamados" asp-action="AbrirChamado">Abrir Chamado</a>
+
+    <div class="dropdown dropdown-user">
+      <a href="javascript:void(0);" class="dropdown-toggle" onclick="toggleDropdown('U')">Usuários</a>
+      <div class="dropdown-menu" id="dropdownMenuUsuario">
+        <a asp-controller="Usuarios" asp-action="PainelUsuarios">Painel de Usuários</a>
+        <a asp-controller="Usuarios" asp-action="NovoUsuario">Novo Usuário</a>
+      </div>
+    </div>
+  </nav>
+
+    <div class="dropdown dropdown-exit">
+      <img src="@fotoPath" alt="Perfil" class="avatar" style="cursor: pointer;" onclick="toggleDropdown('S')"
+        onerror="this.onerror=null; this.src='/images/usuarios/0.jpg';" />
+      <div class="dropdown-menu" id="dropdownMenuSair">
+        <a asp-controller="Login" asp-action="Sair">Sair <i class="bi bi-arrow-bar-right"></i></a>
+      </div>
+    </div>
+</header>

@@ -1,0 +1,390 @@
+/**
+ * [Estilos principais da interface de chamados]
+ *
+ * [Não retorna nada, é apenas CSS para estilização da página]
+ *
+ * [Descrição detalhada:
+ * Aqui eu organizei toda a aparência da tela de chamados e comentários.
+ * - .user-avatar define o avatar circular do usuário
+ * - .main-title para títulos principais com fundo e padding
+ * - .container organiza a sidebar e o conteúdo usando flexbox
+ * - .sidebar tem largura fixa, cor de fundo, botões com hover e estado ativo
+ * - .status-button fixa o botão de status no fim da sidebar
+ * - .content é o painel principal, com borda, padding e background
+ * - .form-group e .description-box estilizam inputs, selects e textareas
+ * - .panel-container para blocos de painel interno com padding e borda
+ * - .card, .comentario-container e .avatar para comentários e layout de cards
+ * - .upload-button estiliza o botão de upload de arquivos com hover
+ * - .btn-salvar e .btn-remover definem estilos de botões de ação
+ * - media queries ajustam layout para telas menores, garantindo responsividade
+ *
+ * Todos os elementos foram configurados para ter bordas arredondadas, cores consistentes, espaçamentos e fontes legíveis.
+ *
+ * [Explicação das opções e operações:
+ * - Flexbox e Grid para layout
+ * - hover effects em botões e links
+ * - inputs e selects desabilitados com cores diferenciadas
+ * - overflow, height e width controlando scrolls e dimensões
+ * - padding, margin, gap, border-radius e border configurados para consistência visual
+ *
+ * [Dependências externas:
+ * - Nenhuma, tudo funciona com CSS puro]
+ */
+
+.user-avatar {
+  border-radius: 50%;
+  height: 45px;
+}
+
+.main-title {
+  background-color: #e7f2f3;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  padding: 2rem;
+  gap: 2rem;
+  margin: 0!important;
+  max-width: 100%!important;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #144B9D;
+  border-radius: 20px;
+  padding: 1rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebar button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar button.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.status-button {
+  margin-top: auto;
+  background-color: #17C3B2;
+  padding: 0.7rem;
+  text-align: center;
+  border-radius: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.content {
+  flex: 1;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%!important;
+  padding: 0.5rem!important;
+  border-radius: 10px!important;
+  border: 1px solid #999!important;
+}
+
+.form-group input:disabled,
+.form-group select:disabled {
+  background-color: #eee!important;
+  color: #000!important;
+}
+
+.description-box {
+  margin-top: 1rem;
+}
+
+.description-box label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.description-box textarea {
+  width: 100%;
+  height: 120px;
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid #444;
+  background-color: #fff;
+  resize: none;
+}
+
+.panel-container {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.panel-container label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+
+#comentario {
+  width: 100%;
+  height: 60px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  resize: vertical;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+
+.linha-divisoria {
+  border-top: 2px dashed #aaa;
+  margin: 8px 0;
+}
+
+.btn-salvar {
+  float: right;
+  background-color: #1f4e91;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.btn-salvar:hover {
+  background-color: #163f77;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: white;
+  margin-bottom: 10px;
+}
+
+.cabecalho {
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.texto {
+  font-size: 14px;
+}
+
+.texto a {
+  color: #1f4e91;
+  text-decoration: none;
+}
+
+.texto a:hover {
+  text-decoration: underline;
+}
+
+.upload-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  background-color: white;
+  transition: background-color 0.2s;
+  user-select: none;
+  text-align: center;
+}
+
+.upload-button:hover {
+  background-color: #eee;
+}
+
+.upload-button input[type="file"] {
+  display: none;
+}
+
+.plus-sign {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.btn-remover{
+  border: none; 
+  background: none;
+}
+
+.btn-remover i{
+  font-size: 16px;
+  color: red;
+}
+
+#cards-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: stretch;
+  flex-wrap: wrap;
+}
+.cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.avatar {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+
+.comentario-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.comentario-container textarea {
+  flex: 1;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.comentario-container .btn-salvar {
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+}
+
+@media (max-width: 768px) {
+  .container-chamado{
+    display: flex;
+    padding: 2rem;
+    gap: 2rem;
+    margin: 0 !important;
+    max-width: 100% !important;
+    flex-direction: column!important;
+    align-items: flex-start;
+  }
+
+  .sidebar{
+    width: 100%;
+  }
+
+  .form-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group > * {
+    min-width: 0;
+  }
+
+  #pagination-controls-comentarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  #pagination-controls-comentarios button,
+  #pagination-controls-comentarios span {
+    white-space: nowrap;
+  }
+
+  #pagination-controls-comentarios button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  #pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  #pagination-controls button,
+  #pagination-controls span {
+    white-space: nowrap;
+  }
+
+  #pagination-controls button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  #pagination-controls-anexos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  #pagination-controls-anexos button,
+  #pagination-controls-anexos span {
+    white-space: nowrap;
+  }
+
+  #pagination-controls-anexos button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .comentario-container {
+    flex-direction: column;
+  }
+
+  .comentario-container .btn-salvar {
+    align-self: flex-end; /* opcional, botão alinhado à direita */
+    width: 100%;
+  }
+}

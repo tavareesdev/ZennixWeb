@@ -1,0 +1,252 @@
+/**
+    * [Estilos para ranking, desempenho, gráficos e chat flutuante]
+    *
+    * [Não retorna nada, é apenas CSS para estilização]
+    *
+    * [Descrição detalhada:
+    * - .ranking: container principal do ranking com borda, padding e background claro
+    * - .ranking .item: cada item do ranking com alinhamento horizontal e separação por border-bottom
+    * - .ranking .item img: avatar dos itens do ranking, circular e com tamanho fixo
+    * - .ranking .item:last-child: remove border-bottom do último item
+    * - .badge-icon: ícone de destaque alinhado à direita
+    * - .footer: rodapé centralizado com cor cinza e tamanho de fonte 14px
+    * - .desempenho: box de desempenho com borda, padding, background e centralização de texto
+    * - .setor: texto de cor cinza
+    * - #chart: gráfico responsivo com largura 70% e height automático
+    * - #chatButton, #chatWindow, #chatBody, #chatInputArea, #chatOverlay, .chat-avatar, .chat-message, .chat-bubble: estilos do chat flutuante, incluindo avatar circular, balões de mensagens diferenciados para bot e usuário, posicionamento fixo, z-index e sombra
+    * - media queries: ajustes para telas menores, garantindo responsividade de gráficos, selects e containers
+    *
+    * [Explicação das opções:
+    * - Uso de flexbox para alinhamento horizontal e vertical
+    * - border-radius para cantos arredondados em elementos e avatars
+    * - box-shadow para profundidade visual
+    * - max-width, width e height para responsividade
+    * - overflow-y: auto para scroll em chatBody
+    * - order e margin para ajustar posição de avatars e balões
+    *
+    * [Dependências externas:
+    * - Nenhuma, funciona com CSS puro]
+*/
+
+.ranking {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: #f8f9fa;
+}
+
+.ranking .item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.ranking .item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.ranking .item:last-child {
+    border-bottom: none;
+}
+
+.badge-icon {
+    margin-left: auto;
+    font-size: 1.5rem;
+}
+
+.footer {
+    text-align: center;
+    color: gray;
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.desempenho {
+    margin-top: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 10px;
+    font-weight: bold;
+    background-color: #f8f9fa;
+}
+
+.setor {
+    color: #767676;
+}
+
+#chart {
+    width: 70% !important;
+    height: auto !important;
+}
+
+/* Botão flutuante */
+#chatButton {
+  position: fixed;
+  bottom: 1%;
+  right: 1%;
+  background-color: #1c4e92;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px; /* tamanho fixo para ficar redondo */
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  padding: 0; /* remove padding extra */
+}
+
+#chatButton img {
+    width: auto;
+    height: 94%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+/* Janela de chat */
+#chatWindow {
+  position: fixed;
+  bottom: 16%;
+  right: 2.5%;
+  width: 95%;
+  height: 76%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 998;
+}
+
+/* Corpo do chat */
+#chatBody {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+/* Campo de digitação */
+#chatInputArea {
+  display: flex;
+  gap: 1%;
+  height: 20%;
+  justify-content: center;
+  padding-bottom: 1%;
+}
+
+textarea{
+  resize: none;
+}
+
+.row{
+  width: 100%
+}
+
+#chatOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* escurecimento */
+  z-index: 997; /* abaixo da janela de chat (z-index: 998) */
+  display: none;
+}
+
+.chat-avatar {
+    width: 30px;         /* tamanho do avatar */
+    height: 30px;
+    border-radius: 50%;  /* deixa circular */
+    object-fit: cover;   /* mantém proporção sem distorcer */
+    margin-right: 8px;   /* espaço entre a imagem e o texto */
+    vertical-align: middle; /* alinha no centro do texto */
+}
+
+.chat-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Balão de mensagem */
+.chat-message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    max-width: 80%;
+}
+
+.chat-message img.chat-avatar {
+    flex-shrink: 0;
+}
+
+.chat-bubble {
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    background: #f1f1f1;
+    word-wrap: break-word;
+}
+
+/* Mensagem do atendente */
+.chat-message.bot {
+    justify-content: flex-start;
+}
+
+.chat-message.bot .chat-bubble {
+    background: #fff;
+}
+
+/* Mensagem do usuário */
+.chat-message.user {
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.chat-message.user .chat-bubble {
+    background: #e6e6e6;
+}
+
+/* Avatar à esquerda para bot, à direita para usuário */
+.chat-message.bot img.chat-avatar {
+    margin-right: 8px;
+}
+
+.chat-message.user img.chat-avatar {
+    margin-left: 8px;
+    order: 2; /* coloca avatar depois do balão */
+}
+
+@media (max-width: 768px) {
+    .filters .form-select {
+        margin-bottom: 10px;
+    }
+
+    #chart {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .chart-ranking {
+        margin-top: 20px;
+    }
+
+    .container{
+        padding: 8%;
+    }
+}

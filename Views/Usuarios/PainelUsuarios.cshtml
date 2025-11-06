@@ -1,0 +1,70 @@
+@{
+  ViewBag.Title = "Painel Usuarios - Zennix";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/Usuarios/PainelUsuarios.css" />
+}
+
+<!-- Título -->
+<div class="container-title">
+  <h2 class="fw-bold mb-4">Painel de Usuários</h2>
+</div>
+
+<div class="form-section">
+  <div class="container">
+    <form onsubmit="return false;">      
+      <div class="row g-3">
+        <div class="col-6 col-md-3">
+          <label for="nome" class="form-label">Nome:</label>
+          <input type="text" class="form-control" name="nome" id="nome">
+        </div>
+        <div class="col-6 col-md-3">
+          <label for="setor" class="form-label">Setor:</label>
+          <input type="text" class="form-control" name="setor" id="setor">
+        </div>
+        <div class="col-6 col-md-3">
+          <label for="cargo" class="form-label">Cargo:</label>
+          <input type="text" class="form-control" name="cargo" id="cargo">
+        </div>
+        <div class="col-6 col-md-3">
+          <label for="status" class="form-label">Status:</label>
+          <select class="form-select" name="status" id="status">
+            <option value="" selected>Selecione uma opção</option>
+            <option value="1">Ativo</option>
+            <option value="0">Inativo</option>
+          </select>
+        </div>
+        <div class="col-12 d-flex align-items-end">
+          <button type="button" id="btnBuscar" class="btn btn-primary btn-principal">
+            <i class="bi bi-search"></i> Realizar Busca
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Tabela -->
+<div class="container my-4 table-section">
+  <div class="table-responsive">
+    <table id="tabelaSolicitacoes" class="table table-striped" data-tipo-painel="@ViewBag.TipoPainel">
+      <thead>
+          <tr>
+            <th></th>
+            <th>Nome</th>
+            <th>Setor</th>
+            <th>Cargo</th>
+            <th>Status</th>
+          </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+@section Scripts {
+  <script src="~/js/Usuarios/PainelUsuarios.js"></script>
+}

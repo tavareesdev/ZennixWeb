@@ -1,0 +1,82 @@
+﻿/**
+ * Arquivo de estilos base para o layout e componentes do sistema.
+ *
+ * Regras e funcionalidades:
+ * 
+ * 1. Navbar e Links
+ *    - `a.navbar-brand`: Permite que o texto da marca quebre linha, centralizado e com quebra de palavras.
+ *    - `a`: Todos os links possuem cor azul (#0077cc) por padrão.
+ *
+ * 2. Botões
+ *    - `.btn-primary`: Define cores de fundo (#1b6ec2), borda (#1861ac) e texto (#fff) para botões primários.
+ *
+ * 3. Navegação (pills)
+ *    - `.nav-pills .nav-link.active`, `.nav-pills .show > .nav-link`: Botões ativos da navegação recebem fundo azul (#1b6ec2), borda azul escura (#1861ac) e texto branco.
+ *
+ * 4. Bordas
+ *    - `.border-top`: Aplica borda superior cinza clara (#e5e5e5).
+ *    - `.border-bottom`: Aplica borda inferior cinza clara (#e5e5e5).
+ *
+ * 5. Sombras
+ *    - `.box-shadow`: Aplica sombra leve ao redor do elemento (0 .25rem .75rem rgba(0, 0, 0, .05)).
+ *
+ * 6. Botão de política
+ *    - `button.accept-policy`: Mantém fonte de tamanho 1rem e altura de linha herdada.
+ *
+ * 7. Rodapé
+ *    - `.footer`: Posicionado fixo na parte inferior da página, largura total, sem quebra de linha, altura de linha 60px.
+ *
+ * Observações:
+ * - Projetado para compatibilidade com Bootstrap 5.
+ * - Facilita manutenção e padronização de cores, sombras e bordas.
+ * - Inclui regras específicas para navegação, botões e rodapé.
+*/
+
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a {
+  color: #0077cc;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}

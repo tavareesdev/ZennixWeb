@@ -1,0 +1,385 @@
+@* /**
+ * View responsável pela tela inicial do sistema Zennix, exibindo:
+ * - Ranking de funcionários baseado em chamados concluídos.
+ * - Filtro por setor e funcionário.
+ * - Gráfico de pizza com status dos chamados.
+ * - Chat integrado para atendimento automático.
+ *
+ * Modelo: List<PIM.Models.ViewModels.RankingViewModel>
+ *
+ * Funcionalidades:
+ * 1. Filtros:
+ *    - Setor: dropdown preenchido com ViewBag.Setores.
+ *    - Funcionário: dropdown preenchido com ViewBag.Funcionarios (excluindo "ChatGPT").
+ *
+ * 2. Ranking:
+ *    - Exibe posição, foto, nome, setor e quantidade de chamados concluídos no mês.
+ *    - Medalhas atribuídas para as três primeiras posições (🥇🥈🥉).
+ *    - Caso não haja dados, exibe mensagem "Nenhum dado no ranking."
+ *    - Desempenho geral da empresa exibido abaixo do ranking (ViewBag.Desempenho).
+ *
+ * 3. Gráfico:
+ *    - Gráfico de pizza gerado com Chart.js.
+ *    - Labels e dados obtidos de ViewBag.DadosGrafico.
+ *    - Atualização dinâmica via AJAX ao alterar filtros.
+ *    - Tratamento de erros na requisição.
+ *
+ * 4. Chat Integrado:
+ *    - Botão flutuante para abrir/fechar chat.
+ *    - Área de mensagens do bot e do usuário.
+ *    - Campo de entrada e botão de envio.
+ *    - Mensagens do bot permitem formatação simples (negrito e quebras de linha).
+ *    - Suporte para exibir detalhes de chamados gerados automaticamente.
+ *    - Scroll automático ao enviar ou receber mensagens.
+ *    - Integração com API '/api/chat/mensagem'.
+ *
+ * 5. Scripts:
+ *    - ~/js/Home/index.js: manipulação geral da página.
+ *    - Chart.js via CDN para exibição do gráfico.
+ *    - Inline script:
+ *        • Atualização dinâmica do gráfico.
+ *        • Controle do chat (abrir/fechar, enviar mensagens, renderização com avatar).
+ *        • Enter envia mensagem.
+ *
+ * Parâmetros / Operações:
+ * - ViewBag.Erro: mensagem de erro, caso exista.
+ * - ViewBag.Setores: lista de setores para filtro.
+ * - ViewBag.Funcionarios: lista de funcionários para filtro.
+ * - ViewBag.DadosGrafico: dados para o gráfico de pizza.
+ * - ViewBag.UsuarioLogadoId: ID do usuário logado (para avatar do chat).
+ * - ViewBag.Desempenho: desempenho geral da empresa.
+ *
+ * Observações:
+ * - A view utiliza Razor para renderização condicional e iteração sobre listas.
+ * - Estilos personalizados aplicados via ~/css/Home/index.css.
+ * - Imagens dos funcionários devem estar na pasta ~/images/ com nomes padronizados.
+*/ *@
+
+@model List<PIM.Models.ViewModels.RankingViewModel>
+@using System.Text.Json
+
+@{
+    ViewBag.Title = "Zennix";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Erro != null)
+{
+    <div class="alert alert-danger text-center">@ViewBag.Erro</div>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Home/index.css" />
+}
+
+<div class="container my-3">
+    <div class="row mb-3">
+        <div class="col-12 col-md-6">
+            <label for="setor">Setor:</label>
+            <select id="setor" class="form-select">
+                <option value="">Todos</option>
+                @foreach (var setor in ViewBag.Setores)
+                {
+                    <option value="@setor.Id">@setor.Descricao</option>
+                }
+            </select>
+        </div>
+        <div class="col-12 col-md-6 mt-2 mt-md-0">
+            <label for="funcionario">Funcionário (a):</label>
+            <select id="funcionario" class="form-select">
+                <option value="">Todos</option>
+                @foreach (var f in ViewBag.Funcionarios)
+                {
+                    @if (f.Nome != "ChatGPT"){
+                        <option value="@f.Id">@f.Nome</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="row d-flex flex-column flex-md-row justify-content-between">
+        <div class="col-12 col-md-7 d-flex justify-content-center mb-4 mb-md-0">
+            <canvas id="chart" width="300" height="300"></canvas>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="ranking">
+                @if (Model != null && Model.Count > 0)
+                {
+                    int pos = 1;
+                    @foreach (var item in Model)
+                    {
+                        var medalha = pos == 1 ? "🥇" : pos == 2 ? "🥈" : "🥉";
+                        var imgNome = item.Id;
+                        <div class="item">
+                        
+                            <img src="~/images/usuarios/@(imgNome + ".jpg")" alt="@item.Nome" onerror="this.onerror=null; this.src='/images/usuarios/0.jpg';"/>
+                            <div>
+                                <strong>@pos º - @item.Nome</strong><br />
+                                <small class="setor">@item.Setor</small><br />
+                                <small>Concluiu @item.Concluidos chamados este mês</small>
+                            </div>
+                            <span class="badge-icon">@medalha</span>
+                        </div>
+                        pos++;
+                    }
+                }
+                else
+                {
+                    <p>Nenhum dado no ranking.</p>
+                }
+            </div>
+            <div class="desempenho">
+                Desempenho da Empresa: <span>@ViewBag.Desempenho</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão flutuante -->
+    <button id="chatButton">
+        <img src="~/images/chatIcon.png" alt="Chat">
+    </button>
+
+
+    <!-- Janela de chat -->
+    <div id="chatOverlay"></div>
+    <div id="chatWindow">
+        <div id="chatBody">
+            <div class="chat-message bot">
+                <img src="~/images/chatIcon.png" alt="Atendente" class="chat-avatar">
+                <div class="chat-bubble">Olá! Como posso ajudar?</div>
+            </div>
+        </div>
+      <div id="chatInputArea">
+        <div class="row w-100 h-100">
+          <div class="col-11">
+            <textarea id="chatInput" class="form-control h-100" placeholder="Digite sua mensagem..."></textarea>
+          </div>
+          <div class="col-1 d-flex flex-column justify-content-between h-100">
+            <button id="sendButton" class="btn btn-primary btn-principal mb-2 w-100">
+              <i class="bi bi-send"></i>
+            </button>
+            <button id="closeButton" class="btn btn-light w-100" onclick="toggleChat()">
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Home/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var dadosGrafico = @Html.Raw(JsonSerializer.Serialize(ViewBag.DadosGrafico));
+        var labels = dadosGrafico.map(d => d.Status);
+        var data = dadosGrafico.map(d => d.Quantidade);
+
+        const ctx = document.getElementById('chart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#2f74a3', '#aaa', '#add8e6', '#3399cc', '#4da6ff', '#005580'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Função para atualizar o gráfico via AJAX
+        function atualizarGrafico() {
+            var setorId = document.getElementById('setor').value;
+            var funcionarioId = document.getElementById('funcionario').value;
+
+            var url = `/Home/GetDadosGrafico?setorId=${setorId}&funcionarioId=${funcionarioId}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(dados => {
+                    if (dados.erro) {
+                        alert("Erro: " + dados.erro);
+                        return;
+                    }
+
+                    chart.data.labels = dados.map(d => d.status || d.Status);
+                    chart.data.datasets[0].data = dados.map(d => d.quantidade || d.Quantidade);
+                    chart.update();
+                })
+                .catch(err => console.error("Erro ao buscar dados do gráfico", err));
+        }
+
+        // Dispara atualização quando qualquer select mudar
+        document.getElementById('setor').addEventListener('change', atualizarGrafico);
+        document.getElementById('funcionario').addEventListener('change', atualizarGrafico);
+
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatBody = document.getElementById('chatBody');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Id do usuário logado (substituir pela variável correta do backend)
+        const userId = @ViewBag.UsuarioLogadoId; // <-- aqui você coloca o id real do usuário logado
+
+        function toggleChat() {
+            const isHidden = chatWindow.style.display === 'none';
+            chatWindow.style.display = isHidden ? 'flex' : 'none';
+            document.getElementById('chatOverlay').style.display = isHidden ? 'block' : 'none';
+            
+            // Foca no input quando abrir o chat
+            if (isHidden) {
+                setTimeout(() => {
+                    const chatInput = document.getElementById('chatInput');
+                    if (chatInput) chatInput.focus();
+                }, 100);
+            }
+        }
+
+        // SOLUÇÃO DEFINITIVA: Remove completamente os elementos e recria os event listeners
+        function initializeChatEvents() {
+            const chatOverlay = document.getElementById('chatOverlay');
+            const chatButton = document.getElementById('chatButton');
+            
+            // Clona os elementos para remover todos os event listeners anteriores
+            const newChatOverlay = chatOverlay.cloneNode(true);
+            const newChatButton = chatButton.cloneNode(true);
+            
+            // Substitui os elementos originais pelos clones
+            chatOverlay.parentNode.replaceChild(newChatOverlay, chatOverlay);
+            chatButton.parentNode.replaceChild(newChatButton, chatButton);
+            
+            // Adiciona os event listeners uma única vez
+            document.getElementById('chatOverlay').addEventListener('click', toggleChat);
+            document.getElementById('chatButton').addEventListener('click', toggleChat);
+            
+            console.log('Chat events inicializados - clique único funcionando');
+        }
+
+        // Inicializa os eventos do chat
+        initializeChatEvents();
+
+        // Função para criar mensagem com avatar
+        function createMessage(imagePath, text, isBot = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', isBot ? 'bot' : 'user');
+
+            const avatar = document.createElement('img');
+            avatar.src = imagePath;
+            avatar.alt = "Avatar";
+            avatar.classList.add('chat-avatar');
+            avatar.onerror = function() {
+                this.src = '/images/usuarios/0.jpg'; // Fallback se imagem não existir
+            };
+
+            const bubble = document.createElement('div');
+            bubble.classList.add('chat-bubble');
+
+            if (isBot) {
+                // Substitui quebras de linha por <br> e mantém negrito simples
+                const formattedText = text
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                bubble.innerHTML = formattedText;
+            } else {
+                bubble.textContent = text; // Usuário não precisa de formatação especial
+            }
+
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(bubble);
+            return messageDiv;
+        }
+
+        // Função para enviar mensagem
+        async function sendMessage() {
+            const msg = chatInput.value.trim();
+            if (msg === '') return;
+
+            // Mensagem do usuário
+            const userMsg = createMessage(`/images/usuarios/${userId}.jpg`, msg, false);
+            chatBody.appendChild(userMsg);
+            chatInput.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat/mensagem', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mensagem: msg })
+                });
+
+                const data = await response.json();
+
+                // Mensagem do atendente
+                const botMsg = createMessage('/images/chatIcon.png', data.resposta, true);
+                chatBody.appendChild(botMsg);
+
+                // Se houver chamado aberto
+                if (data.abrirChamado && data.dadosChamado) {
+                    const chamadoInfo = document.createElement('div');
+                    chamadoInfo.innerHTML = `
+                        <p><strong>Chamado Gerado:</strong></p>
+                        <p><strong>Título:</strong> ${data.dadosChamado.titulo}</p>
+                        <p><strong>Prioridade:</strong> ${data.dadosChamado.prioridade}</p>
+                        <p><strong>Descrição:</strong> ${data.dadosChamado.descricao}</p>
+                    `;
+                    chamadoInfo.style.background = '#f9f9f9';
+                    chamadoInfo.style.border = '1px solid #ccc';
+                    chamadoInfo.style.padding = '10px';
+                    chamadoInfo.style.marginTop = '10px';
+                    chamadoInfo.style.borderRadius = '8px';
+                    chatBody.appendChild(chamadoInfo);
+                }
+
+                chatBody.scrollTop = chatBody.scrollHeight;
+            } catch (error) {
+                console.error('Erro no chat:', error);
+                const errorMsg = document.createElement('p');
+                errorMsg.innerHTML = `<em>Erro ao se comunicar com o assistente.</em>`;
+                chatBody.appendChild(errorMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+
+        // Remove event listeners existentes dos botões de envio
+        sendButton.replaceWith(sendButton.cloneNode(true));
+        const newSendButton = document.getElementById('sendButton');
+
+        // Adiciona event listeners para envio de mensagens
+        newSendButton.addEventListener('click', sendMessage);
+
+        // Enter envia a mensagem
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Previne que o formulário seja submetido se estiver dentro de um form
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+
+        // Foca no input quando a janela do chat é aberta
+        chatWindow.addEventListener('click', function() {
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput && chatWindow.style.display === 'flex') {
+                chatInput.focus();
+            }
+        });
+    </script>
+}

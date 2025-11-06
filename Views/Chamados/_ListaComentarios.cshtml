@@ -1,0 +1,62 @@
+@* /**
+ * View responsável por exibir a lista de comentários associados a um registro ou chamado,
+ * apresentando informações do autor, data/hora de envio e texto do comentário.
+ *
+ * Retorno: Renderização de HTML dinâmico baseada em uma lista de objetos ComentarioViewModel.
+ * Não retorna valores diretamente, mas gera a interface visual interativa para o usuário.
+ *
+ * Funcionamento:
+ * - Recebe como modelo uma lista de ComentarioViewModel (comentário, usuário e metadados).
+ * - Para cada comentário:
+ *   • Exibe a foto do usuário (com fallback para imagem padrão caso não encontrada).
+ *   • Mostra o nome do autor e a data/hora no formato "dd/MM/yyyy às HH:mm".
+ *   • Caso o comentário pertença ao usuário logado, exibe um botão de remoção
+ *     que chama a função JavaScript removerComentario(id).
+ *   • Mostra o texto do comentário logo abaixo do cabeçalho.
+ * - Após os comentários, renderiza controles de paginação (Anterior, Próximo e indicador de página).
+ * - Os botões de paginação são inicialmente desabilitados e podem ser controlados via JavaScript.
+ *
+ * Parâmetros / Operações:
+ * - Model (List<ComentarioViewModel>): lista de comentários a serem exibidos.
+ * - comentario.Id: identificador único do comentário.
+ * - comentario.IdUsuario: usado para buscar a imagem do autor e validar permissões de exclusão.
+ * - comentario.NomeUsuario: exibido no cabeçalho como autor.
+ * - comentario.Data: exibida no formato "dd/MM/yyyy às HH:mm".
+ * - comentario.Texto: corpo do comentário.
+ * - ViewBag.UsuarioLogadoId: usado para validar se o botão de exclusão deve aparecer.
+ *
+ * Bibliotecas utilizadas e dependências externas:
+ * - ASP.NET Core MVC Razor (para renderização dinâmica do HTML).
+ * - Bootstrap Icons (para o ícone de exclusão).
+ * - JavaScript externo para remoção de comentários e controle da paginação.
+*/ *@
+
+@model List<PIM.Models.ViewModels.ComentarioViewModel>
+
+<div id="cards-container-comentarios" class="cards-container">
+    @foreach (var comentario in Model)
+    {
+        <div class="card card-comentario">
+            <div class="cabecalho">
+                @{
+                    var fotoPath = $"/images/usuarios/{comentario.IdUsuario}.jpg";
+                }
+                <img src="@fotoPath" alt="Foto" class="avatar" onerror="this.onerror=null; this.src='/images/usuarios/0.jpg';" />                <strong>@comentario.NomeUsuario</strong> - @comentario.Data.ToString("dd/MM/yyyy às HH:mm")
+                @if (comentario.IdUsuario == (ViewBag.UsuarioLogadoId != null ? (int)ViewBag.UsuarioLogadoId : -1))
+                {
+                    <button class="btn-remover" onclick="removerComentario(@comentario.Id)">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                }
+
+            </div>
+            <div class="texto">@comentario.Texto</div>
+        </div>
+    }
+</div>
+
+<div id="pagination-controls-comentarios" class="pagination-controls" style="text-align:center; margin-top: 10px;">
+    <button id="prevPage-comentarios" class="btn btn-light" disabled>Anterior</button>
+    <span id="pageInfo-comentarios"></span>
+    <button id="nextPage-comentarios" class="btn btn-light" disabled>Próximo</button>
+</div>

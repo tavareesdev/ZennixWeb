@@ -1,0 +1,108 @@
+﻿@* /*
+ * Layout principal do sistema PIM, utilizado como base para todas as views.
+ *
+ * Estrutura e funcionalidades:
+ * 1. Cabeçalho (<head>):
+ *    - Meta tags para charset UTF-8 e viewport responsivo.
+ *    - Título da página dinâmico via @ViewData["Title"].
+ *    - Inclusão de CSS e JS externos:
+ *        • Bootstrap 5 (CSS e JS Bundle)
+ *        • Bootstrap Icons
+ *        • Chart.js
+ *        • DataTables (CSS e JS, integração com Bootstrap 5)
+ *        • jQuery
+ *        • SweetAlert2
+ *    - CSS customizado:
+ *        • site.css
+ *        • PIM.styles.css
+ *        • Shared/_TopMenu.css
+ *    - JS customizado para top menu: Shared/_TopMenu.js
+ *    - Permite inclusão de seções de estilo adicionais via @RenderSection("Styles", required: false)
+ *
+ * 2. Corpo da página (<body>):
+ *    - Injeção do IHttpContextAccessor para acessar sessão e dados do usuário.
+ *    - Recupera o usuário logado da sessão: "usuario".
+ *    - Renderiza o partial "_TopMenu" apenas se o usuário estiver logado.
+ *    - <main> contém o conteúdo principal da página através de @RenderBody().
+ *    - Inclusão de script site.js global.
+ *    - Permite inclusão de scripts adicionais via @RenderSection("Scripts", required: false)
+ *
+ * Observações:
+ * - Layout preparado para ser responsivo e compatível com Bootstrap 5.
+ * - Suporta integração de gráficos (Chart.js) e tabelas avançadas (DataTables).
+ * - SweetAlert2 pronto para feedbacks interativos.
+ * - Estrutura modular, permitindo que cada view injete seus próprios estilos e scripts.
+*/ *@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PIM</title>
+    
+    <!-- FAVICON -->
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.bootstrap5.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <!-- Bootstrap Bundle (JS + Popper) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.1/js/dataTables.bootstrap5.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Import Map -->
+    <script type="importmap"></script>
+
+    <!-- CSS Customizados -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PIM.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Shared/_TopMenu.css" asp-append-version="true" />
+    
+    <!-- JS Customizados -->
+    <script src="~/js/Shared/_TopMenu.js" asp-append-version="true"></script>
+    
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    @using PIM.Models
+    @using PIM.Helpers
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+    @{
+        var usuario = HttpContextAccessor.HttpContext.Session.GetObjectFromJson<Usuario>("usuario");
+    }
+
+    @if (usuario != null)
+    {
+        @Html.Partial("_TopMenu")
+    }
+
+    <main>
+        @RenderBody() <!-- Aqui entra o conteúdo da página atual -->
+    </main>
+
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+</html>

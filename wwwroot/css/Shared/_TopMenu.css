@@ -1,0 +1,157 @@
+/**
+  * [Estilos para o header da aplicação, incluindo menu, avatar e dropdown]
+  *
+  * [Não retorna nada, é apenas CSS para estilização]
+  *
+  * [Descrição detalhada:
+  * - header: fundo azul escuro, texto branco, display flex para distribuir espaço entre elementos, padding interno e posição relativa
+  * - header nav a: links do menu com cor branca, espaçamento horizontal e sem sublinhado, com peso de fonte médio
+  * - .avatar: imagem do usuário com tamanho fixo, bordas arredondadas e ajuste do conteúdo dentro do contêiner
+  * - .menu-toggle: botão para abrir menu no mobile, escondido por padrão em telas grandes
+  * - .menu-logo: logo no menu mobile, inicialmente escondida
+  * - .dropdown: contêiner para itens com submenus, posição relativa
+  * - .dropdown-menu: menu suspenso oculto por padrão, posicionamento absoluto, fundo branco, borda arredondada, sombra para profundidade, largura mínima, z-index elevado
+  * - .dropdown-menu a: itens do menu com padding interno, cor de texto escura, bloco clicável e efeito hover
+  * - .dropdown.open .dropdown-menu: exibe o submenu quando a classe 'open' é adicionada
+  * - .dropdown-toggle::after: remove setinha padrão do dropdown
+  * - .dropdown-exit .dropdown-menu: garante que o dropdown nunca ultrapasse a tela, com overflow-wrap
+  *
+  * [Media query (max-width: 768px)]:
+  * - .menu-toggle: botão visível no mobile
+  * - header nav: menu oculto por padrão, exibido verticalmente, posição absoluta abaixo do header, largura total e fundo azul
+  * - header nav a: padding aumentado, centralizado, sem margem
+  * - .logo: escondida no mobile
+  * - .menu-logo: visível, centralizado com padding, imagem com altura ajustada
+  *
+  * [Explicação das opções:
+  * - display: flex para layout responsivo do header
+  * - position: relative/absolute para dropdown e menu mobile
+  * - z-index para sobreposição correta dos elementos
+  * - border-radius e box-shadow para estética moderna
+  * - media query garante responsividade em tablets e smartphones
+  *
+  * [Dependências externas:
+  * - Nenhuma, funciona com CSS puro]
+*/
+
+header {
+  background-color: #1c4e92;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  position: relative;
+}
+
+header nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.menu-logo {
+  display: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  min-width: 180px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.dropdown-menu a {
+  color: #333;
+  padding: 8px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown.open .dropdown-menu {
+  display: block;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+/* garante que o dropdown nunca ultrapasse a tela */
+.dropdown-exit .dropdown-menu {
+  right: 0;
+  left: auto;
+  max-width: calc(100vw - 20px); /* nunca passa da tela */
+  overflow-wrap: break-word;
+}
+
+/* SOMENTE no celular */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  header nav {
+    display: none; /* esconde menu por padrão no mobile */
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #1c4e92;
+    z-index: 10;
+  }
+
+  header nav a {
+    padding: 10px 20px;
+    margin: 0;
+    text-align: center;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .menu-logo {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .menu-logo img {
+    height: 40px;
+  }
+}

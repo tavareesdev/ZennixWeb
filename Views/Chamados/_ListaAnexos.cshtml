@@ -1,0 +1,60 @@
+@* /**
+ * View responsável por exibir a lista de anexos associados a chamados ou registros,
+ * mostrando informações do usuário que enviou, a data de envio e o arquivo anexado.
+ *
+ * Retorno: Renderização de HTML dinâmico com base em uma lista de objetos AnexoViewModel.
+ * Não retorna valores diretamente, mas gera a interface para interação do usuário.
+ *
+ * Funcionamento:
+ * - Recebe como modelo uma lista de objetos AnexoViewModel (contendo dados de anexo, usuário e arquivo).
+ * - Para cada item da lista, gera um card contendo:
+ *   • Foto do usuário (com fallback para imagem padrão caso não encontrada).
+ *   • Nome do usuário e data/hora do envio formatada.
+ *   • Botão para remover o anexo, chamando a função JavaScript removerAnexo(id).
+ *   • Link clicável que abre o arquivo anexo em nova aba.
+ * - Após os cards, exibe controles de paginação (Anterior, Próximo e indicador de página).
+ * - Os botões de paginação são inicialmente desabilitados e podem ser ativados via script JS.
+ *
+ * Parâmetros / Operações:
+ * - Model (List<AnexoViewModel>): lista de anexos a serem exibidos.
+ * - anexo.Id: identificador único do anexo (usado no botão de remoção).
+ * - anexo.IdUsuario: usado para buscar a imagem do usuário.
+ * - anexo.NomeUsuario: exibido como autor do anexo.
+ * - anexo.DataEnvio: exibido no formato "dd/MM/yyyy às HH:mm".
+ * - anexo.CaminhoArquivo: link para o arquivo armazenado.
+ *
+ * Bibliotecas utilizadas e dependências externas:
+ * - ASP.NET Core MVC Razor (para renderização do modelo e código C# embutido no HTML).
+ * - Bootstrap Icons (para o ícone da lixeira).
+ * - Possível dependência de scripts adicionais (JS) para manipulação de paginação e remoção de anexos.
+*/ *@
+
+@model List<PIM.Models.ViewModels.AnexoViewModel>
+
+<div id="cards-container-anexos" class="cards-container">
+    @foreach (var anexo in Model)
+    {
+        <div class="card card-anexo" data-id="@anexo.Id">
+            <div class="cabecalho">
+                @{
+                    var fotoPath = $"/images/usuarios/{anexo.IdUsuario}.jpg";
+                }
+                <img src="@fotoPath" alt="Foto" class="avatar" onerror="this.onerror=null; this.src='/images/usuarios/0.jpg';" />
+                <strong>@anexo.NomeUsuario</strong> - @anexo.DataEnvio.ToString("dd/MM/yyyy 'às' HH:mm")
+
+                <button class="btn-remover" onclick="removerAnexo(@anexo.Id)">
+                    <i class="bi bi-trash3"></i>
+                </button>
+            </div>
+            <div class="texto">
+                <a href="@anexo.CaminhoArquivo" target="_blank">@anexo.NomeArquivo</a>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="pagination-controls-anexos" class="pagination-controls" style="text-align:center; margin-top: 10px;">
+    <button id="prevPage-anexos" class="btn btn-light" disabled>Anterior</button>
+    <span id="pageInfo-anexos"></span>
+    <button id="nextPage-anexos" class="btn btn-light" disabled>Próximo</button>
+</div>

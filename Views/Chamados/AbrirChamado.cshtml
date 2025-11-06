@@ -1,0 +1,156 @@
+@* /**
+ * View responsável pela interface de abertura de chamados no sistema,
+ * permitindo que o usuário preencha os dados básicos, escolha o setor solicitado,
+ * insira uma descrição e anexe arquivos antes de registrar o chamado.
+ *
+ * Retorno: Renderização de HTML interativo com formulário de abertura de chamado.
+ * Não retorna valores diretamente, mas gera a interface para envio dos dados ao servidor.
+ *
+ * Funcionamento:
+ * - Define título da página e aplica layout padrão (_Layout.cshtml).
+ * - Carrega estilos específicos de abertura de chamados (AbrirChamado.css).
+ * - Exibe formulário com os seguintes campos:
+ *   • Título do chamado (texto).
+ *   • Solicitante (preenchido automaticamente a partir de ViewBag.NomeSolicitante, desabilitado).
+ *   • Setor Solicitante (exibido mas desabilitado, preenchido via ViewBag.SetorSolicitante).
+ *   • Setor Solicitado (lista de opções dinâmica carregada a partir de ViewBag.Setores).
+ *   • Descrição (área de texto para detalhar a solicitação).
+ * - Na lateral direita, disponibiliza painel para anexos:
+ *   • Botão para adicionar anexos (abre seletor de arquivos).
+ *   • Input hidden para upload de múltiplos arquivos.
+ *   • Caixa para listagem visual de anexos selecionados.
+ * - Botão “Abrir Chamado” que aciona a função JavaScript abrirChamado().
+ * - Scripts:
+ *   • Carrega arquivo JavaScript específico (AbrirChamado.js).
+ *   • Exibe mensagens de sucesso ou erro via SweetAlert (Swal.fire) com base em TempData.
+ *
+ * Parâmetros / Operações:
+ * - ViewBag.NomeSolicitante: usado para preencher o campo Solicitante.
+ * - ViewBag.SetorSolicitante: define o setor de origem, não editável.
+ * - ViewBag.Setores: lista de setores disponíveis para seleção.
+ * - TempData["MensagemErro"]: exibe alerta de erro ao usuário, se presente.
+ * - TempData["MensagemSucesso"]: exibe alerta de sucesso após abertura do chamado.
+ *
+ * Bibliotecas utilizadas e dependências externas:
+ * - ASP.NET Core MVC Razor (para renderização dinâmica e integração de ViewBag/TempData).
+ * - Bootstrap (para layout responsivo e estilização dos formulários).
+ * - SweetAlert2 (Swal.fire) para exibição de mensagens de sucesso/erro.
+ * - Arquivos CSS e JS externos localizados em ~/css/Chamados/AbrirChamado.css e ~/js/Chamados/AbrirChamado.js.
+*/ *@
+
+@{
+    ViewBag.Title = "Abrir Chamado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/Chamados/AbrirChamado.css" />
+}
+
+<div class="main-title">
+  Abertura de Chamado
+</div>
+
+<br>
+
+<div class="container-mobile">
+  <div class="container">
+    <form id="formChamado" method="post" enctype="multipart/form-data">
+
+      <div class="form-main">
+        <!-- Conteúdo esquerdo: os 2/3 -->
+        <div class="form-left">
+          <div class="row mb-3">
+              <div class="col-12">
+                  <label for="tituloChamado" class="form-label">Título do chamado:</label>
+                  <input type="text" id="tituloChamado" name="tituloChamado" class="form-control" autocomplete="off" />
+              </div>
+          </div>
+          
+          <div class="row g-3 mb-3">
+            <div class="col-12 col-lg">
+                <label for="solicitante" class="form-label">Solicitante:</label>
+                <input type="text" id="solicitante" name="solicitante" class="form-control" value="@ViewBag.NomeSolicitante" disabled />
+            </div>
+
+            <div class="col-12 col-lg">
+                <label for="setorSolicitante" class="form-label">Setor Solicitante:</label>
+                <select id="setorSolicitante" name="setorSolicitante" class="form-select" disabled>
+                    <option selected>@ViewBag.SetorSolicitante</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-lg">
+                <label for="setorSolicitado" class="form-label">Setor Solicitado:</label>
+                <select id="setorSolicitado" name="setorSolicitado" class="form-select">
+                    <option value="" disabled selected>Selecione uma opção</option>
+                    @foreach (var setor in ViewBag.Setores)
+                    {
+                        <option value="@setor.Id">@setor.Descricao</option>
+                    }
+                </select>
+            </div>
+          </div>
+
+          <div class="row">
+              <div class="col-12">
+                  <label for="descricao" class="form-label mt-3">Descrição:</label>
+                  <textarea id="descricao" name="descricao" class="form-control" placeholder="Escreva aqui..."></textarea>
+              </div>
+          </div>
+        </div>
+
+        <!-- Conteúdo direito: painel de anexos 1/3 -->
+        <div class="form-right">
+          <div class="anexos-container">
+            <label class="label-anexos">Anexos:</label>
+            <button type="button" id="btnAdicionarAnexo" class="btn-adicionar-anexo">
+              + Adicionar Anexo
+            </button>
+            <input type="file" id="inputAnexo" name="inputAnexo" multiple hidden />
+
+            <!-- Caixa de anexos -->
+            <div id="anexosBox" class="anexos-box">
+              <!-- Lista de anexos adicionados -->
+            </div>
+          </div>
+
+          <button type="button" onclick="abrirChamado()" class="btn-abrir-chamado">Abrir Chamado</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+@section Scripts {
+  <script src="~/js/Chamados/AbrirChamado.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        @* Exibe erro *@
+        @if (TempData["MensagemErro"] != null)
+        {
+            <text>
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: '@Html.Raw(TempData["MensagemErro"])'
+            });
+            </text>
+        }
+
+        @* Exibe sucesso *@
+        @if (TempData["MensagemSucesso"] != null)
+        {
+            <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso',
+                text: '@TempData["MensagemSucesso"]'
+            });
+            </text>
+        }
+    });
+  </script>
+}

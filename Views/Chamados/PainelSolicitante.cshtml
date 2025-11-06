@@ -1,0 +1,463 @@
+@* /**
+ * View responsável pelo painel de chamados, exibindo tanto os chamados do time quanto
+ * as solicitações individuais do usuário, com filtros, tabela de resultados e chat integrado.
+ *
+ * Retorno: Renderização dinâmica de HTML com filtros interativos, tabela de chamados e
+ * sistema de chat interno.
+ *
+ * Funcionamento:
+ * - Define título da página e aplica layout padrão (_Layout.cshtml).
+ * - Importa estilos específicos do módulo (PainelSolicitante.css).
+ * - Utiliza IEnumerable<PIM.Models.ChamadoComUsuario> como modelo para popular a tabela.
+ *
+ * Estrutura:
+ * 1. Título da página:
+ *    - Exibe "Chamados do Time" ou "Minhas Solicitações" dependendo do tipo de painel.
+ *
+ * 2. Cards de resumo (somente para ChamadosDoTime):
+ *    - No Prazo, Atenção, Atrasado, Total.
+ *    - Exibe números resumidos através de ViewBag.
+ *
+ * 3. Formulário de filtros:
+ *    - Campos comuns: Nº do Chamado, Título, Data Abertura/Fim, Status.
+ *    - Campos específicos de ChamadosDoTime: Setor Responsável, Responsável, Setor Solicitante, Solicitante.
+ *    - Botão de busca realiza filtragem via JavaScript.
+ *
+ * 4. Tabela de resultados:
+ *    - Colunas variam conforme tipo de painel.
+ *    - ChamadosDoTime: Situação, Nº, Título, Datas, Setores, Responsáveis, Status.
+ *    - Minhas Solicitações: Nº, Título, Datas, Responsável, Setor Solicitado, Status.
+ *    - Indicadores visuais para situação do chamado (verde, amarelo, vermelho).
+ *
+ * 5. Chat integrado:
+ *    - Botão flutuante para abrir/fechar chat.
+ *    - Janela de chat com mensagens do usuário e bot, campo de entrada e botão enviar.
+ *    - Suporte a formatação simples (negrito e quebras de linha) para respostas do bot.
+ *    - Integração com API '/api/chat/mensagem' para envio/recebimento de mensagens.
+ *    - Suporte para exibir informações de chamados gerados pelo assistente.
+ *    - Scroll automático ao enviar ou receber mensagens.
+ *
+ * 6. Scripts:
+ *    - PainelSolicitante.js: manipulação de filtros, carregamento de dados e interações da tabela.
+ *    - Script inline:
+ *        • Controle do chat (abrir/fechar, envio de mensagens, renderização de mensagens com avatar).
+ *        • Enter envia mensagem no chat.
+ *        • Integração com backend via fetch para comunicação assíncrona.
+ *
+ * Parâmetros / Operações:
+ * - ViewBag.TipoPainel: determina se é painel do time ou do usuário.
+ * - ViewBag.Setores: lista de setores para selects.
+ * - ViewBag.UsuarioLogadoId: ID do usuário atual, usado para avatar do chat.
+ * - ViewBag.NoPrazo, ViewBag.Atencao, ViewBag.Atrasados, ViewBag.TotalChamados: números de resumo.
+ * - Model: coleção de chamados a ser exibida na tabela.
+ *
+ * Bibliotecas utilizadas:
+ * - ASP.NET Core MVC Razor (ViewBag, Model, loops e condicionais).
+ * - Bootstrap para layout responsivo e estilização.
+ * - Icons do Bootstrap Icons.
+ * - CSS personalizado (PainelSolicitante.css).
+*/ *@
+
+@{
+  ViewBag.Title = "Painel Chamados - Zennix";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/Chamados/PainelSolicitante.css" />
+}
+
+@model IEnumerable<PIM.Models.ChamadoComUsuario>
+
+<!-- Título -->
+<div class="container-title">
+  @if (ViewBag.TipoPainel == "ChamadosDoTime")
+  {
+      <h2 class="fw-bold mb-4">Chamados do Time</h2>
+  }
+  else{
+    <h2 class="fw-bold mb-4">Minhas Solicitações</h2>
+  }
+</div>
+
+<div class="form-section">
+  <div class="container">
+    @if (ViewBag.TipoPainel == "ChamadosDoTime"){
+      <div class="cards-container">
+        <div class="card no-prazo" title="No Prazo">
+            <div class="number">@ViewBag.NoPrazo</div>
+            <div class="label">No Prazo</div>
+        </div>
+        <div class="card atencao" title="Atenção">
+            <div class="number">@ViewBag.Atencao</div>
+            <div class="label">Atenção</div>
+        </div>
+        <div class="card atrasado" title="Atrasado">
+            <div class="number">@ViewBag.Atrasados</div>
+            <div class="label">Atrasado</div>
+        </div>
+        <div class="card total" title="Total">
+            <div class="number">@ViewBag.TotalChamados</div>
+            <div class="label" style="color: #204348">Total</div>
+        </div>
+      </div>
+    }    
+    <br>
+    <!-- Formulário -->
+    <form onsubmit="return false;">      
+      @if (ViewBag.TipoPainel == "ChamadosDoTime"){
+        
+        <div class="row g-3">
+          <div class="col-6 col-md-3">
+            <label for="numero" class="form-label">Nº Chamado:</label>
+            <input type="text" class="form-control" name="numero" id="numero">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="titulo" class="form-label">Título:</label>
+            <input type="text" class="form-control" name="titulo" id="titulo">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="dataAbertura" class="form-label">Data Abertura:</label>
+            <input type="date" class="form-control" name="dataAbertura" id="dataAbertura">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="dataFim" class="form-label">Data Fim:</label>
+            <input type="date" class="form-control" name="dataFim" id="dataFim">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="setor" class="form-label">Setor Responsável:</label>
+            <select class="form-select" name="setor" id="setor">
+              <option value="" selected>Selecione uma opção</option>
+              @foreach (var setor in ViewBag.Setores)
+              {
+                <option value="@setor">@setor</option>
+              }
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="responsavel" class="form-label">Responsável:</label>
+            <select class="form-select" name="responsavel" id="responsavel">
+              <option value="" selected>Selecione uma opção</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="setorSoli" class="form-label">Setor Solicitante:</label>
+            <select class="form-select" name="setorSoli" id="setorSoli">
+              <option value="" selected>Selecione uma opção</option>
+              @foreach (var setor in ViewBag.Setores)
+              {
+                <option value="@setor">@setor</option>
+              }
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="responsavelSoli" class="form-label">Solicitante:</label>
+            <select class="form-select" name="responsavelSoli" id="responsavelSoli">
+              <option value="" selected>Selecione uma opção</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="status" class="form-label">Status:</label>
+            <select class="form-select" name="status" id="status">
+              <option value="" selected>Selecione uma opção</option>
+              <option value="Aberto">Aberto</option>
+              <option value="Aguardando Usuário">Aguardando Usuário</option>
+              <option value="Cancelado">Cancelado</option>
+              <option value="Concluído">Concluído</option>
+              <option value="Em Andamento">Em Andamento</option>
+              <option value="Pendente Correção">Pendente Correção</option>
+            </select>
+          </div>          
+          <div class="col-6 col-md-6"></div>
+          <div class="col-3 d-flex align-items-end">
+            <button type="button" id="btnBuscar" class="btn btn-primary btn-principal">
+              <i class="bi bi-search"></i> Realizar Busca
+            </button>
+          </div>
+        </div>
+        
+      } else {
+
+       <div class="row g-3">
+          <div class="col-6 col-md-3">
+            <label for="numero" class="form-label">Nº Chamado:</label>
+            <input type="text" class="form-control" name="numero" id="numero">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="titulo" class="form-label">Título:</label>
+            <input type="text" class="form-control" name="titulo" id="titulo">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="dataAbertura" class="form-label">Data Abertura:</label>
+            <input type="date" class="form-control" name="dataAbertura" id="dataAbertura">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="dataFim" class="form-label">Data Fim:</label>
+            <input type="date" class="form-control" name="dataFim" id="dataFim">
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="setor" class="form-label">Setor Solicitado:</label>
+            <select class="form-select" name="setor" id="setor">
+              <option value="" selected>Selecione uma opção</option>
+              @foreach (var setor in ViewBag.Setores)
+              {
+                <option value="@setor">@setor</option>
+              }
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="responsavel" class="form-label">Responsável:</label>
+            <select class="form-select" name="responsavel" id="responsavel">
+              <option value="" selected>Selecione uma opção</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="status" class="form-label">Status:</label>
+            <select class="form-select" name="status" id="status">
+              <option value="" selected>Selecione uma opção</option>
+              <option value="Aberto">Aberto</option>
+              <option value="Aguardando Usuário">Aguardando Usuário</option>
+              <option value="Cancelado">Cancelado</option>
+              <option value="Concluído">Concluído</option>
+              <option value="Em Andamento">Em Andamento</option>
+              <option value="Pendente Correção">Pendente Correção</option>
+            </select>
+          </div>
+          <div class="col-3 d-flex align-items-end">
+            <button type="button" id="btnBuscar" class="btn btn-primary btn-principal">
+              <i class="bi bi-search"></i> Realizar Busca
+            </button>
+          </div>
+        </div>
+
+      }
+    </form>
+  </div>
+</div>
+
+<!-- Tabela -->
+<div class="container my-4 table-section">
+  <div class="table-responsive">
+    @if (ViewBag.TipoPainel == "ChamadosDoTime")
+    {
+        <table id="tabelaSolicitacoes" class="table table-striped" data-tipo-painel="@ViewBag.TipoPainel">
+          <thead>
+              <tr>
+                  <th>Situação</th>
+                  <th>Nº do Chamado</th>
+                  <th>Título</th>
+                  <th>Data Abertura</th>
+                  <th>Data Fim</th>
+                  <th>Setor Resp.</th>
+                  <th>Nome Resp.</th>
+                  <th>Setor Soli.</th>
+                  <th>Nome Soli.</th>
+                  <th>Status</th>
+              </tr>
+          </thead>
+          <tbody>
+              @foreach (var chamado in Model)
+              {
+                  <tr class="linha-chamado" data-id="@chamado.Id">
+                      <td>
+                        @if (chamado.Situacao == "No Prazo")
+                        {
+                            <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background-color:green;" title="No Prazo"></span>
+                        }
+                        else if (chamado.Situacao == "Atencao")
+                        {
+                            <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background-color:gold;" title="Atenção"></span>
+                        }
+                        else if (chamado.Situacao == "Atrasado")
+                        {
+                            <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background-color:red;" title="Atrasado"></span>
+                        }
+                        else
+                        {
+                            @chamado.Situacao
+                        }
+                      </td>
+                      <td>@chamado.Id</td>
+                      <td>@chamado.Titulo</td>
+                      <td>@chamado.DataInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                      <td>@(chamado.DataFim.HasValue ? chamado.DataFim.Value.ToString("dd/MM/yyyy HH:mm") : "-")</td>
+                      <td>@(chamado.Setor ?? "-")</td>
+                      <td>@chamado.Responsavel</td>
+                      <td>@(chamado.SetorSoli ?? "-")</td>
+                      <td>@(chamado.Solicitante ?? "-")</td>
+                      <td>@chamado.Status</td>
+                  </tr>
+              }
+          </tbody>
+      </table>
+    }
+    else{
+      <table id="tabelaSolicitacoes" class="table table-striped" data-tipo-painel="@ViewBag.TipoPainel">
+        <thead>
+            <tr>
+              <th>Nº do Chamado</th>
+              <th>Título</th>
+              <th>Data Abertura</th>
+              <th>Data Fim</th>
+              <th>Responsável</th>
+              <th>Setor Solicitado</th>
+              <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+          @foreach (ChamadoComUsuario chamado in Model)
+          {
+            <tr class="linha-chamado" data-id="@chamado.Id">
+              <td>@chamado.Id</td>
+              <td>@chamado.Titulo</td>
+              <td>@chamado.DataInicio.ToString("dd/MM/yyyy HH:mm")</td>
+              <td>@(chamado.DataFim.HasValue ? chamado.DataFim.Value.ToString("dd/MM/yyyy HH:mm") : "-")</td>
+              <td>@chamado.Responsavel</td>
+              <td>@chamado.Setor</td>
+              <td>@chamado.Status</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }  
+
+    <!-- Botão flutuante -->
+    <button id="chatButton">
+        <img src="~/images/chatIcon.png" alt="Chat">
+    </button>
+
+
+    <!-- Janela de chat -->
+    <div id="chatOverlay"></div>
+    <div id="chatWindow">
+        <div id="chatBody">
+            <div class="chat-message bot">
+                <img src="~/images/chatIcon.png" alt="Atendente" class="chat-avatar">
+                <div class="chat-bubble">Olá! Como posso ajudar?</div>
+            </div>
+        </div>
+      <div id="chatInputArea">
+        <div class="row w-100 h-100">
+          <div class="col-11">
+            <textarea id="chatInput" class="form-control h-100" placeholder="Digite sua mensagem..."></textarea>
+          </div>
+          <div class="col-1 d-flex flex-column justify-content-between h-100">
+            <button id="sendButton" class="btn btn-primary btn-principal mb-2 w-100">
+              <i class="bi bi-send"></i>
+            </button>
+            <button id="closeButton" class="btn btn-light w-100" onclick="toggleChat()">
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <script src="~/js/Chamados/PainelSolicitante.js"></script>
+  <script>
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatBody = document.getElementById('chatBody');
+    const chatInput = document.getElementById('chatInput');
+    const sendButton = document.getElementById('sendButton');
+
+    // Id do usuário logado (substituir pela variável correta do backend)
+    const userId = @ViewBag.UsuarioLogadoId; // <-- aqui você coloca o id real do usuário logado
+
+    function toggleChat() {
+    const isHidden = chatWindow.style.display === 'none';
+    chatWindow.style.display = isHidden ? 'flex' : 'none';
+    document.getElementById('chatOverlay').style.display = isHidden ? 'block' : 'none';
+    }
+
+    document.getElementById('chatOverlay').addEventListener('click', toggleChat);
+    chatButton.addEventListener('click', toggleChat);
+
+    // Função para criar mensagem com avatar
+    function createMessage(imagePath, text, isBot = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message', isBot ? 'bot' : 'user');
+
+        const avatar = document.createElement('img');
+        avatar.src = imagePath;
+        avatar.alt = "Avatar";
+        avatar.classList.add('chat-avatar');
+
+        const bubble = document.createElement('div');
+        bubble.classList.add('chat-bubble');
+
+        if (isBot) {
+            // Substitui quebras de linha por <br> e mantém negrito simples
+            const formattedText = text
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            bubble.innerHTML = formattedText;
+        } else {
+            bubble.textContent = text; // Usuário não precisa de formatação especial
+        }
+
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(bubble);
+        return messageDiv;
+    }
+
+    sendButton.addEventListener('click', async () => {
+    const msg = chatInput.value.trim();
+    if (msg === '') return;
+
+    // Mensagem do usuário
+    const userMsg = createMessage(`images/usuarios/${userId}.jpg`, msg, false);
+    chatBody.appendChild(userMsg);
+    chatInput.value = '';
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    try {
+        const response = await fetch('/api/chat/mensagem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensagem: msg })
+        });
+
+        const data = await response.json();
+
+        // Mensagem do atendente
+        const botMsg = createMessage('/images/chatIcon.png', data.resposta, true);
+        chatBody.appendChild(botMsg);
+
+        // Se houver chamado aberto
+        if (data.abrirChamado && data.dadosChamado) {
+        const chamadoInfo = document.createElement('div');
+        chamadoInfo.innerHTML = `
+            <p><strong>Chamado Gerado:</strong></p>
+            <p><strong>Título:</strong> ${data.dadosChamado.titulo}</p>
+            <p><strong>Prioridade:</strong> ${data.dadosChamado.prioridade}</p>
+            <p><strong>Descrição:</strong> ${data.dadosChamado.descricao}</p>
+        `;
+        chamadoInfo.style.background = '#f9f9f9';
+        chamadoInfo.style.border = '1px solid #ccc';
+        chamadoInfo.style.padding = '10px';
+        chamadoInfo.style.marginTop = '10px';
+        chamadoInfo.style.borderRadius = '8px';
+        chatBody.appendChild(chamadoInfo);
+        }
+
+        chatBody.scrollTop = chatBody.scrollHeight;
+    } catch (error) {
+        const errorMsg = document.createElement('p');
+        errorMsg.innerHTML = `<em>Erro ao se comunicar com o assistente.</em>`;
+        chatBody.appendChild(errorMsg);
+    }
+    });
+
+    // Enter envia a mensagem
+    chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        sendButton.click();
+    }
+    });
+  </script>
+}
