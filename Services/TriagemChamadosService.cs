@@ -75,7 +75,8 @@ public class ChamadoTriagemService : IHostedService, IDisposable
 
             // 🔹 Agrupa atendentes permitidos por setor
             var atendentesPorSetor = usuariosPermitidos
-                .GroupBy(u => u.ID_Setor)
+                .Where(u => u.ID_Setor.HasValue)
+                .GroupBy(u => u.ID_Setor.Value)
                 .ToDictionary(g => g.Key, g => g.ToList());
 
             foreach (var grupo in atendentesPorSetor)

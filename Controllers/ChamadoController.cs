@@ -558,83 +558,84 @@ namespace PIM.Controllers
         {
             ViewBag.TipoPainel = tipoPainel;
 
-            // Trazer o chamado do banco
-            var chamadoDb = (from c in _context.Chamados
-                             join solicitante in _context.Usuarios on c.ID_Solicitante equals solicitante.Id
-                             join atendente in _context.Usuarios on c.ID_Atendente equals atendente.Id into atJoin
-                             from atendente in atJoin.DefaultIfEmpty()
-                             join setorAtendente in _context.Setores on atendente.ID_Setor equals setorAtendente.Id into stAtJoin
-                             from setorAt in stAtJoin.DefaultIfEmpty()
-                             join setorSolicitante in _context.Setores on solicitante.ID_Setor equals setorSolicitante.Id into stSoliJoin
-                             from setorSoli in stSoliJoin.DefaultIfEmpty()
-                             join criterio in _context.CriterioPrioridades on c.ID_CriterioPrioridades equals criterio.Id into criterioJoin
-                             from criterioDesc in criterioJoin.DefaultIfEmpty()
-                             join prioridade in _context.Prioridades on c.PrioridadeId equals prioridade.Id into prioridadeJoin
-                             from prioridadeDesc in prioridadeJoin.DefaultIfEmpty()
-                             where c.Id == id
-                             select new
-                             {
-                                 Chamado = c,
-                                 SolicitanteNome = solicitante.Nome,
-                                 ResponsavelNome = atendente != null ? atendente.Nome : "Não atribuído",
-                                 SetorResponsavelDescricao = setorAt != null ? setorAt.Descricao : "Não definido",
-                                 SetorSolicitanteDescricao = setorSoli != null ? setorSoli.Descricao : "Não definido",
-                                 NivelPrioridadeDescricao = criterioDesc != null ? criterioDesc.Descricao : "Não definido",
-                                 PrioridadeDescricao = prioridadeDesc != null ? prioridadeDesc.Nome : "Não definido",
-                                 SetorResponsavelId = setorAt != null ? setorAt.Id : 0,
+            // Primeiro: buscar o chamado principal com joins simples
+            var chamadoPrincipal = (from c in _context.Chamados
+                                join solicitante in _context.Usuarios on c.ID_Solicitante equals solicitante.Id
+                                join atendente in _context.Usuarios on c.ID_Atendente equals atendente.Id into atJoin
+                                from atendente in atJoin.DefaultIfEmpty()
+                                join setorAtendente in _context.Setores on atendente.ID_Setor equals setorAtendente.Id into stAtJoin
+                                from setorAt in stAtJoin.DefaultIfEmpty()
+                                join setorSolicitante in _context.Setores on solicitante.ID_Setor equals setorSolicitante.Id into stSoliJoin
+                                from setorSoli in stSoliJoin.DefaultIfEmpty()
+                                join criterio in _context.CriterioPrioridades on c.ID_CriterioPrioridades equals criterio.Id into criterioJoin
+                                from criterioDesc in criterioJoin.DefaultIfEmpty()
+                                join prioridade in _context.Prioridades on c.PrioridadeId equals prioridade.Id into prioridadeJoin
+                                from prioridadeDesc in prioridadeJoin.DefaultIfEmpty()
+                                where c.Id == id
+                                select new
+                                {
+                                    Chamado = c,
+                                    SolicitanteNome = solicitante.Nome,
+                                    ResponsavelNome = atendente != null ? atendente.Nome : "Não atribuído",
+                                    SetorResponsavelDescricao = setorAt != null ? setorAt.Descricao : "Não definido",
+                                    SetorSolicitanteDescricao = setorSoli != null ? setorSoli.Descricao : "Não definido",
+                                    NivelPrioridadeDescricao = criterioDesc != null ? criterioDesc.Descricao : "Não definido",
+                                    PrioridadeDescricao = prioridadeDesc != null ? prioridadeDesc.Nome : "Não definido",
+                                    SetorResponsavelId = setorAt != null ? setorAt.Id : 0
+                                })
+                                .FirstOrDefault();
 
-                                 Comentarios = (from cm in _context.Comentarios
-                                                join u in _context.Usuarios on cm.ID_Usuarios equals u.Id
-                                                where cm.ID_Chamados == c.Id
-                                                orderby cm.Data descending
-                                                select new ComentarioViewModel
-                                                {
-                                                    Id = cm.Id,
-                                                    NomeUsuario = u.Nome,
-                                                    IdUsuario = u.Id,
-                                                    Texto = cm.Texto,
-                                                    Data = cm.Data
-                                                }).ToList(),
-
-                                 Historico = (from h in _context.HistoricoChamado
-                                              join u in _context.Usuarios on h.ID_Usuario equals u.Id
-                                              where h.ID_Chamado == c.Id
-                                              orderby h.Data descending
-                                              select new HistoricoViewModel
-                                              {
-                                                  NomeUsuario = u.Nome,
-                                                  IdUsuario = u.Id,
-                                                  AcaoTomada = h.AcaoTomada,
-                                                  Data = h.Data
-                                              }).ToList(),
-
-                                 Anexos = (from a in _context.Anexos
-                                           join u in _context.Usuarios on a.ID_Usuario equals u.Id
-                                           where a.ID_Chamado == c.Id
-                                           orderby a.ID descending
-                                           select new AnexoViewModel
-                                           {
-                                               Id = a.ID,
-                                               NomeArquivo = a.NomeArquivo,
-                                               CaminhoArquivo = a.CaminhoArquivo,
-                                               NomeUsuario = u.Nome,
-                                               IdUsuario = a.ID_Usuario,
-                                               DataEnvio = a.Data
-                                           }).ToList()
-                             })
-                            .FirstOrDefault();
-
-            if (chamadoDb == null)
+            if (chamadoPrincipal == null)
                 return NotFound();
 
-            // Calcular a Situação em C# após buscar os dados
+            // Depois: buscar os dados relacionados separadamente
+            var comentarios = (from cm in _context.Comentarios
+                            join u in _context.Usuarios on cm.ID_Usuarios equals u.Id
+                            where cm.ID_Chamados == id
+                            orderby cm.Data descending
+                            select new ComentarioViewModel
+                            {
+                                Id = cm.Id,
+                                NomeUsuario = u.Nome,
+                                IdUsuario = u.Id,
+                                Texto = cm.Texto, // Agora funciona porque está em uma query separada
+                                Data = cm.Data
+                            }).ToList();
+
+            var historico = (from h in _context.HistoricoChamado
+                            join u in _context.Usuarios on h.ID_Usuario equals u.Id
+                            where h.ID_Chamado == id
+                            orderby h.Data descending
+                            select new HistoricoViewModel
+                            {
+                                NomeUsuario = u.Nome,
+                                IdUsuario = u.Id,
+                                AcaoTomada = h.AcaoTomada,
+                                Data = h.Data
+                            }).ToList();
+
+            var anexos = (from a in _context.Anexos
+                        join u in _context.Usuarios on a.ID_Usuario equals u.Id
+                        where a.ID_Chamado == id
+                        orderby a.ID descending
+                        select new AnexoViewModel
+                        {
+                            Id = a.ID,
+                            NomeArquivo = a.NomeArquivo,
+                            CaminhoArquivo = a.CaminhoArquivo,
+                            NomeUsuario = u.Nome,
+                            IdUsuario = a.ID_Usuario,
+                            DataEnvio = a.Data
+                        }).ToList();
+
+            // Calcular a Situação
             var hoje = DateTime.Now.Date;
             string situacao;
-            if (chamadoDb.Chamado.Status == "Concluído")
+            if (chamadoPrincipal.Chamado.Status == "Concluído")
                 situacao = "Finalizado";
-            else if ((hoje - chamadoDb.Chamado.DataInicio.Date).TotalDays <= 1)
+            else if ((hoje - chamadoPrincipal.Chamado.DataInicio.Date).TotalDays <= 1)
                 situacao = "No Prazo";
-            else if ((hoje - chamadoDb.Chamado.DataInicio.Date).TotalDays <= 3)
+            else if ((hoje - chamadoPrincipal.Chamado.DataInicio.Date).TotalDays <= 3)
                 situacao = "Atencao";
             else
                 situacao = "Atrasado";
@@ -656,32 +657,32 @@ namespace PIM.Controllers
 
             var chamadoViewModel = new ChamadoDetalhesViewModel
             {
-                Id = chamadoDb.Chamado.Id,
-                Titulo = chamadoDb.Chamado.Titulo,
-                Descricao = chamadoDb.Chamado.Descricao,
-                DataInicio = chamadoDb.Chamado.DataInicio,
-                DataFim = chamadoDb.Chamado.DataFim,
-                Status = chamadoDb.Chamado.Status,
-                Solicitante = chamadoDb.SolicitanteNome,
-                Responsavel = chamadoDb.ResponsavelNome,
-                ResponsavelId = chamadoDb.Chamado.ID_Atendente,
-                Setor = chamadoDb.SetorResponsavelDescricao,
-                SetorSoli = chamadoDb.SetorSolicitanteDescricao,
-                NivelPrioridadeDescricao = chamadoDb.NivelPrioridadeDescricao,
-                PrioridadeDescricao = chamadoDb.PrioridadeDescricao,
-                Comentarios = chamadoDb.Comentarios,
-                Historico = chamadoDb.Historico,
-                Anexos = chamadoDb.Anexos,
-                NivelPrioridadeId = chamadoDb.Chamado.ID_CriterioPrioridades,
-                PrioridadeId = chamadoDb.Chamado.PrioridadeId,
+                Id = chamadoPrincipal.Chamado.Id,
+                Titulo = chamadoPrincipal.Chamado.Titulo,
+                Descricao = chamadoPrincipal.Chamado.Descricao,
+                DataInicio = chamadoPrincipal.Chamado.DataInicio,
+                DataFim = chamadoPrincipal.Chamado.DataFim,
+                Status = chamadoPrincipal.Chamado.Status,
+                Solicitante = chamadoPrincipal.SolicitanteNome,
+                Responsavel = chamadoPrincipal.ResponsavelNome,
+                ResponsavelId = chamadoPrincipal.Chamado.ID_Atendente,
+                Setor = chamadoPrincipal.SetorResponsavelDescricao,
+                SetorSoli = chamadoPrincipal.SetorSolicitanteDescricao,
+                NivelPrioridadeDescricao = chamadoPrincipal.NivelPrioridadeDescricao,
+                PrioridadeDescricao = chamadoPrincipal.PrioridadeDescricao,
+                Comentarios = comentarios,
+                Historico = historico,
+                Anexos = anexos,
+                NivelPrioridadeId = chamadoPrincipal.Chamado.ID_CriterioPrioridades,
+                PrioridadeId = chamadoPrincipal.Chamado.PrioridadeId,
                 Criterios = criterios,
                 Prioridades = prioridades,
-                SolicitanteId = chamadoDb.Chamado.ID_Solicitante,
+                SolicitanteId = chamadoPrincipal.Chamado.ID_Solicitante,
                 Situacao = situacao
             };
 
             // Buscar funcionários do setor responsável
-            int setorResponsavelId = chamadoDb.SetorResponsavelId;
+            int setorResponsavelId = chamadoPrincipal.SetorResponsavelId;
             var funcionariosSetorResponsavel = _context.Usuarios
                 .Where(u => u.ID_Setor == setorResponsavelId)
                 .Select(u => new FuncionarioViewModel
@@ -698,9 +699,9 @@ namespace PIM.Controllers
             if (usuarioLogado != null)
             {
                 var cargoUsuario = (from u in _context.Usuarios
-                                    join c in _context.Cargos on u.ID_Cargo equals c.Id
-                                    where u.Id == usuarioLogado.Id
-                                    select c.Descricao).FirstOrDefault();
+                                join c in _context.Cargos on u.ID_Cargo equals c.Id
+                                where u.Id == usuarioLogado.Id
+                                select c.Descricao).FirstOrDefault();
 
                 ViewBag.CargoUsuarioLogado = cargoUsuario ?? "";
             }

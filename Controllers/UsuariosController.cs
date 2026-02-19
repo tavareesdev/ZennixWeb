@@ -32,6 +32,7 @@ using PIM.Helpers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PIM.Controllers
 {
@@ -691,6 +692,85 @@ namespace PIM.Controllers
                 TempData["MensagemErro"] = $"Erro ao criar usuário: {ex.Message} {innerMessage}";
                 return RedirectToAction("NovoUsuario");
             }
+        }
+
+        /**
+            * CriarUsuarioTeste
+            *
+            * Cria um novo usuário de teste com acesso único.
+            * 
+            * Tipo de retorno: IActionResult (JSON)
+            * - Retorna as credenciais geradas para o usuário de teste.
+            *
+            * Parâmetros:
+            * - [FromBody] UsuarioTesteViewModel model: objeto com nome, email e telefone
+        */
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> CriarUsuarioTeste([FromBody] UsuarioTesteViewModel model)
+        {
+            try
+            {
+                // Validar modelo
+                if (model == null || string.IsNullOrEmpty(model.Nome) || string.IsNullOrEmpty(model.Email))
+                {
+                    return Json(new { sucesso = false, mensagem = "Nome e e-mail são obrigatórios." });
+                }
+
+                // Validar se o email já existe
+                var emailExistente = await _context.Usuarios
+                    .AnyAsync(u => u.Email == model.Email);
+
+                if (emailExistente)
+                {
+                    return Json(new { sucesso = false, mensagem = "Este e-mail já está cadastrado no sistema." });
+                }
+
+                // Gerar senha aleatória
+                string senhaGerada = GerarSenhaAleatoria(8);
+                
+                // Criar usuário de teste
+                var usuarioTeste = new Usuario
+                {
+                    Nome = model.Nome,
+                    Email = model.Email,
+                    Telefone = model.Telefone,
+                    Senha = GerarHashMD5(senhaGerada),
+                    TipoUsuario = 1, // 1 = Usuário de teste
+                    Status = 1,
+                    
+                    // Valores padrão para campos obrigatórios que já existem
+                    ID_Cargo = 0,
+                    ID_Setor = 0,
+                    DataNasc = DateTime.Now.AddYears(-18),
+                    DataAdm = DateTime.Now
+                };
+
+                _context.Usuarios.Add(usuarioTeste);
+                await _context.SaveChangesAsync();
+
+                return Json(new 
+                { 
+                    sucesso = true, 
+                    mensagem = "Usuário de teste criado com sucesso!",
+                    senha = senhaGerada,
+                    email = usuarioTeste.Email,
+                    nome = usuarioTeste.Nome
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { sucesso = false, mensagem = "Erro ao criar usuário de teste: " + ex.Message });
+            }
+        }
+
+        private string GerarSenhaAleatoria(int tamanho)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, tamanho)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

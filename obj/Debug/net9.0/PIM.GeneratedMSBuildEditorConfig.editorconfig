@@ -15,87 +15,89 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
 build_property.RootNamespace = PIM
 build_property.RootNamespace = PIM
-build_property.ProjectDir = C:\Sistema Pim\PIM\
+build_property.ProjectDir = C:\Users\Gabriel Tavares\source\repos\ZennixWeb\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Sistema Pim\PIM
+build_property.MSBuildProjectDirectory = C:\Users\Gabriel Tavares\source\repos\ZennixWeb
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Sistema Pim/PIM/Views/Chamados/AbrirChamado.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Chamados/AbrirChamado.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhbWFkb3NcQWJyaXJDaGFtYWRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Chamados/dadosChamado.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Chamados/dadosChamado.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhbWFkb3NcZGFkb3NDaGFtYWRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Chamados/PainelSolicitante.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Chamados/PainelSolicitante.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhbWFkb3NcUGFpbmVsU29saWNpdGFudGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Chamados/_ListaAnexos.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Chamados/_ListaAnexos.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhbWFkb3NcX0xpc3RhQW5leG9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Chamados/_ListaComentarios.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Chamados/_ListaComentarios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhbWFkb3NcX0xpc3RhQ29tZW50YXJpb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Chamados/_ListaHistorico.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Chamados/_ListaHistorico.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhbWFkb3NcX0xpc3RhSGlzdG9yaWNvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Home/index.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Home/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Home/Landing.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Home/Landing.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMYW5kaW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Login/Index.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Shared/Error.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Shared/_TopMenu.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Shared/_TopMenu.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ub3BNZW51LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Usuarios/DadosUsuario.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Usuarios/DadosUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcRGFkb3NVc3VhcmlvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Usuarios/NovoUsuario.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Usuarios/NovoUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcTm92b1VzdWFyaW8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Usuarios/PainelUsuarios.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Usuarios/PainelUsuarios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcUGFpbmVsVXN1YXJpb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/_ViewImports.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/_ViewStart.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Sistema Pim/PIM/Views/Shared/_Layout.cshtml]
+[C:/Users/Gabriel Tavares/source/repos/ZennixWeb/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-nksb3gqskx

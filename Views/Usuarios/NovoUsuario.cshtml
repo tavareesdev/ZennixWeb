@@ -14,7 +14,7 @@
 <br>
 
 <div class="container mt-4">
-    <form asp-action="CriarUsuario" method="post" enctype="multipart/form-data">
+    <form asp-action="CriarUsuario" asp-controller="Usuarios" method="post" enctype="multipart/form-data">
 
         <div class="row g-3">
             <div class="col-12 col-md-8">
@@ -65,7 +65,7 @@
             </div>
 
             <div class="col-12 col-md-4" style="display: flex; align-items: flex-end;">
-                <button type="button" id="btnSalvar" class="btn btn-primary">Salvar</button>
+                <button type="submit" id="btnSalvar" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </form>

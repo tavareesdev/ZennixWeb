@@ -55,5 +55,8 @@ namespace PIM.Models
         public DateTime? DataDemi { get; set; }
 
         public string Telefone { get; set; }
+
+        public int TipoUsuario { get; set; } = 0; // 0 = Normal, 1 = Teste
+
     }
 }

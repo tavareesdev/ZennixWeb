@@ -385,7 +385,7 @@ namespace PIM.Controllers
             var historicoChamado = new HistoricoChamado
             {
                 ID_Chamado = chamadoId,
-                ID_Usuario = 2006,
+                ID_Usuario = 20,
                 AcaoTomada = "Chamado aberto pela IA.",
                 Data = DateTime.Now
             };

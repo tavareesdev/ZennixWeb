@@ -8,6 +8,7 @@
  *      • Senha (type="password")
  *    - Botão de submissão que envia os dados via POST para a ação "Entrar" do controller "Login".
  *    - Link "Conhecer o Zennix" que redireciona para a landing page.
+ *    - Link "Criar usuário de teste" que abre modal para criação de acesso único.
  *
  * 2. Estilo:
  *    - CSS customizado aplicado via ~/css/Login/login.css
@@ -18,11 +19,13 @@
  *    - SweetAlert2 (Swal) utilizado para feedback visual de login:
  *        • Status "erro": alerta de falha no login (e-mail ou senha inválidos)
  *        • Status "sucesso": alerta de login bem-sucedido (auto-fechamento após 1,5s)
+ *        • Status "sucesso-teste": alerta de login de teste bem-sucedido
+ *        • Status "acesso-ja-utilizado": alerta de que o teste já foi utilizado
  *        • Status "campos-vazios": alerta de campos obrigatórios não preenchidos
  *
  * Parâmetros / Operações:
  * - TempData["LoginStatus"]: utilizado para determinar qual alerta exibir.
- *      Valores possíveis: "erro", "sucesso", "campos-vazios"
+ *      Valores possíveis: "erro", "sucesso", "sucesso-teste", "acesso-ja-utilizado", "campos-vazios"
  *
  * Observações:
  * - A view utiliza Razor para renderização condicional dos alertas.
@@ -37,6 +40,11 @@
 
 @section Styles {
   <link rel="stylesheet" href="~/css/Login/login.css" />
+}
+
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    var token = Xsrf.GetAndStoreTokens(Context).RequestToken;
 }
 
 <div class="container-login">
@@ -56,18 +64,248 @@
       </button>
     </form>
     
-    <!-- LINK FORA DO FORM para evitar conflitos -->
-    <div class="mt-3" style="display: flex; justify-content: center; align-items: center;">
+    <!-- LINKS FORA DO FORM para evitar conflitos -->
+    <div class="mt-3" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
       <a href="@Url.Action("Landing", "Home")" class="text-decoration-none" style="color: #1c4e92;">
         Conhecer o Zennix
+      </a>
+      
+      <!-- NOVO LINK: Criar usuário de teste -->
+      <a href="javascript:void(0)" class="text-decoration-none small" 
+         style="color: #6c757d;" data-bs-toggle="modal" data-bs-target="#modalCriarUsuarioTeste">
+        <i class="bi bi-person-plus"></i> Criar usuário de teste (acesso único)
       </a>
     </div>
   </div>
 </div>
 
+<!-- MODAL: Criar usuário de teste -->
+<div class="modal fade" id="modalCriarUsuarioTeste" tabindex="-1" aria-labelledby="modalCriarUsuarioTesteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #1c4e92; color: white;">
+                <h5 class="modal-title" id="modalCriarUsuarioTesteLabel">
+                    <i class="bi bi-person-plus-fill"></i> Criar Usuário de Teste
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <strong>Acesso único!</strong> Este usuário poderá ser utilizado apenas UMA VEZ. 
+                    Após o primeiro login, a conta será desativada automaticamente.
+                </div>
+                
+                <form id="formCriarUsuarioTeste">
+                    <div class="mb-3">
+                        <label for="nomeTeste" class="form-label">Nome completo</label>
+                        <input type="text" class="form-control" id="nomeTeste" name="Nome" 
+                               required maxlength="100" placeholder="Digite seu nome completo">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="emailTeste" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="emailTeste" name="Email" 
+                               required maxlength="100" placeholder="Digite seu e-mail">
+                        <small class="text-muted">Use um e-mail válido para acessar o sistema</small>
+                    </div>
+                </form>
+                
+                <!-- Área para exibir as credenciais geradas -->
+                <div id="areaCredenciaisGeradas" style="display: none;" class="mt-3 p-3 border rounded bg-light">
+                    <h6 class="text-success">
+                        <i class="bi bi-check-circle-fill"></i> Usuário criado com sucesso!
+                    </h6>
+                    <hr>
+                    <p>
+                        <strong>E-mail:</strong> 
+                        <span id="emailGerado" class="user-select-all"></span>
+                    </p>
+                    <p>
+                        <strong>Senha:</strong> 
+                        <span id="senhaGerada" class="font-monospace bg-white p-1 border rounded user-select-all"></span>
+                    </p>
+                    <div class="alert alert-danger small mt-2 mb-0">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <strong>IMPORTANTE:</strong> Guarde esta senha! Ela não será exibida novamente.
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="copiarSenha()">
+                        <i class="bi bi-clipboard"></i> Copiar senha
+                    </button>
+                    
+                    <!-- Botão Fechar adicionado dentro da área de credenciais -->
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="background-color: #1c4e92;">
+                            <i class="bi bi-check-lg"></i> Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Botões removidos conforme solicitado -->
+                <!-- O botão Criar Usuário de Teste e Cancelar foram removidos -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #senhaGerada {
+        font-family: 'Courier New', monospace;
+        font-size: 1.2em;
+        padding: 5px 10px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        user-select: all;
+        cursor: pointer;
+    }
+    
+    #senhaGerada:hover {
+        background-color: #e9ecef;
+    }
+    
+    .user-select-all {
+        user-select: all;
+    }
+</style>
+
 @section Scripts {
   <script src="~/js/Login/login.js"></script>
   
+  <script>
+    // Variável global com o token antifalsificação
+    window.antiforgeryToken = '@token';
+    
+    $(document).ready(function() {
+        // Resetar modal quando fechar
+        $('#modalCriarUsuarioTeste').on('hidden.bs.modal', function () {
+            $('#formCriarUsuarioTeste')[0].reset();
+            $('#formCriarUsuarioTeste').show();
+            $('#areaCredenciaisGeradas').hide();
+        });
+
+        // Criar usuário de teste - agora o botão está no modal-footer que removemos?
+        // Precisamos adicionar um novo botão ou modificar a lógica
+        
+        // Vamos criar um botão flutuante ou usar o botão que estava no footer
+        // Adicionando botão dinamicamente ou usando um botão existente
+        
+        // Como os botões foram removidos do footer, precisamos adicionar um botão no form
+        // Vamos modificar o form para incluir um botão de submit
+        
+        // Adicionar botão de criar dinamicamente se não existir
+        if ($('#btnCriarUsuarioTeste').length === 0) {
+            $('#formCriarUsuarioTeste').append('<div class="text-center mt-3"><button type="button" class="btn btn-primary" id="btnCriarUsuarioTeste" style="background-color: #1c4e92;"><i class="bi bi-person-plus"></i> Criar Usuário de Teste</button></div>');
+        }
+        
+        // Criar usuário de teste
+        $(document).on('click', '#btnCriarUsuarioTeste', function() {
+            const btn = $(this);
+            const form = $('#formCriarUsuarioTeste');
+            
+            // Validar campos
+            if (!form[0].checkValidity()) {
+                form[0].reportValidity();
+                return;
+            }
+            
+            // Desabilitar botão
+            btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Criando...').prop('disabled', true);
+            
+            // Preparar dados (sem telefone agora)
+            const dados = {
+                Nome: $('#nomeTeste').val(),
+                Email: $('#emailTeste').val(),
+                Telefone: '' // Campo removido, enviar vazio
+            };
+            
+            // Enviar requisição
+            $.ajax({
+                url: '@Url.Action("CriarUsuarioTeste", "Login")',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'RequestVerificationToken': window.antiforgeryToken
+                },
+                data: JSON.stringify(dados),
+                success: function(response) {
+                    if (response.sucesso) {
+                        // Esconder formulário e mostrar credenciais
+                        $('#formCriarUsuarioTeste').hide();
+                        $('#emailGerado').text(response.email);
+                        $('#senhaGerada').text(response.senha);
+                        $('#areaCredenciaisGeradas').show();
+                        
+                        // Botão já foi removido, então não precisa alterar
+                        
+                        // Mostrar alerta de sucesso
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sucesso!',
+                            text: response.mensagem,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        // Mostrar erro
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: response.mensagem
+                        });
+                        btn.html('<i class="bi bi-person-plus"></i> Criar Usuário de Teste').prop('disabled', false);
+                    }
+                },
+                error: function(xhr) {
+                    let mensagem = 'Erro ao comunicar com o servidor. Tente novamente.';
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        mensagem = response.mensagem || mensagem;
+                    } catch(e) {}
+                    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: mensagem
+                    });
+                    btn.html('<i class="bi bi-person-plus"></i> Criar Usuário de Teste').prop('disabled', false);
+                }
+            });
+        });
+    });
+
+    function copiarSenha() {
+        const senha = document.getElementById('senhaGerada').innerText;
+        navigator.clipboard.writeText(senha).then(function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Copiado!',
+                text: 'Senha copiada para a área de transferência',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }).catch(function() {
+            // Fallback para navegadores antigos
+            const textArea = document.createElement('textarea');
+            textArea.value = senha;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Copiado!',
+                text: 'Senha copiada para a área de transferência',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        });
+    }
+  </script>
+  
+  <!-- Alertas do TempData -->
   <script>
     @if (TempData["LoginStatus"]?.ToString() == "erro")
     {
@@ -87,6 +325,30 @@
                 title: 'Login bem-sucedido!',
                 showConfirmButton: false,
                 timer: 1500
+            });
+        </text>
+    }
+    else if (TempData["LoginStatus"]?.ToString() == "sucesso-teste")
+    {
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Bem-vindo ao Zennix!',
+                text: 'Este é um acesso de teste único. Aproveite para conhecer o sistema.',
+                confirmButtonColor: '#1c4e92',
+                timer: 3000,
+                timerProgressBar: true
+            });
+        </text>
+    }
+    else if (TempData["LoginStatus"]?.ToString() == "acesso-ja-utilizado")
+    {
+        <text>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Acesso já utilizado',
+                text: 'Este usuário de teste já foi utilizado. Crie um novo usuário de teste para acessar o sistema.',
+                confirmButtonColor: '#1c4e92'
             });
         </text>
     }
